@@ -148,7 +148,7 @@ export default async function AIAgentPage({ params }: Props) {
       </section>
 
       {/* ── Trust strip ──────────────────────────────────────────────────── */}
-      {has(trust?.text) && (
+      {!trust?.hidden && has(trust?.text) && (
         <div className="bg-vs-blue text-white">
           <div className="max-w-8xl mx-auto px-6 py-3 text-center text-[14px] font-semibold">
             {trust!.text}
@@ -157,7 +157,7 @@ export default async function AIAgentPage({ params }: Props) {
       )}
 
       {/* ── Pain Points ──────────────────────────────────────────────────── */}
-      {pain && pain.items.length > 0 && (
+      {!pain?.hidden && pain && pain.items.length > 0 && (
         <section className="py-16 bg-white">
           <div className="max-w-8xl mx-auto px-6">
             {has(pain.heading) && (
@@ -183,11 +183,11 @@ export default async function AIAgentPage({ params }: Props) {
       )}
 
       {/* ── Solutions + Demo video (5:7 stretch, features scroll = video height) ── */}
-      {(sol && sol.items.length > 0) || (demo && (has(demo.videoUrl) || has(demo.imageSrc))) ? (
+      {(!sol?.hidden && sol && sol.items.length > 0) || (!demo?.hidden && demo && (has(demo.videoUrl) || has(demo.imageSrc))) ? (
         <section className="py-16 bg-vs-bg">
           <div className="max-w-8xl mx-auto px-6">
-            <div className={`grid grid-cols-1 ${sol && demo && (has(demo.videoUrl) || has(demo.imageSrc)) ? 'lg:grid-cols-[5fr_7fr]' : 'grid-cols-1'} gap-8 items-stretch`}>
-              {sol && sol.items.length > 0 && (
+            <div className={`grid grid-cols-1 ${!sol?.hidden && !demo?.hidden && sol && demo && (has(demo.videoUrl) || has(demo.imageSrc)) ? 'lg:grid-cols-[5fr_7fr]' : 'grid-cols-1'} gap-8 items-stretch`}>
+              {!sol?.hidden && sol && sol.items.length > 0 && (
                 <div className="flex flex-col min-h-0">
                   {has(sol.heading) && (
                     <h2 className="text-[clamp(22px,3vw,30px)] font-extrabold text-vs-dark mb-5 leading-tight">
@@ -220,7 +220,7 @@ export default async function AIAgentPage({ params }: Props) {
                   )}
                 </div>
               )}
-              {demo && (has(demo.videoUrl) || has(demo.imageSrc)) && (
+              {!demo?.hidden && demo && (has(demo.videoUrl) || has(demo.imageSrc)) && (
                 <div className="flex flex-col">
                   <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-vs-lg bg-vs-gray-900">
                     {has(demo.videoUrl) ? (
@@ -245,7 +245,7 @@ export default async function AIAgentPage({ params }: Props) {
       ) : null}
 
       {/* ── Features chi tiết (zigzag với ảnh ngang) ────────────────────── */}
-      {feat && feat.items.length > 0 && (
+      {!feat?.hidden && feat && feat.items.length > 0 && (
         <section className="py-16 bg-white">
           <div className="max-w-8xl mx-auto px-6">
             {has(feat.heading) && (
@@ -303,7 +303,7 @@ export default async function AIAgentPage({ params }: Props) {
       )}
 
       {/* ── Pricing (with auto -% badge) ────────────────────────────────── */}
-      {price && price.plans.length > 0 && (
+      {!price?.hidden && price && price.plans.length > 0 && (
         <section className="py-16 bg-vs-bg" id="pricing">
           <div className="max-w-8xl mx-auto px-6">
             {has(price.heading) && (
@@ -391,7 +391,7 @@ export default async function AIAgentPage({ params }: Props) {
       )}
 
       {/* ── Testimonials (carousel) ──────────────────────────────────────── */}
-      {test && test.items.length > 0 && (
+      {!test?.hidden && test && test.items.length > 0 && (
         <section className="py-16 bg-vs-bg">
           <div className="max-w-8xl mx-auto px-6">
             {has(test.heading) && (
@@ -405,7 +405,7 @@ export default async function AIAgentPage({ params }: Props) {
       )}
 
       {/* ── FAQ ─────────────────────────────────────────────────────────── */}
-      {faq && faq.items.length > 0 && (
+      {!faq?.hidden && faq && faq.items.length > 0 && (
         <section className="py-16 bg-white">
           <div className="max-w-8xl mx-auto px-6">
             {has(faq.heading) && (

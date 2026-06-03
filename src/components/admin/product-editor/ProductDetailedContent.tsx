@@ -1,6 +1,7 @@
 'use client'
 
 import MediaPicker from '@/components/admin/MediaPicker'
+import SectionVisibilityToggle from '@/components/admin/SectionVisibilityToggle'
 import type {
   PpcDemo,
   PpcFaq,
@@ -64,11 +65,13 @@ export default function ProductDetailedContent({ config, onChange }: Props) {
     <div className="space-y-4">
       {/* TRUST STRIP */}
       <Section title="Trust strip (dòng tin tưởng dưới hero)" hint='Dòng chữ xanh hiển thị dưới banner hero. VD: "Đã có 134 shop online + spa tin dùng".'>
+        <SectionVisibilityToggle hidden={trust.hidden ?? false} onChange={(h) => setTrust({ hidden: h })} sectionLabel="Trust strip" />
         <input value={trust.text ?? ''} onChange={(e) => setTrust({ text: e.target.value })} className={inputCls} placeholder='VD: Đã có 134 shop online + spa tin dùng' />
       </Section>
 
       {/* DEMO */}
       <Section title="Demo media (video hoặc ảnh)" hint="YouTube URL HOẶC ảnh demo. Để trống cả 2 = không hiện block.">
+        <SectionVisibilityToggle hidden={demo.hidden ?? false} onChange={(h) => setDemo({ hidden: h })} sectionLabel="Demo" />
         <input value={demo.videoUrl ?? ''} onChange={(e) => setDemo({ videoUrl: e.target.value })} className={inputCls} placeholder="Video URL (YouTube) — VD: https://www.youtube.com/watch?v=..." />
         <p className="text-[11px] text-slate-400">Hoặc ảnh demo (dùng khi không có video):</p>
         <MediaPicker
@@ -84,6 +87,7 @@ export default function ProductDetailedContent({ config, onChange }: Props) {
 
       {/* TESTIMONIALS */}
       <Section title="Testimonials (quote khách hàng — auto carousel)" hint="Nhập ít nhất 2-3 quote. Trên web sẽ tự chạy carousel ngang loop vô hạn.">
+        <SectionVisibilityToggle hidden={test.hidden ?? false} onChange={(h) => setTest({ hidden: h })} sectionLabel="Testimonials" />
         <input value={test.heading ?? ''} onChange={(e) => setTest({ heading: e.target.value })} className={inputCls} placeholder="Heading" />
         <AddButton onClick={() => setTest({ items: [{ quote: '', name: '', role: '' } as PpcTestimonial, ...test.items] })} label="Thêm testimonial (lên đầu)" />
         {test.items.map((it, i) => (
@@ -104,6 +108,7 @@ export default function ProductDetailedContent({ config, onChange }: Props) {
 
       {/* FAQ */}
       <Section title="FAQ (câu hỏi thường gặp)" hint="Liệt kê 5-7 Q&A. Trên web sẽ render dạng accordion.">
+        <SectionVisibilityToggle hidden={faq.hidden ?? false} onChange={(h) => setFaq({ hidden: h })} sectionLabel="FAQ" />
         <input value={faq.heading ?? ''} onChange={(e) => setFaq({ heading: e.target.value })} className={inputCls} placeholder="Heading (VD: Câu hỏi thường gặp)" />
         <AddButton onClick={() => setFaq({ items: [{ q: '', a: '' } as PpcFaqItem, ...faq.items] })} label="Thêm Q&A (lên đầu)" />
         {faq.items.map((it, i) => (

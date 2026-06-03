@@ -2,6 +2,7 @@
 
 import IconPicker from '@/components/admin/IconPicker'
 import MediaPicker from '@/components/admin/MediaPicker'
+import SectionVisibilityToggle from '@/components/admin/SectionVisibilityToggle'
 import type {
   PpcFeatureItem,
   PpcFeatures,
@@ -67,6 +68,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
     <div className="space-y-4">
       {/* PAIN POINTS */}
       <Section title="Pain Points (vấn đề khách gặp)" hint="Liệt kê các vấn đề mà sản phẩm của bạn giải quyết. Nên 4-6 mục, mỗi cái 1 dòng tiêu đề + mô tả ngắn.">
+        <SectionVisibilityToggle hidden={pain.hidden ?? false} onChange={(h) => setPain({ hidden: h })} sectionLabel="Pain Points" />
         <input value={pain.heading ?? ''} onChange={(e) => setPain({ heading: e.target.value })} className={inputCls} placeholder="Heading: VD &ldquo;Doanh nghiệp bạn có đang gặp những vấn đề này?&rdquo;" />
         <AddButton onClick={() => setPain({ items: [{ title: '', description: '', iconName: 'AlertCircle' } as PpcIconItem, ...pain.items] })} label="Thêm vấn đề (lên đầu)" />
         {pain.items.map((it, i) => (
@@ -82,6 +84,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
 
       {/* SOLUTIONS */}
       <Section title="Solutions summary (sản phẩm giải quyết)" hint="Tóm tắt cách sản phẩm giải quyết các pain points. Nên 6 dòng + 2 nút CTA.">
+        <SectionVisibilityToggle hidden={sol.hidden ?? false} onChange={(h) => setSol({ hidden: h })} sectionLabel="Solutions" />
         <input value={sol.heading ?? ''} onChange={(e) => setSol({ heading: e.target.value })} className={inputCls} placeholder="Heading" />
         <AddButton onClick={() => setSol({ items: [{ text: '', iconName: 'CheckCircle2' } as PpcSolutionItem, ...sol.items] })} label="Thêm dòng (lên đầu)" />
         {sol.items.map((it, i) => (
@@ -102,6 +105,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
 
       {/* FEATURES */}
       <Section title="Features chi tiết" hint='Mỗi feature: tiêu đề + bullets + 1 ảnh ngang (16:9, ~1200×675px). Trên web sẽ hiển thị zigzag — ảnh xen kẽ trái/phải. Nếu không có ảnh → chỉ text full width.'>
+        <SectionVisibilityToggle hidden={feat.hidden ?? false} onChange={(h) => setFeat({ hidden: h })} sectionLabel="Features" />
         <input value={feat.heading ?? ''} onChange={(e) => setFeat({ heading: e.target.value })} className={inputCls} placeholder="Heading" />
         <AddButton onClick={() => setFeat({ items: [{ title: '', bullets: [''] } as PpcFeatureItem, ...feat.items] })} label="Thêm feature (lên đầu)" />
         {feat.items.map((it, i) => (
@@ -130,6 +134,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
 
       {/* PRICING */}
       <Section title="Bảng giá" hint='Mỗi sản phẩm thường có 3 plans (Starter / Pro / Enterprise). Nhập "Giá gốc" + "Giá KM" để web tự tính % giảm giá.'>
+        <SectionVisibilityToggle hidden={price.hidden ?? false} onChange={(h) => setPrice({ hidden: h })} sectionLabel="Bảng giá" />
         <input value={price.heading ?? ''} onChange={(e) => setPrice({ heading: e.target.value })} className={inputCls} placeholder="Heading" />
         <textarea value={price.description ?? ''} onChange={(e) => setPrice({ description: e.target.value })} rows={2} className={inputCls} placeholder="Mô tả ngắn dưới heading" />
         <AddButton onClick={() => setPrice({ plans: [{ name: 'Gói mới', price: '0', features: [], ctaText: 'Mua ngay', ctaHref: '/contact' } as PpcPricingPlan, ...price.plans] })} label="Thêm gói giá (lên đầu)" />

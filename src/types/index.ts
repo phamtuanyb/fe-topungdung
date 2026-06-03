@@ -129,6 +129,7 @@ export interface PpcCta {
 }
 
 export interface PpcHero {
+  hidden?: boolean
   tagline?: string
   statBig?: string
   statSub?: string
@@ -139,6 +140,7 @@ export interface PpcHero {
 }
 
 export interface PpcDemo {
+  hidden?: boolean
   videoUrl?: string
   imageSrc?: string
   imageAlt?: string
@@ -152,6 +154,7 @@ export interface PpcIconItem {
 }
 
 export interface PpcPainPoints {
+  hidden?: boolean
   heading?: string
   items: PpcIconItem[]
 }
@@ -162,6 +165,7 @@ export interface PpcSolutionItem {
 }
 
 export interface PpcSolutions {
+  hidden?: boolean
   heading?: string
   items: PpcSolutionItem[]
   ctaPrimary?: PpcCta
@@ -177,6 +181,7 @@ export interface PpcFeatureItem {
 }
 
 export interface PpcFeatures {
+  hidden?: boolean
   heading?: string
   items: PpcFeatureItem[]
 }
@@ -195,12 +200,14 @@ export interface PpcPricingPlan {
 }
 
 export interface PpcPricing {
+  hidden?: boolean
   heading?: string
   description?: string
   plans: PpcPricingPlan[]
 }
 
 export interface PpcCommitments {
+  hidden?: boolean
   heading?: string
   items: PpcIconItem[]
 }
@@ -213,6 +220,7 @@ export interface PpcTestimonial {
 }
 
 export interface PpcTestimonials {
+  hidden?: boolean
   heading?: string
   items: PpcTestimonial[]
 }
@@ -223,11 +231,13 @@ export interface PpcFaqItem {
 }
 
 export interface PpcFaq {
+  hidden?: boolean
   heading?: string
   items: PpcFaqItem[]
 }
 
 export interface PpcFinalCta {
+  hidden?: boolean
   heading?: string
   description?: string
   ctaText?: string
@@ -236,6 +246,7 @@ export interface PpcFinalCta {
 
 /** Trust strip — dòng chữ dưới hero, vd: "Đã có 134 shop online + spa tin dùng" */
 export interface PpcTrustStrip {
+  hidden?: boolean
   text?: string
 }
 
