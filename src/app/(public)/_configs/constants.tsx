@@ -6,7 +6,7 @@ export const PLANS: Plan[] = [
   {
     name: 'Starter',
     sub: 'Hộ KD, Startup, Shop nhỏ',
-    price: '15',
+    price: '15 triệu',
     period: '/ dự án trọn gói',
     features: [
       '1 phần mềm vertical chuẩn hoá',
@@ -21,7 +21,7 @@ export const PLANS: Plan[] = [
   {
     name: 'Growth',
     sub: 'SME 10–50 nhân sự',
-    price: '80',
+    price: '80 triệu',
     period: '/ dự án trọn gói',
     badge: 'PHỔ BIẾN NHẤT',
     features: [
@@ -37,7 +37,7 @@ export const PLANS: Plan[] = [
   {
     name: 'Enterprise',
     sub: 'SME 50+ / Chuyển đổi số tổng thể',
-    price: '300',
+    price: '300 triệu',
     period: '/ dự án trọn gói',
     features: [
       'Full custom theo nghiệp vụ riêng',

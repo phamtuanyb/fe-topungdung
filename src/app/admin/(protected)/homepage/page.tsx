@@ -92,7 +92,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
       {
         name: 'Starter',
         subtitle: 'Hộ KD, Startup, Shop nhỏ',
-        price: '15',
+        price: '15 triệu',
         period: '/ dự án trọn gói',
         features: ['1 phần mềm vertical chuẩn hoá', '1 AI Agent cơ bản (Sales hoặc CSKH)', 'Triển khai 2–4 tuần', 'Đào tạo 1 buổi', 'Bảo hành 6 tháng'],
         ctaText: 'Nhận tư vấn',
@@ -101,7 +101,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
       {
         name: 'Growth',
         subtitle: 'SME 10–50 nhân sự',
-        price: '80',
+        price: '80 triệu',
         period: '/ dự án trọn gói',
         badge: 'PHỔ BIẾN NHẤT',
         featured: true,
@@ -112,7 +112,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
       {
         name: 'Enterprise',
         subtitle: 'SME 50+ / Chuyển đổi số tổng thể',
-        price: '300',
+        price: '300 triệu',
         period: '/ dự án trọn gói',
         features: ['Full custom theo nghiệp vụ riêng', 'AI Agent toàn phòng ban', 'App Mobile iOS + Android', 'Tích hợp ERP, CRM, kế toán có sẵn', 'Bảo hành 18 tháng + SLA cam kết'],
         ctaText: 'Gặp chuyên gia',
@@ -805,8 +805,13 @@ function PricingTab({
                 className={inputCls}
               />
             </Field>
-            <Field label="Giá (triệu)">
-              <input value={plan.price} onChange={(e) => setPlan(i, { price: e.target.value })} className={inputCls} />
+            <Field label="Giá hiển thị" hint="Nhập tự do, vd: 15 triệu / Liên hệ / Theo dự án / 2.500.000đ">
+              <input
+                value={plan.price}
+                onChange={(e) => setPlan(i, { price: e.target.value })}
+                placeholder="15 triệu"
+                className={inputCls}
+              />
             </Field>
             <Field label="Thời gian / ghi chú giá">
               <input

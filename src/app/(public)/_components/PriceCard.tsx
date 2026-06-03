@@ -22,10 +22,8 @@ export function PriceCard({ plan }: { plan: Plan }) {
       <div className="text-[22px] font-extrabold text-[#1A1A1A] mb-1">{name}</div>
       <div className="text-[13px] text-gray-500 mb-5 leading-snug">{sub}</div>
 
-      <div className="flex items-baseline gap-0.5 mb-1">
-        <span className="text-[15px] font-semibold text-gray-500 mr-1">từ</span>
-        <span className="text-[44px] font-extrabold text-[#1E5BC6] leading-none">{price}</span>
-        <span className="text-[20px] font-bold text-[#1E5BC6]">tr</span>
+      <div className="text-[44px] font-extrabold text-[#1E5BC6] leading-none mb-1 break-words">
+        {price}
       </div>
       <div className="text-[13px] text-gray-500 mb-6">{period}</div>
 
