@@ -24,7 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams() { return [] }
+// Trang sản phẩm dịch vụ fetch data realtime từ BE — không SSG.
+// `force-dynamic` ngăn Next.js prerender ở build time, tránh lỗi static-to-dynamic.
+export const dynamic = 'force-dynamic'
 
 const has = <T,>(x: T | null | undefined): x is T => x !== null && x !== undefined && (typeof x !== 'string' || x.length > 0)
 
