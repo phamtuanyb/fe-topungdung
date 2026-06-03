@@ -62,7 +62,7 @@ async function BlogSection({ config }: { config?: HomepageBlogConfig }) {
             href={featured.href}
             className="group bg-white rounded-2xl overflow-hidden shadow-sm text-[#1A1A1A] no-underline flex flex-col h-full transition-shadow duration-200 hover:shadow-xl"
           >
-            <div className="relative flex-1 min-h-[260px] overflow-hidden bg-gray-100">
+            <div className="relative w-full aspect-video overflow-hidden bg-gray-100">
               <Image
                 src={featured.img}
                 alt={featured.imgAlt}
@@ -120,14 +120,6 @@ async function BlogSection({ config }: { config?: HomepageBlogConfig }) {
           </div>
         </div>
 
-        <div className="text-center mt-10">
-          <Link
-            href={ctaHref}
-            className="inline-flex items-center gap-2 text-[14px] font-bold text-[#1E5BC6] no-underline border-2 border-[#1E5BC6] px-7 py-2.5 rounded-md transition-all duration-150 hover:bg-[#1E5BC6] hover:text-white"
-          >
-            {ctaText}
-          </Link>
-        </div>
       </div>
     </section>
   )
