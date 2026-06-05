@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-NQRC98T7KK'
 
 const manrope = Manrope({
   subsets: ['latin', 'vietnamese'],
@@ -28,6 +31,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi" className={manrope.variable}>
       <body className={`${manrope.className} bg-white text-vs-dark antialiased overflow-x-hidden`}>
         {children}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   )
