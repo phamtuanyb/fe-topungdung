@@ -420,7 +420,7 @@ export default function GioiThieuPage() {
           <div className="text-center mb-14 max-w-[720px] mx-auto">
             <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Vì sao SME chọn Vsoftware?</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              5 điểm khác biệt của <em className="not-italic text-vs-blue">Vsoftware</em>
+              <em className="not-italic text-vs-blue">Vsoftware</em> Cam Kết
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
