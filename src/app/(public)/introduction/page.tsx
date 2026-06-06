@@ -12,9 +12,6 @@ export const metadata: Metadata = {
     'Công ty CP Giải pháp Vsoftware — phần mềm theo yêu cầu cho SME Việt Nam. Rõ ràng · Thực tế · Công nghệ · Tối ưu · Đồng hành. Top 1 Việt Nam về phần mềm theo yêu cầu vào 2030.',
 }
 
-// 5 giá trị brand - dùng làm pillar slogan
-const BRAND_PILLARS = ['Rõ ràng', 'Thực tế', 'Công nghệ', 'Tối ưu', 'Đồng hành']
-
 // 4 KPI với icon + gradient
 const KPIS = [
   {
@@ -182,20 +179,6 @@ export default function GioiThieuPage() {
         breadcrumbs={[{ label: 'Trang chủ', href: '/' }, { label: 'Giới thiệu' }]}
         titleTag="div"
       />
-
-      {/* Brand pillars bar */}
-      <section className="bg-vs-navy py-5">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center flex-wrap gap-x-8 gap-y-2 text-white text-[13px] sm:text-[14px] font-extrabold tracking-[0.05em]">
-            {BRAND_PILLARS.map((pillar, i) => (
-              <span key={i} className="flex items-center gap-3">
-                <span className="text-vs-orange">{pillar}</span>
-                {i < BRAND_PILLARS.length - 1 && <span className="text-white/30">·</span>}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 1. THƯ NGỎ */}
       <section className="pt-[72px] pb-20 bg-white">
