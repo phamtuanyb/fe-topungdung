@@ -5,10 +5,10 @@ import { useFormContext } from 'react-hook-form'
 import { FormData } from './PostEditor'
 import { useDebounce } from '@/hooks/useDebounce'
 import useSWR from 'swr'
-import { adminAnalyzePostSeo } from '@/lib/api/admin'
+import { adminAnalyzePostSeo, adminAnalyzeSeoRaw } from '@/lib/api/admin'
 import { SeoSection } from '@/types'
 
-const useSeoAnalysis = () => {
+const useSeoAnalysis = (postId?: number) => {
   const { watch } = useFormContext<FormData>()
 
   const [title, content, focusKeyword, excerpt, seoTitle, seoDescription] = watch([
@@ -17,7 +17,7 @@ const useSeoAnalysis = () => {
 
   const debouncedFields = useDebounce(
     { title, content, focusKeyword, excerpt, seoTitle, seoDescription },
-    5000,
+    1500,
     [title, content, focusKeyword, excerpt, seoTitle, seoDescription]
   )
 
@@ -30,7 +30,7 @@ const useSeoAnalysis = () => {
     debouncedFields.seoDescription?.trim()
   )
 
-  const swrKey = isReady ? ['admin-posts-seo-score', JSON.stringify({
+  const swrKey = isReady ? ['admin-posts-seo-score', postId ?? 'raw', JSON.stringify({
     title: debouncedFields.title,
     contentLength: debouncedFields.content?.length,
     focusKeyword: debouncedFields.focusKeyword,
@@ -41,8 +41,8 @@ const useSeoAnalysis = () => {
 
   return useSWR(
     swrKey,
-    () => adminAnalyzePostSeo(1, debouncedFields),
-    { 
+    () => postId ? adminAnalyzePostSeo(postId, debouncedFields) : adminAnalyzeSeoRaw(debouncedFields),
+    {
       keepPreviousData: true,
       revalidateOnFocus: false,
       revalidateIfStale: false,
@@ -50,8 +50,8 @@ const useSeoAnalysis = () => {
   )
 }
 
-export const SeoAnalysisMiniBar = () => {
-  const { data } = useSeoAnalysis()
+export const SeoAnalysisMiniBar = ({ postId }: { postId?: number } = {}) => {
+  const { data } = useSeoAnalysis(postId)
 
   const score = data?.data?.score ?? 0
 
@@ -76,8 +76,8 @@ export const SeoAnalysisMiniBar = () => {
   )
 
 }
-export const SeoAnalysisCircle = () => {
-  const { data } = useSeoAnalysis()
+export const SeoAnalysisCircle = ({ postId }: { postId?: number } = {}) => {
+  const { data } = useSeoAnalysis(postId)
   const score = data?.data?.score ?? 0
 
   const r = 28
@@ -163,8 +163,8 @@ const SectionCard = ({ section, defaultOpen = false }: { section: SeoSection, de
   )
 }
 
-export const SeoAnalysisSections = () => {
-  const { data: res, isLoading } = useSeoAnalysis()
+export const SeoAnalysisSections = ({ postId }: { postId?: number } = {}) => {
+  const { data: res, isLoading } = useSeoAnalysis(postId)
   const data = res?.data
 
   if (!data) {

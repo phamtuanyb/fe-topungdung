@@ -4,7 +4,7 @@ import { FormData } from './PostEditor'
 import Input from '@/components/ui/Input'
 import { SeoAnalysisSections, SeoAnalysisCircle } from './SeoAnalysis'
 
-const PanelOverview = () => {
+const PanelOverview = ({ postId }: { postId?: number } = {}) => {
     const { control, watch } = useFormContext<FormData>()
     const seoKeywords = watch('seoKeywords')
 
@@ -44,10 +44,10 @@ const PanelOverview = () => {
                 </div>
 
                 {/* Score circle */}
-                <SeoAnalysisCircle />
+                <SeoAnalysisCircle postId={postId} />
             </div>
 
-            <SeoAnalysisSections />
+            <SeoAnalysisSections postId={postId} />
         </>
     )
 

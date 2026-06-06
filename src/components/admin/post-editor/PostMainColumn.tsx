@@ -124,7 +124,7 @@ const PostMainColumn = ({ post, handleImageUpload }: Props) => {
         </div>
 
         {/* Tổng quan tab */}
-        {rankTab === 'overview' && <PanelOverview />}
+        {rankTab === 'overview' && <PanelOverview postId={post?.id} />}
         {rankTab === 'advanced' && <PanelAdvanced />}
         {rankTab === 'social' && <PanelSocial />}
       </Panel>

@@ -70,7 +70,7 @@ export default function PanelPublish({
           </div>
 
           {/* SEO mini bar */}
-          <SeoAnalysisMiniBar />
+          <SeoAnalysisMiniBar postId={post?.id} />
 
           <Button
             type="button"

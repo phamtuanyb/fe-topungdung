@@ -151,6 +151,10 @@ export function adminAnalyzePostSeo(id: number | string, payload: SeoAnalyzePayl
   return apiClient.post(`/api/admin/posts/${id}/seo-score`, payload, true)
 }
 
+export function adminAnalyzeSeoRaw(payload: SeoAnalyzePayload): Promise<SeoScoreResult> {
+  return apiClient.post('/api/admin/seo/analyze', { focusKeyword: payload.focusKeyword || '', ...payload }, true)
+}
+
 // ─── Categories ──────────────────────────────────────────────────────────────
 
 export function adminGetCategories(): Promise<ApiResponse<Category[]>> {
