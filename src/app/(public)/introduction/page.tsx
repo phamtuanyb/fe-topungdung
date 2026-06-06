@@ -3,9 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
 import CTASection from '@/components/common/CTASection'
-import { getPosts } from '@/lib/api/public'
-import type { Post } from '@/types'
-import { AI_AGENT_SLUGS } from '@/constants/app.constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,54 +15,53 @@ export const metadata: Metadata = {
 // 5 giá trị brand - dùng làm pillar slogan
 const BRAND_PILLARS = ['Rõ ràng', 'Thực tế', 'Công nghệ', 'Tối ưu', 'Đồng hành']
 
+// 4 KPI với icon + gradient
 const KPIS = [
-  { num: '100%', label: 'Theo yêu cầu — phần mềm thiết kế đúng nghiệp vụ riêng của bạn', color: 'orange' },
-  { num: '10+', label: 'Năm kinh nghiệm — đội ngũ kỹ thuật vững vàng, đa nền tảng', color: 'blue' },
-  { num: '24/7', label: 'Hỗ trợ vận hành — đồng hành suốt quá trình triển khai và vận hành', color: 'orange' },
-  { num: 'X5', label: 'Tăng hiệu suất công việc — 1 nhân sự bằng X5 lần khi có phần mềm', color: 'blue' },
+  {
+    num: '100%',
+    icon: '🎯',
+    label: 'Theo yêu cầu',
+    desc: 'Phần mềm thiết kế đúng nghiệp vụ riêng của bạn',
+    gradient: 'from-vs-orange to-vs-orange-dark',
+    glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
+  },
+  {
+    num: '10+',
+    icon: '🏆',
+    label: 'Năm kinh nghiệm',
+    desc: 'Đội ngũ kỹ thuật vững vàng, đa nền tảng',
+    gradient: 'from-vs-blue to-[#21428A]',
+    glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
+  },
+  {
+    num: '24/7',
+    icon: '💬',
+    label: 'Hỗ trợ vận hành',
+    desc: 'Đồng hành suốt quá trình triển khai và vận hành',
+    gradient: 'from-vs-orange to-vs-orange-dark',
+    glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
+  },
+  {
+    num: 'X5',
+    icon: '⚡',
+    label: 'Tăng hiệu suất',
+    desc: '1 nhân sự bằng X5 lần khi có phần mềm',
+    gradient: 'from-vs-blue to-[#21428A]',
+    glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
+  },
 ]
 
 // 6 nỗi đau thị trường (slide 5 profile gốc)
 const PAIN_POINTS = [
-  {
-    num: '01',
-    icon: '🧭',
-    title: 'Khó tiếp cận công nghệ mới',
-    desc: 'Cá nhân và doanh nghiệp gặp khó khăn trong việc tiếp cận, thay đổi sang công nghệ mới.',
-  },
-  {
-    num: '02',
-    icon: '⏱️',
-    title: 'Không bắt kịp tốc độ thị trường',
-    desc: 'Thị trường chuyển đổi số đổi nhanh, nhiều doanh nghiệp chưa có sự chuẩn bị để đáp ứng khách hàng.',
-  },
-  {
-    num: '03',
-    icon: '🧩',
-    title: 'Phần mềm chưa phù hợp',
-    desc: 'Nhiều công cụ, phần mềm trên thị trường nhưng chưa thực sự phù hợp với sự phát triển của từng doanh nghiệp.',
-  },
-  {
-    num: '04',
-    icon: '⚙️',
-    title: 'Thiếu giải pháp tối ưu',
-    desc: 'Thiếu một giải pháp tối ưu quy trình, tiết kiệm thời gian và nâng cao hiệu quả kinh doanh.',
-  },
-  {
-    num: '05',
-    icon: '🤖',
-    title: 'Ngại ứng dụng automation',
-    desc: 'Một số cá nhân / doanh nghiệp còn ngại thay đổi, ngại ứng dụng phần mềm automation vào hoạt động kinh doanh.',
-  },
-  {
-    num: '06',
-    icon: '🤝',
-    title: 'Thiếu đơn vị đồng hành',
-    desc: 'Nhiều doanh nghiệp không có đối tác công nghệ, đơn vị đồng hành xuyên suốt quá trình chuyển đổi số.',
-  },
+  { num: '01', icon: '🧭', title: 'Khó tiếp cận công nghệ mới', desc: 'Cá nhân và doanh nghiệp gặp khó khăn trong việc tiếp cận, thay đổi sang công nghệ mới.' },
+  { num: '02', icon: '⏱️', title: 'Không bắt kịp tốc độ thị trường', desc: 'Thị trường chuyển đổi số đổi nhanh, nhiều doanh nghiệp chưa có sự chuẩn bị để đáp ứng khách hàng.' },
+  { num: '03', icon: '🧩', title: 'Phần mềm chưa phù hợp', desc: 'Nhiều công cụ, phần mềm trên thị trường nhưng chưa thực sự phù hợp với sự phát triển của từng doanh nghiệp.' },
+  { num: '04', icon: '⚙️', title: 'Thiếu giải pháp tối ưu', desc: 'Thiếu một giải pháp tối ưu quy trình, tiết kiệm thời gian và nâng cao hiệu quả kinh doanh.' },
+  { num: '05', icon: '🤖', title: 'Ngại ứng dụng automation', desc: 'Một số cá nhân / doanh nghiệp còn ngại thay đổi, ngại ứng dụng phần mềm automation vào hoạt động kinh doanh.' },
+  { num: '06', icon: '🤝', title: 'Thiếu đơn vị đồng hành', desc: 'Nhiều doanh nghiệp không có đối tác công nghệ, đơn vị đồng hành xuyên suốt quá trình chuyển đổi số.' },
 ]
 
-// 4 lợi ích Vsoftware mang lại (slide 10)
+// 4 lợi ích (slide 10)
 const BENEFITS = [
   { icon: '💰', label: 'Tiết kiệm chi phí' },
   { icon: '⏰', label: 'Tiết kiệm thời gian' },
@@ -73,7 +69,7 @@ const BENEFITS = [
   { icon: '📊', label: 'Tối ưu nguồn lực' },
 ]
 
-// 5 cam kết Vsoftware (slide 10-11)
+// 5 cam kết (slide 10-11)
 const COMMITMENTS = [
   'Hệ thống automation hoàn toàn tự động',
   'Giải quyết bài toán chuyển đổi số end-to-end',
@@ -82,46 +78,16 @@ const COMMITMENTS = [
   'Bảo mật cao, mở rộng linh hoạt theo doanh nghiệp',
 ]
 
-// 5 điểm khác biệt (slide 12 profile gốc)
+// 5 điểm khác biệt (slide 12)
 const USPS = [
-  {
-    num: '01',
-    icon: '🎯',
-    title: 'Đáp ứng đúng nhu cầu',
-    desc: 'Phần mềm Vsoftware đáp ứng mọi nhu cầu và xây dựng đúng theo nhu cầu thực tế của khách hàng — không cố định template.',
-    color: 'orange',
-  },
-  {
-    num: '02',
-    icon: '🤝',
-    title: 'Cam kết đồng hành',
-    desc: 'Phần mềm Vsoftware đầu tiên tại Việt Nam thiết kế có cam kết đồng hành cùng khách hàng xuyên suốt.',
-    color: 'blue',
-  },
-  {
-    num: '03',
-    icon: '💬',
-    title: 'Chăm sóc chuyên nghiệp',
-    desc: 'Chăm sóc khách hàng chuyên nghiệp, tự động, đa kênh — đảm bảo phản hồi nhanh và không bỏ sót yêu cầu.',
-    color: 'orange',
-  },
-  {
-    num: '04',
-    icon: '🆓',
-    title: 'Tư vấn miễn phí 4.0',
-    desc: 'Tư vấn miễn phí xây dựng hệ thống phần mềm theo yêu cầu, giúp doanh nghiệp phát triển trong kỷ nguyên 4.0.',
-    color: 'blue',
-  },
-  {
-    num: '05',
-    icon: '🛡️',
-    title: 'Hỗ trợ vận hành dài hạn',
-    desc: 'Hỗ trợ và đồng hành cùng doanh nghiệp trong suốt quá trình vận hành, không chỉ dừng ở giao sản phẩm.',
-    color: 'orange',
-  },
+  { num: '01', icon: '🎯', title: 'Đáp ứng đúng nhu cầu', desc: 'Phần mềm Vsoftware đáp ứng mọi nhu cầu và xây dựng đúng theo nhu cầu thực tế của khách hàng — không cố định template.', color: 'orange' },
+  { num: '02', icon: '🤝', title: 'Cam kết đồng hành', desc: 'Phần mềm Vsoftware đầu tiên tại Việt Nam thiết kế có cam kết đồng hành cùng khách hàng xuyên suốt.', color: 'blue' },
+  { num: '03', icon: '💬', title: 'Chăm sóc chuyên nghiệp', desc: 'Chăm sóc khách hàng chuyên nghiệp, tự động, đa kênh — đảm bảo phản hồi nhanh và không bỏ sót yêu cầu.', color: 'orange' },
+  { num: '04', icon: '🆓', title: 'Tư vấn miễn phí 4.0', desc: 'Tư vấn miễn phí xây dựng hệ thống phần mềm theo yêu cầu, giúp doanh nghiệp phát triển trong kỷ nguyên 4.0.', color: 'blue' },
+  { num: '05', icon: '🛡️', title: 'Hỗ trợ vận hành dài hạn', desc: 'Hỗ trợ và đồng hành cùng doanh nghiệp trong suốt quá trình vận hành, không chỉ dừng ở giao sản phẩm.', color: 'orange' },
 ]
 
-// 5 giá trị cốt lõi GỐC (slide 13)
+// 5 giá trị cốt lõi (slide 13)
 const CORE_VALUES = [
   { num: '01', title: 'BIẾT ƠN', desc: 'Trân trọng khách hàng, đối tác và đồng nghiệp đã đồng hành cùng Vsoftware.' },
   { num: '02', title: 'NIỀM TIN', desc: 'Xây dựng niềm tin bằng cam kết, minh bạch và chất lượng sản phẩm thực tế.' },
@@ -179,21 +145,7 @@ const SERVICE_PILLARS = [
   },
 ]
 
-// 10 danh mục dịch vụ chi tiết (slide 16)
-const SERVICE_DETAILS = [
-  'App phần mềm điện thoại',
-  'Phần mềm quản lý',
-  'Phần mềm quản lý khách hàng (CRM)',
-  'Dịch vụ thiết kế Website',
-  'Phần mềm Marketing automation',
-  'Lập trình Web - App',
-  'Phần mềm quản lý bán hàng',
-  'Phần mềm iOS - Android',
-  'Phần mềm theo yêu cầu',
-  'Phần mềm quản lý nhà thuốc',
-]
-
-// 3 testimonials THẬT từ profile (slide 18)
+// 3 testimonials thật (slide 18)
 const TESTIMONIALS = [
   {
     initial: 'B',
@@ -221,40 +173,7 @@ const TESTIMONIALS = [
   },
 ]
 
-const ECOSYSTEM = [
-  { bg: 'bg-[#21428A]', icon: '🏢', name: 'ViTechGroup', sub: 'Tập đoàn công nghệ mẹ — chiến lược & đầu tư' },
-  { bg: 'bg-vs-blue', icon: '💻', name: 'Vsoftware', sub: 'Phần mềm theo yêu cầu cho SME Việt' },
-  { bg: 'bg-vs-orange', icon: '🤖', name: 'ViAI', sub: 'AI Agent & Automation solutions' },
-  { bg: 'bg-teal-600', icon: '📚', name: 'ViEdu', sub: 'Đào tạo chuyển đổi số cho doanh nghiệp' },
-]
-
-export default async function GioiThieuPage() {
-  let dbPosts: Post[] = []
-  try {
-    const res = await getPosts({ limit: 6 })
-    dbPosts = res?.data ?? []
-  } catch (err) {
-    console.error('Failed to fetch posts in introduction page:', err)
-  }
-
-  const productsToDisplay = dbPosts.length > 0
-    ? dbPosts.map(post => {
-        const catSlug = post.category?.slug || ''
-        const isAi = catSlug.startsWith(AI_AGENT_SLUGS) || catSlug.includes('ai')
-        const href = isAi ? `/ai-agent/${post.slug}` : `/dich-vu/${post.slug}`
-
-        return {
-          href,
-          img: post.thumbnail || 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=180&q=80',
-          alt: post.title,
-          tag: post.category?.name || 'Phần mềm',
-          tagColor: isAi ? 'orange' : 'blue',
-          title: post.title,
-          desc: post.excerpt || post.seoDescription || 'Dịch vụ phần mềm chất lượng cao từ Vsoftware.',
-        }
-      })
-    : []
-
+export default function GioiThieuPage() {
   return (
     <>
       <PageHero
@@ -300,7 +219,7 @@ export default async function GioiThieuPage() {
               </div>
               <div className="mt-7 pt-6 border-t border-vs-gray-200">
                 <div className="text-[13px] text-vs-gray-500 mb-1">Trân trọng,</div>
-                <div className="text-[15px] font-extrabold text-vs-dark">Ban Giám đốc Vsoftware</div>
+                <div className="text-[15px] font-extrabold text-vs-dark tracking-[0.05em]">BGĐ VSOFTWARE</div>
               </div>
               <div className="flex gap-3 mt-7">
                 <Link href="/lien-he" className="inline-flex items-center gap-2 bg-vs-orange text-white px-6 py-3 rounded-vs font-extrabold text-[14px] hover:bg-vs-orange-dark transition-all no-underline">
@@ -331,30 +250,51 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 2. 4 KPI */}
-      <section className="py-16 bg-vs-bg">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-10">
+      {/* 2. 4 KPI — GIẢI PHÁP VSOFTWARE (gradient nổi bật) */}
+      <section className="py-20 bg-vs-bg relative overflow-hidden">
+        {/* bg pattern dots */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle, #1450B4 1.5px, transparent 1.5px)',
+          backgroundSize: '24px 24px',
+        }} />
+        <div className="container mx-auto px-6 relative">
+          <div className="text-center mb-14">
             <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-4">Tổng quan giải pháp</span>
-            <h2 className="text-[clamp(22px,2.6vw,32px)] font-extrabold text-vs-dark leading-[1.25]">
-              Vsoftware trong <em className="not-italic text-vs-blue">4 con số</em>
+            <h2 className="text-[clamp(26px,3.2vw,40px)] font-extrabold text-vs-dark leading-[1.2]">
+              Giải Pháp <em className="not-italic text-vs-orange">Vsoftware</em>
             </h2>
-            <p className="text-[15px] text-vs-gray-600 mt-2 max-w-[560px] mx-auto">
+            <p className="text-[15.5px] text-vs-gray-600 mt-3 max-w-[620px] mx-auto leading-[1.65]">
               Phần mềm theo yêu cầu cho mọi quy mô doanh nghiệp — phù hợp với đặc thù kinh doanh và quy mô của bạn.
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {KPIS.map((s, i) => (
-              <div key={i} className={`bg-white rounded-2xl p-8 text-center shadow-vs border-b-4 hover:-translate-y-1 transition-transform ${s.color === 'blue' ? 'border-vs-blue' : 'border-vs-orange'}`}>
-                <div className={`text-[48px] font-extrabold leading-none mb-2 ${s.color === 'blue' ? 'text-vs-blue' : 'text-vs-orange'}`}>{s.num}</div>
-                <div className="text-[13px] font-semibold text-vs-gray-600 leading-[1.5]">{s.label}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {KPIS.map((k, i) => (
+              <div key={i} className={`relative bg-gradient-to-br ${k.gradient} rounded-3xl p-7 text-white overflow-hidden hover:-translate-y-2 transition-all duration-300 ${k.glow}`}>
+                {/* Background glow */}
+                <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative">
+                  {/* Icon */}
+                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-[34px] mb-5 shadow-lg">
+                    {k.icon}
+                  </div>
+                  {/* BIG number */}
+                  <div className="text-[clamp(54px,5.5vw,72px)] font-extrabold leading-none mb-3 tracking-tight" style={{ textShadow: '0 4px 24px rgba(0,0,0,0.15)' }}>
+                    {k.num}
+                  </div>
+                  {/* Label */}
+                  <div className="text-[16px] font-extrabold uppercase tracking-[0.05em] mb-2">{k.label}</div>
+                  {/* Description */}
+                  <div className="text-[13px] text-white/85 leading-[1.55]">{k.desc}</div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. NỖI ĐAU THỊ TRƯỜNG (6 thẻ profile gốc) + Giải pháp */}
+      {/* 3. NỖI ĐAU + GIẢI PHÁP */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[780px] mx-auto">
@@ -379,22 +319,23 @@ export default async function GioiThieuPage() {
             ))}
           </div>
 
-          {/* Vsoftware giải quyết */}
+          {/* Vsoftware giải quyết — 2 cột stretch ngang bằng */}
           <div className="bg-vs-navy-gradient rounded-3xl p-10 lg:p-14 text-white">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7">
-                <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-white/10 px-3 py-1.5 rounded-full mb-5">03 · Giải pháp Vsoftware</span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              {/* Trái */}
+              <div className="lg:col-span-7 flex flex-col">
+                <span className="inline-block self-start text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-white/10 px-3 py-1.5 rounded-full mb-5">03 · Giải pháp Vsoftware</span>
                 <h3 className="text-[clamp(22px,2.6vw,32px)] font-extrabold leading-[1.3] mb-5">
                   Giải quyết &ldquo;nỗi đau&rdquo; thị trường bằng <em className="not-italic text-vs-orange">công nghệ 4.0</em>
                 </h3>
-                <p className="text-[15px] text-white/80 leading-[1.85] mb-5">
+                <p className="text-[15px] text-white/80 leading-[1.85] mb-6">
                   Vsoftware ra đời với nhiều dịch vụ tiện ích, đáp ứng và giải quyết bài toán <strong className="text-white">tìm kiếm – xây dựng – phát triển</strong> hệ thống phần mềm theo yêu cầu cho cá nhân, tổ chức, doanh nghiệp.
                 </p>
 
-                {/* 4 lợi ích */}
-                <div className="grid grid-cols-2 gap-3 mb-5">
+                {/* 4 lợi ích - đẩy xuống dưới flex-1 */}
+                <div className="grid grid-cols-2 gap-3 mt-auto">
                   {BENEFITS.map((b, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/15">
+                    <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3.5 border border-white/15">
                       <span className="text-[22px] leading-none">{b.icon}</span>
                       <span className="text-[13.5px] font-extrabold text-white">{b.label}</span>
                     </div>
@@ -402,12 +343,12 @@ export default async function GioiThieuPage() {
                 </div>
               </div>
 
-              {/* 5 cam kết */}
-              <div className="lg:col-span-5">
-                <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-7">
+              {/* Phải - stretch full height */}
+              <div className="lg:col-span-5 flex">
+                <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-7 w-full flex flex-col">
                   <div className="text-[11px] font-extrabold tracking-[0.2em] uppercase text-vs-orange mb-3">Công nghệ 4.0</div>
                   <div className="text-[18px] font-extrabold text-white mb-5 leading-[1.35]">Hiện đại · Tự động · Linh hoạt</div>
-                  <ul className="space-y-3 m-0 p-0 list-none">
+                  <ul className="space-y-3 m-0 p-0 list-none flex-1">
                     {COMMITMENTS.map((c, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="text-vs-orange text-[15px] font-extrabold leading-[1.4] flex-shrink-0">✓</span>
@@ -473,7 +414,7 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 5. ĐIỂM KHÁC BIỆT (5 USP) */}
+      {/* 5. 5 ĐIỂM KHÁC BIỆT */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[720px] mx-auto">
@@ -495,7 +436,7 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 6. 4 LOẠI HÌNH DỊCH VỤ + Danh mục chi tiết + Sản phẩm */}
+      {/* 6. 4 LOẠI HÌNH DỊCH VỤ */}
       <section className="py-20 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[760px] mx-auto">
@@ -508,8 +449,7 @@ export default async function GioiThieuPage() {
             </p>
           </div>
 
-          {/* 4 trụ cột */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {SERVICE_PILLARS.map((s, i) => (
               <Link key={i} href={s.href} className={`group ${s.bg} text-white rounded-2xl p-8 hover:-translate-y-1 transition-all shadow-vs hover:shadow-vs-lg no-underline block ${s.featured ? 'ring-2 ring-vs-orange ring-offset-2' : ''}`}>
                 <div className="flex items-start gap-5">
@@ -532,57 +472,10 @@ export default async function GioiThieuPage() {
               </Link>
             ))}
           </div>
-
-          {/* Danh mục chi tiết (10 mục từ profile) */}
-          <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-vs mb-12">
-            <div className="text-center mb-7">
-              <span className="inline-block text-[11px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1 rounded-full mb-3">Đa dạng giải pháp</span>
-              <h3 className="text-[20px] font-extrabold text-vs-dark">Danh mục dịch vụ chi tiết</h3>
-              <p className="text-[14px] text-vs-gray-600 mt-1">Đáp ứng mọi mô hình SME — từ bán lẻ, sản xuất đến dịch vụ.</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              {SERVICE_DETAILS.map((item, i) => (
-                <div key={i} className="bg-vs-bg rounded-xl px-4 py-3.5 text-center hover:bg-vs-blue-light hover:text-vs-blue transition-all">
-                  <span className="text-[13px] font-bold text-vs-dark leading-[1.4]">{item}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-7 bg-gradient-to-r from-vs-orange to-vs-orange-dark rounded-2xl p-6 text-center">
-              <div className="text-[15px] text-white mb-1.5">Không có giải pháp bạn cần?</div>
-              <div className="text-[18px] font-extrabold text-white mb-3">Vsoftware xây dựng phần mềm <em className="not-italic">THEO YÊU CẦU</em> riêng cho doanh nghiệp bạn.</div>
-              <Link href="/lien-he" className="inline-flex items-center gap-2 bg-white text-vs-orange px-6 py-2.5 rounded-vs font-extrabold text-[14px] hover:bg-vs-bg transition-all no-underline">
-                Liên hệ tư vấn →
-              </Link>
-            </div>
-          </div>
-
-          {/* Sản phẩm cụ thể từ DB */}
-          {productsToDisplay.length > 0 && (
-            <>
-              <div className="text-center mb-8">
-                <h3 className="text-[20px] font-extrabold text-vs-dark mb-1">Sản phẩm tiêu biểu Vsoftware đã triển khai</h3>
-                <p className="text-[14px] text-vs-gray-600">Mỗi sản phẩm là câu chuyện của một doanh nghiệp với bài toán riêng.</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {productsToDisplay.map((p, i) => (
-                  <Link key={i} href={p.href} className="group bg-white rounded-2xl overflow-hidden shadow-vs hover:border hover:border-vs-blue hover:shadow-vs-md hover:-translate-y-1 transition-all no-underline">
-                    <div className="relative h-[180px] overflow-hidden">
-                      <Image src={p.img} alt={p.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
-                      <span className={`absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full ${p.tagColor === 'orange' ? 'bg-vs-orange text-white' : 'bg-vs-blue text-white'}`}>{p.tag}</span>
-                    </div>
-                    <div className="p-5">
-                      <h3 className="text-[16px] font-extrabold text-vs-dark mb-2 group-hover:text-vs-blue transition-colors">{p.title}</h3>
-                      <p className="text-[13.5px] text-vs-gray-600 leading-[1.6] m-0">{p.desc}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </>
-          )}
         </div>
       </section>
 
-      {/* 7. TESTIMONIALS (3 quote thật từ profile) */}
+      {/* 7. TESTIMONIALS */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[760px] mx-auto">
@@ -617,58 +510,6 @@ export default async function GioiThieuPage() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. HỆ SINH THÁI ViTechGroup */}
-      <section className="py-20 bg-vs-bg">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Hệ sinh thái ViTechGroup</span>
-            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Vsoftware thuộc hệ sinh thái <em className="not-italic text-vs-blue">ViTechGroup</em>
-            </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
-              Sức mạnh hợp lực — từ chiến lược tập đoàn đến giải pháp AI và đào tạo chuyển đổi số.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-            {ECOSYSTEM.map((e, i) => (
-              <div key={i} className="bg-white rounded-2xl p-7 shadow-vs hover:shadow-vs-md hover:-translate-y-1 transition-all text-center">
-                <div className={`w-16 h-16 rounded-2xl ${e.bg} flex items-center justify-center text-[28px] mx-auto mb-4`}>{e.icon}</div>
-                <div className="text-[16px] font-extrabold text-vs-dark mb-1.5">{e.name}</div>
-                <div className="text-[12.5px] text-vs-gray-600 leading-[1.55]">{e.sub}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Thông tin liên hệ trụ sở */}
-          <div className="bg-vs-navy rounded-2xl p-8 lg:p-10 text-white">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">📞</div>
-                <div>
-                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Hotline</div>
-                  <div className="text-[17px] font-extrabold text-white">0914 888 678</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">🌐</div>
-                <div>
-                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Website</div>
-                  <div className="text-[17px] font-extrabold text-white">vsoftware.vn</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">📍</div>
-                <div>
-                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Trụ sở</div>
-                  <div className="text-[14.5px] font-bold text-white leading-[1.45]">35 Lê Văn Thiêm<br />Thanh Xuân, Hà Nội</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
