@@ -472,7 +472,7 @@ export default function ContactInfoEditorPage() {
     <div className="space-y-6 max-w-4xl">
       <AdminPageHeader
         title="Thông tin liên hệ"
-        description="Chỉnh sửa nội dung hiển thị trên trang /contact"
+        description="Chỉnh sửa nội dung hiển thị trên trang /lien-he"
         showBack={false}
       >
         <button

@@ -195,7 +195,7 @@ export default function TabProductPage() {
             <input value={hero.ctaPrimary?.text ?? ''} onChange={(e) => setHero({ ctaPrimary: { ...(hero.ctaPrimary ?? { href: '' }), text: e.target.value } })} className={inputCls} placeholder="Dùng thử miễn phí" />
           </Field>
           <Field label="Nút chính — URL">
-            <input value={hero.ctaPrimary?.href ?? ''} onChange={(e) => setHero({ ctaPrimary: { ...(hero.ctaPrimary ?? { text: '' }), href: e.target.value } })} className={inputCls} placeholder="/contact" />
+            <input value={hero.ctaPrimary?.href ?? ''} onChange={(e) => setHero({ ctaPrimary: { ...(hero.ctaPrimary ?? { text: '' }), href: e.target.value } })} className={inputCls} placeholder="/lien-he" />
           </Field>
           <Field label="Nút phụ — Text">
             <input value={hero.ctaSecondary?.text ?? ''} onChange={(e) => setHero({ ctaSecondary: { ...(hero.ctaSecondary ?? { href: '' }), text: e.target.value } })} className={inputCls} placeholder="Xem bảng giá" />
@@ -340,7 +340,7 @@ export default function TabProductPage() {
           <textarea value={price.description ?? ''} onChange={(e) => setPrice({ description: e.target.value })} rows={2} className={inputCls} />
         </Field>
         <AddButton
-          onClick={() => setPrice({ plans: [{ name: 'Gói mới', price: '0', features: [], ctaText: 'Mua ngay', ctaHref: '/contact' } as PpcPricingPlan, ...price.plans] })}
+          onClick={() => setPrice({ plans: [{ name: 'Gói mới', price: '0', features: [], ctaText: 'Mua ngay', ctaHref: '/lien-he' } as PpcPricingPlan, ...price.plans] })}
           label="Thêm gói giá (lên đầu)"
         />
         <div className="space-y-2">
@@ -476,7 +476,7 @@ export default function TabProductPage() {
             <input value={final.ctaText ?? ''} onChange={(e) => setFinal({ ctaText: e.target.value })} className={inputCls} placeholder="Dùng thử ngay" />
           </Field>
           <Field label="Nút — URL">
-            <input value={final.ctaHref ?? ''} onChange={(e) => setFinal({ ctaHref: e.target.value })} className={inputCls} placeholder="/contact" />
+            <input value={final.ctaHref ?? ''} onChange={(e) => setFinal({ ctaHref: e.target.value })} className={inputCls} placeholder="/lien-he" />
           </Field>
         </div>
       </Collapse>

@@ -155,7 +155,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
         title: 'CRM Vsoftware — Quản lý khách hàng & doanh số',
         description: 'Pipeline rõ ràng, theo dõi cơ hội từ lead đến chốt đơn. Báo cáo realtime, không bỏ sót khách hàng.',
         ctaText: 'Liên hệ tư vấn',
-        ctaHref: '/contact',
+        ctaHref: '/lien-he',
       },
       {
         label: '📦 Quản lý kho',
@@ -164,7 +164,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
         title: 'WMS — Xuất nhập tồn chính xác',
         description: 'Quản lý SKU, cảnh báo hàng sắp hết, theo dõi xuất nhập theo ngày.',
         ctaText: 'Liên hệ tư vấn',
-        ctaHref: '/contact',
+        ctaHref: '/lien-he',
       },
       {
         label: '📱 App Mobile',
@@ -173,7 +173,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
         title: 'App Mobile — Quản lý mọi nơi',
         description: 'Bán hàng, theo dõi đơn, dashboard doanh thu trên điện thoại. iOS + Android.',
         ctaText: 'Liên hệ tư vấn',
-        ctaHref: '/contact',
+        ctaHref: '/lien-he',
       },
       {
         label: '📈 Báo cáo Analytics',
@@ -182,7 +182,7 @@ const DEFAULT_CONFIG: HomepageConfig = {
         title: 'Analytics — Báo cáo kinh doanh realtime',
         description: 'Doanh thu, đơn hàng, top nhân viên, top sản phẩm — cập nhật từng phút.',
         ctaText: 'Liên hệ tư vấn',
-        ctaHref: '/contact',
+        ctaHref: '/lien-he',
       },
     ],
   },
@@ -1122,7 +1122,7 @@ function ShowcaseTab({
         </p>
         <button
           type="button"
-          onClick={() => set({ tabs: [{ label: 'Tab mới', ctaText: 'Liên hệ ngay', ctaHref: '/contact' }, ...showcase.tabs] })}
+          onClick={() => set({ tabs: [{ label: 'Tab mới', ctaText: 'Liên hệ ngay', ctaHref: '/lien-he' }, ...showcase.tabs] })}
           className="w-full rounded-2xl border-2 border-dashed border-slate-200 py-4 text-sm font-medium text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-colors"
         >
           + Thêm tab (lên đầu)
@@ -1176,7 +1176,7 @@ function ShowcaseTab({
                     value={tab.ctaHref ?? ''}
                     onChange={(e) => updateTab(i, { ctaHref: e.target.value })}
                     className={inputCls}
-                    placeholder="/contact"
+                    placeholder="/lien-he"
                   />
                 </Field>
               </div>

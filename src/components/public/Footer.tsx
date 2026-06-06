@@ -37,7 +37,7 @@ const DEFAULT_FOOTER: FooterConfig = {
       { icon: '🏢', label: 'Về Vsoftware',       href: '/introduction' },
       { icon: '🔄', label: 'Quy trình làm việc', href: '/#how-it-works' },
       { icon: '📝', label: 'Blog công nghệ',      href: '/category/tin-tuc' },
-      { icon: '💼', label: 'Liên hệ hợp tác',    href: '/contact' },
+      { icon: '💼', label: 'Liên hệ hợp tác',    href: '/lien-he' },
     ]},
     { type: 'links', title: 'Liên hệ', links: [
       { icon: '✉️', label: 'hello@vsoftware.vn', href: 'mailto:hello@vsoftware.vn' },

@@ -133,7 +133,7 @@ export default async function AIAgentPage({ params }: Props) {
             )}
             <div className="flex flex-wrap gap-3">
               {has(hero?.ctaPrimary?.text) && (
-                <Link href={hero!.ctaPrimary!.href || '/contact'} className="inline-flex items-center gap-2 bg-vs-orange text-white px-7 py-3.5 rounded-vs font-extrabold text-[15px] hover:bg-vs-orange-dark transition-all shadow-md">
+                <Link href={hero!.ctaPrimary!.href || '/lien-he'} className="inline-flex items-center gap-2 bg-vs-orange text-white px-7 py-3.5 rounded-vs font-extrabold text-[15px] hover:bg-vs-orange-dark transition-all shadow-md">
                   {hero!.ctaPrimary!.text}
                 </Link>
               )}
@@ -207,7 +207,7 @@ export default async function AIAgentPage({ params }: Props) {
                   {(has(sol.ctaPrimary?.text) || has(sol.ctaSecondary?.text)) && (
                     <div className="flex flex-wrap gap-3">
                       {has(sol.ctaPrimary?.text) && (
-                        <Link href={sol.ctaPrimary!.href || '/contact'} className="bg-vs-orange text-white px-6 py-3 rounded-vs font-extrabold text-[14px] hover:bg-vs-orange-dark transition-all">
+                        <Link href={sol.ctaPrimary!.href || '/lien-he'} className="bg-vs-orange text-white px-6 py-3 rounded-vs font-extrabold text-[14px] hover:bg-vs-orange-dark transition-all">
                           {sol.ctaPrimary!.text}
                         </Link>
                       )}
@@ -344,7 +344,7 @@ export default async function AIAgentPage({ params }: Props) {
                         </li>
                       ))}
                     </ul>
-                    <Link href={plan.ctaHref || '/contact'} className={`block w-full text-center py-3 rounded-lg text-[14px] font-extrabold transition-all ${plan.featured ? 'bg-vs-orange text-white hover:bg-vs-orange-dark' : 'bg-white text-vs-blue border-2 border-vs-blue hover:bg-vs-blue-light'}`}>
+                    <Link href={plan.ctaHref || '/lien-he'} className={`block w-full text-center py-3 rounded-lg text-[14px] font-extrabold transition-all ${plan.featured ? 'bg-vs-orange text-white hover:bg-vs-orange-dark' : 'bg-white text-vs-blue border-2 border-vs-blue hover:bg-vs-blue-light'}`}>
                       {plan.ctaText}
                     </Link>
                   </div>
@@ -467,7 +467,7 @@ export default async function AIAgentPage({ params }: Props) {
           logoUrl={agent.logoUrl ?? undefined}
           priceLabel={sticky.priceLabel || featuredPlan?.price}
           ctaPrimaryText={sticky.ctaPrimaryText || 'Mua ngay'}
-          ctaPrimaryHref={sticky.ctaPrimaryHref || featuredPlan?.ctaHref || '/contact'}
+          ctaPrimaryHref={sticky.ctaPrimaryHref || featuredPlan?.ctaHref || '/lien-he'}
           ctaSecondaryText={sticky.ctaSecondaryText}
           ctaSecondaryHref={sticky.ctaSecondaryHref}
         />

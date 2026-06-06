@@ -15,7 +15,7 @@ const resolveUrl = (url: string | null | undefined, label: string) => {
   if (label === 'Trang chủ') return '/'
   if (label === 'Giới thiệu') return '/introduction'
   if (label === 'Tin tức') return '/tin-tuc'
-  if (label === 'Liên hệ') return '/contact'
+  if (label === 'Liên hệ') return '/lien-he'
   return '/'
 }
 

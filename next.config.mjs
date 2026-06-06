@@ -12,6 +12,11 @@ const nextConfig = {
       { protocol: 'https', hostname: 'vsoftware.vn' },
     ],
   },
+  async redirects() {
+    return [
+      { source: '/contact', destination: '/lien-he', permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

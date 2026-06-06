@@ -39,7 +39,7 @@ const resolveUrl = (url: string | null | undefined, label: string) => {
     if (label === 'Trang chủ') return '/'
     if (label === 'Giới thiệu') return '/introduction'
     if (label === 'Tin tức') return '/tin-tuc'
-    if (label === 'Liên hệ') return '/contact'
+    if (label === 'Liên hệ') return '/lien-he'
     return '/'
 }
 
@@ -129,7 +129,7 @@ const HeaderClient = ({
         let footerHeading = 'Không thấy ngành của bạn?'
         let footerSub = 'Tư vấn miễn phí 30 phút — đội Vsoftware sẽ may đo riêng.'
         let footerCta = 'Liên hệ ngay →'
-        let footerCtaHref: string | undefined = '/contact'
+        let footerCtaHref: string | undefined = '/lien-he'
         let borderColor = 'border-vs-blue'
 
         if (isAi) {
@@ -250,7 +250,7 @@ const HeaderClient = ({
                     {/* CTA */}
                     <div className="hidden lg:flex items-center">
                         <Link
-                            href="/contact"
+                            href="/lien-he"
                             className="relative inline-flex items-center gap-2 px-6 py-3 bg-vs-orange text-white text-[15px] font-bold rounded-vs hover:bg-vs-orange-dark transition-all overflow-visible"
                         >
                             <span className="relative z-10">Tư vấn miễn phí</span>

@@ -27,7 +27,7 @@ export const FOOTER_LINKS = {
     { label: 'Về Vsoftware', href: '/introduction', icon: '🏢' },
     { label: 'Quy trình làm việc', href: '/#how-it-works', icon: '🔄' },
     { label: 'Blog công nghệ', href: `/category/${NEWS_SLUGS}`, icon: '📝' },
-    { label: 'Liên hệ hợp tác', href: '/contact', icon: '💼' },
+    { label: 'Liên hệ hợp tác', href: '/lien-he', icon: '💼' },
   ],
   contact: [
     { label: 'hello@vsoftware.vn', href: 'mailto:hello@vsoftware.vn', icon: '✉️' },

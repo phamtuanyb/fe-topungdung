@@ -13,7 +13,7 @@ const DEFAULT_TABS: HomepageShowcaseTab[] = [
     title: 'CRM Vsoftware — Quản lý khách hàng & doanh số',
     description: 'Pipeline rõ ràng, theo dõi cơ hội từ lead đến chốt đơn.',
     ctaText: 'Liên hệ ngay',
-    ctaHref: '/contact',
+    ctaHref: '/lien-he',
   },
 ]
 

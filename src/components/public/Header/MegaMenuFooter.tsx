@@ -6,7 +6,7 @@ type Props = {
     cta: string
     ctaHref?: string
 }
-const MegaMenuFooter = ({ heading, sub, cta, ctaHref = '/contact' }: Props) => (
+const MegaMenuFooter = ({ heading, sub, cta, ctaHref = '/lien-he' }: Props) => (
     <div className="border-t border-vs-gray-200 bg-vs-bg">
         <div className="max-w-8xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <div>

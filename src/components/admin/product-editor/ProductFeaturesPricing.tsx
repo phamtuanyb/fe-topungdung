@@ -97,7 +97,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
         ))}
         <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
           <input value={sol.ctaPrimary?.text ?? ''} onChange={(e) => setSol({ ctaPrimary: { ...(sol.ctaPrimary ?? { href: '' }), text: e.target.value } })} className={inputCls} placeholder="Nút chính — Text (VD: Dùng thử miễn phí)" />
-          <input value={sol.ctaPrimary?.href ?? ''} onChange={(e) => setSol({ ctaPrimary: { ...(sol.ctaPrimary ?? { text: '' }), href: e.target.value } })} className={inputCls} placeholder="Nút chính — URL (VD: /contact)" />
+          <input value={sol.ctaPrimary?.href ?? ''} onChange={(e) => setSol({ ctaPrimary: { ...(sol.ctaPrimary ?? { text: '' }), href: e.target.value } })} className={inputCls} placeholder="Nút chính — URL (VD: /lien-he)" />
           <input value={sol.ctaSecondary?.text ?? ''} onChange={(e) => setSol({ ctaSecondary: { ...(sol.ctaSecondary ?? { href: '' }), text: e.target.value } })} className={inputCls} placeholder="Nút phụ — Text" />
           <input value={sol.ctaSecondary?.href ?? ''} onChange={(e) => setSol({ ctaSecondary: { ...(sol.ctaSecondary ?? { text: '' }), href: e.target.value } })} className={inputCls} placeholder="Nút phụ — URL" />
         </div>
@@ -137,7 +137,7 @@ export default function ProductFeaturesPricing({ config, onChange }: Props) {
         <SectionVisibilityToggle hidden={price.hidden ?? false} onChange={(h) => setPrice({ hidden: h })} sectionLabel="Bảng giá" />
         <input value={price.heading ?? ''} onChange={(e) => setPrice({ heading: e.target.value })} className={inputCls} placeholder="Heading" />
         <textarea value={price.description ?? ''} onChange={(e) => setPrice({ description: e.target.value })} rows={2} className={inputCls} placeholder="Mô tả ngắn dưới heading" />
-        <AddButton onClick={() => setPrice({ plans: [{ name: 'Gói mới', price: '0', features: [], ctaText: 'Mua ngay', ctaHref: '/contact' } as PpcPricingPlan, ...price.plans] })} label="Thêm gói giá (lên đầu)" />
+        <AddButton onClick={() => setPrice({ plans: [{ name: 'Gói mới', price: '0', features: [], ctaText: 'Mua ngay', ctaHref: '/lien-he' } as PpcPricingPlan, ...price.plans] })} label="Thêm gói giá (lên đầu)" />
         {price.plans.map((plan, i) => {
           const setPlan = (p: Partial<PpcPricingPlan>) => setPrice({ plans: price.plans.map((pl, j) => j === i ? { ...pl, ...p } : pl) })
           return (

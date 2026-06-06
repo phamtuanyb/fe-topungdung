@@ -5,7 +5,7 @@ import type { MenuItemType } from '@/types'
 export const SITE_PAGES = [
   { id: 1, label: 'Trang chủ', path: '/' },
   { id: 2, label: 'Giới thiệu', path: '/introduction' },
-  { id: 3, label: 'Liên hệ', path: '/contact' },
+  { id: 3, label: 'Liên hệ', path: '/lien-he' },
 ] as const
 
 export type SitePageId = (typeof SITE_PAGES)[number]['id']
