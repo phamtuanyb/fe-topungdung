@@ -6,6 +6,8 @@ type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: unknown
   auth?: boolean
   _retry?: boolean
+  // Next.js cache: undefined = mặc định theo auth (public cache 60s, auth no-store)
+  revalidate?: number | false
 }
 
 async function refreshAccessToken(): Promise<string | null> {
@@ -30,7 +32,7 @@ async function refreshAccessToken(): Promise<string | null> {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { body, auth = false, headers = {}, _retry = false, ...rest } = options
+  const { body, auth = false, headers = {}, _retry = false, revalidate, ...rest } = options
 
   const reqHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -42,11 +44,31 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     if (token) reqHeaders['Authorization'] = `Bearer ${token}`
   }
 
+  // Cache strategy:
+  // - Auth requests + mutations (POST/PUT/PATCH/DELETE): no-store (luôn fresh)
+  // - Public GET: revalidate 60s mặc định (ISR), có thể override qua opts.revalidate
+  const method = (rest.method ?? 'GET').toUpperCase()
+  const isMutation = method !== 'GET'
+  const isPublic = !auth && !isMutation
+  const nextOptions: { revalidate?: number | false } = {}
+  let cacheOption: RequestCache | undefined
+
+  if (isPublic) {
+    if (revalidate === false) {
+      cacheOption = 'no-store'
+    } else {
+      nextOptions.revalidate = revalidate ?? 60
+    }
+  } else {
+    cacheOption = 'no-store'
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
     ...rest,
     headers: reqHeaders,
     body: body !== undefined ? JSON.stringify(body) : undefined,
-    cache: 'no-store', // Disable caching globally for API requests
+    ...(cacheOption ? { cache: cacheOption } : {}),
+    ...(nextOptions.revalidate !== undefined ? { next: nextOptions } : {}),
   })
 
   // Nếu 401 và chưa retry → thử refresh token

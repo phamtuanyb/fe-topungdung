@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
 import CTASection from '@/components/common/CTASection'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300 // ISR: rebuild mỗi 5 phút
 
 export const metadata: Metadata = {
   title: 'Giới thiệu Vsoftware — Phần mềm theo yêu cầu cho SME Việt Nam',
