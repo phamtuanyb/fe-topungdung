@@ -84,45 +84,6 @@ const USPS = [
   { num: '05', icon: '🛡️', title: 'Hỗ trợ vận hành dài hạn', desc: 'Hỗ trợ và đồng hành cùng doanh nghiệp trong suốt quá trình vận hành, không chỉ dừng ở giao sản phẩm.', color: 'orange' },
 ]
 
-// 5 giá trị cốt lõi (ViTechGroup brand original)
-const CORE_VALUES = [
-  {
-    num: '01',
-    icon: '🙏',
-    title: 'BIẾT ƠN',
-    desc: 'Biết ơn là cội nguồn của sức mạnh, là truyền thống uống nước nhớ nguồn của người Việt Nam. Biết ơn để có năng lượng tích cực, biết ơn người giúp đỡ mình, biết ơn cơ hội đến với mình. Biết ơn là phẩm giá quan trọng số 1 để nhìn nhận con người phù hợp tại ViTech.',
-    color: 'orange',
-  },
-  {
-    num: '02',
-    icon: '💎',
-    title: 'NIỀM TIN',
-    desc: 'Tin tưởng bản thân, đồng nghiệp. Tin vào con đường mình đã chọn, tin vào sản phẩm, tin vào công ty. Niềm tin phải luôn được xây dựng, bồi đắp bằng những hành động thường ngày.',
-    color: 'blue',
-  },
-  {
-    num: '03',
-    icon: '🤝',
-    title: 'TRÁCH NHIỆM',
-    desc: 'Trách nhiệm với bản thân và người xung quanh, trách nhiệm với lời mình nói ra, trách nhiệm với niềm tin của người khác. Làm việc có trách nhiệm.',
-    color: 'orange',
-  },
-  {
-    num: '04',
-    icon: '💡',
-    title: 'ĐỔI MỚI',
-    desc: 'Là tinh thần không ngừng cải tiến, luôn chủ động tìm kiếm cách làm tốt hơn. Dám thay đổi và tìm kiếm tư duy mới, khác biệt với tư duy lối mòn của bản thân. Kiến tạo nên những điều mới lạ và phi thường! Tại ViTech, đổi mới là yêu cầu sống còn. Phải luôn tốt hơn 1% mỗi ngày — đổi mới là sống còn, là yếu tố bắt buộc tại ViTech.',
-    color: 'blue',
-  },
-  {
-    num: '05',
-    icon: '🔍',
-    title: 'RÕ RÀNG',
-    desc: 'Là minh bạch trong suy nghĩ, cụ thể và nhất quán từ lời nói đến hành động. Là dứt khoát trong quyết định và thẳng thắn trong giao tiếp. Là nỗ lực để mọi người hiểu đúng, hiểu đủ và cùng nhìn về một hướng. Là rõ người – rõ việc – rõ kết quả. Không mập mờ, không vòng vo, không úp mở.',
-    color: 'orange',
-  },
-]
-
 // 4 loại hình dịch vụ chính (slide 15)
 const SERVICE_PILLARS = [
   {
@@ -411,47 +372,23 @@ export default function GioiThieuPage() {
             </div>
           </div>
 
-          {/* 5 Core values — vertical 5 hàng */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-vs">
-            <div className="text-center mb-10">
+          {/* 5 Core values — ảnh đơn */}
+          <div className="bg-white rounded-2xl p-6 md:p-10 shadow-vs">
+            <div className="text-center mb-8">
               <h3 className="text-[clamp(22px,2.4vw,30px)] font-extrabold text-vs-dark mb-2">5 Giá trị cốt lõi</h3>
-              <p className="text-[14.5px] text-vs-gray-600 max-w-[560px] mx-auto leading-[1.65]">
+              <p className="text-[14.5px] text-vs-gray-600 leading-[1.65] whitespace-nowrap overflow-hidden text-ellipsis">
                 Vsoftware hướng đến và thực hiện theo những giá trị cốt lõi trong từng hành động hàng ngày.
               </p>
             </div>
-            <div className="space-y-4">
-              {CORE_VALUES.map((v, i) => {
-                const isOrange = v.color === 'orange'
-                return (
-                  <div
-                    key={i}
-                    className={`group flex items-start gap-5 md:gap-7 p-5 md:p-7 rounded-2xl bg-vs-bg hover:shadow-vs hover:-translate-y-1 transition-all border-l-4 ${
-                      isOrange ? 'border-vs-orange hover:bg-vs-orange/5' : 'border-vs-blue hover:bg-vs-blue-light'
-                    }`}
-                  >
-                    {/* Số to */}
-                    <div
-                      className={`text-[clamp(48px,5vw,68px)] font-extrabold leading-none tracking-tight flex-shrink-0 ${
-                        isOrange ? 'text-vs-orange' : 'text-vs-blue'
-                      }`}
-                    >
-                      {v.num}
-                    </div>
-                    {/* Nội dung */}
-                    <div className="flex-1 min-w-0 pt-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-[24px] md:text-[28px] leading-none">{v.icon}</span>
-                        <h4 className={`text-[18px] md:text-[20px] font-extrabold tracking-[0.05em] ${isOrange ? 'text-vs-orange' : 'text-vs-blue'}`}>
-                          {v.title}
-                        </h4>
-                      </div>
-                      <p className="text-[14.5px] md:text-[15px] text-vs-gray-700 leading-[1.85] m-0">
-                        {v.desc}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+            <div className="rounded-2xl overflow-hidden bg-vs-bg">
+              <Image
+                src="/images/5-gia-tri-cot-loi.png"
+                alt="5 Giá trị cốt lõi của Vsoftware - ViTechGroup: Biết ơn, Niềm tin, Trách nhiệm, Đổi mới, Rõ ràng"
+                width={1600}
+                height={1000}
+                className="w-full h-auto object-contain"
+                priority={false}
+              />
             </div>
           </div>
         </div>
