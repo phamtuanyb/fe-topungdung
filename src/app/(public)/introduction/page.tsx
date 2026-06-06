@@ -177,6 +177,7 @@ const TESTIMONIALS = [
   {
     initial: 'B',
     bgColor: 'bg-vs-blue',
+    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=120&h=120&q=80',
     quote: 'Sử dụng dịch vụ của Vsoftware, công ty chúng tôi đã xây dựng được hệ thống phần mềm riêng, phù hợp với mô hình kinh doanh và chiến lược phát triển lâu dài. Các bạn hỗ trợ rất nhiệt tình và kịp thời. Chúng tôi rất hài lòng về dịch vụ của Vsoftware.',
     name: 'Anh Bình',
     company: 'Công ty SXTM Từ Liêm',
@@ -185,6 +186,7 @@ const TESTIMONIALS = [
   {
     initial: 'Q',
     bgColor: 'bg-vs-orange',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80',
     quote: 'Trước khi chọn Vsoftware, tôi có tham khảo thêm vài đơn vị khác. Giải pháp các bạn đưa ra khá thực tế và đã thuyết phục được chúng tôi. Hiện phần mềm chuyên biệt do Vsoftware cung cấp, các phòng ban đều sử dụng và tiết kiệm được 50% nhân sự triển khai.',
     name: 'Chị Quỳnh',
     company: 'Công ty May Xuất khẩu',
@@ -193,6 +195,7 @@ const TESTIMONIALS = [
   {
     initial: 'T',
     bgColor: 'bg-teal-600',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=120&h=120&q=80',
     quote: 'Từ ngày dùng phần mềm Marketing của Vsoftware, việc kinh doanh trở nên tiện lợi và hiệu quả hơn. Các khâu tìm kiếm, quản lý khách hàng được chuyên nghiệp. Đặc biệt, công ty tiết kiệm và tối ưu được 40% chi phí nhân sự triển khai các công việc hiện tại.',
     name: 'Anh Trung',
     company: 'Công ty Dược Mỹ phẩm',
@@ -541,7 +544,15 @@ export default function GioiThieuPage() {
                 <div className="text-vs-orange text-[40px] leading-none mb-2">&ldquo;</div>
                 <p className="text-[14.5px] text-vs-gray-700 leading-[1.75] mb-6 flex-1 italic -mt-2">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-vs-gray-200">
-                  <div className={`w-12 h-12 rounded-full ${t.bgColor} flex items-center justify-center text-white text-[18px] font-extrabold flex-shrink-0`}>{t.initial}</div>
+                  <div className={`relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-offset-2 ring-offset-vs-bg ${t.bgColor.replace('bg-', 'ring-')} flex-shrink-0`}>
+                    <Image
+                      src={t.avatar}
+                      alt={t.name}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <div>
                     <div className="text-[14px] font-extrabold text-vs-dark">{t.name}</div>
                     <div className="text-[12.5px] text-vs-blue font-semibold">{t.company}</div>
