@@ -48,8 +48,8 @@ const DEFAULT_FOOTER: FooterConfig = {
   ],
   copyright: '© {year} Vsoftware · ViTechGroup · All rights reserved.',
   legalLinks: [
-    { label: 'Chính sách bảo mật', href: '#' },
-    { label: 'Điều khoản sử dụng', href: '#' },
+    { label: 'Chính sách bảo mật', href: '/chinh-sach-bao-mat' },
+    { label: 'Điều khoản sử dụng', href: '/dieu-khoan-su-dung' },
   ],
 }
 

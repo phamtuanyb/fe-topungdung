@@ -10,6 +10,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/introduction',
     '/lien-he',
     '/tin-tuc',
+    '/chinh-sach-bao-mat',
+    '/dieu-khoan-su-dung',
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),
