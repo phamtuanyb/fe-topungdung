@@ -10,171 +10,214 @@ import { AI_AGENT_SLUGS } from '@/constants/app.constants'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Giới thiệu Vsoftware — Phần mềm theo yêu cầu cho SME Việt',
+  title: 'Giới thiệu Vsoftware — Phần mềm theo yêu cầu cho SME Việt Nam',
   description:
-    'Vsoftware — phần mềm theo yêu cầu cho doanh nghiệp vừa và nhỏ Việt Nam. May đo 100%, triển khai nhanh gấp 5 lần, đội ngũ Việt hỗ trợ 24/7, tích hợp AI Agent.',
+    'Công ty CP Giải pháp Vsoftware — phần mềm theo yêu cầu cho SME Việt Nam. Rõ ràng · Thực tế · Công nghệ · Tối ưu · Đồng hành. Top 1 Việt Nam về phần mềm theo yêu cầu vào 2030.',
 }
+
+// 5 giá trị brand - dùng làm pillar slogan
+const BRAND_PILLARS = ['Rõ ràng', 'Thực tế', 'Công nghệ', 'Tối ưu', 'Đồng hành']
 
 const KPIS = [
-  { num: '100%', label: 'May đo theo nghiệp vụ riêng của từng doanh nghiệp', color: 'orange' },
-  { num: '10+', label: 'Năm kinh nghiệm phát triển phần mềm cho SME Việt', color: 'blue' },
-  { num: '24/7', label: 'Đội ngũ hỗ trợ kỹ thuật bằng tiếng Việt, không nghỉ', color: 'orange' },
-  { num: 'X5', label: 'Tốc độ triển khai nhanh hơn so với tự build inhouse', color: 'blue' },
+  { num: '100%', label: 'Theo yêu cầu — phần mềm thiết kế đúng nghiệp vụ riêng của bạn', color: 'orange' },
+  { num: '10+', label: 'Năm kinh nghiệm — đội ngũ kỹ thuật vững vàng, đa nền tảng', color: 'blue' },
+  { num: '24/7', label: 'Hỗ trợ vận hành — đồng hành suốt quá trình triển khai và vận hành', color: 'orange' },
+  { num: 'X5', label: 'Tăng hiệu suất công việc — 1 nhân sự bằng X5 lần khi có phần mềm', color: 'blue' },
 ]
 
+// 6 nỗi đau thị trường (slide 5 profile gốc)
 const PAIN_POINTS = [
   {
+    num: '01',
+    icon: '🧭',
+    title: 'Khó tiếp cận công nghệ mới',
+    desc: 'Cá nhân và doanh nghiệp gặp khó khăn trong việc tiếp cận, thay đổi sang công nghệ mới.',
+  },
+  {
+    num: '02',
+    icon: '⏱️',
+    title: 'Không bắt kịp tốc độ thị trường',
+    desc: 'Thị trường chuyển đổi số đổi nhanh, nhiều doanh nghiệp chưa có sự chuẩn bị để đáp ứng khách hàng.',
+  },
+  {
+    num: '03',
     icon: '🧩',
-    title: 'Phần mềm phổ thông không vừa vặn',
-    desc: 'Các phần mềm đóng hộp được thiết kế chung cho mọi ngành — không khớp với quy trình riêng của doanh nghiệp bạn.',
+    title: 'Phần mềm chưa phù hợp',
+    desc: 'Nhiều công cụ, phần mềm trên thị trường nhưng chưa thực sự phù hợp với sự phát triển của từng doanh nghiệp.',
   },
   {
-    icon: '⏳',
-    title: 'Tự build mất 6-12 tháng',
-    desc: 'Xây phần mềm in-house tốn hàng tỷ đồng, mất cả năm, và nhiều dự án dừng giữa chừng do không quản lý được.',
+    num: '04',
+    icon: '⚙️',
+    title: 'Thiếu giải pháp tối ưu',
+    desc: 'Thiếu một giải pháp tối ưu quy trình, tiết kiệm thời gian và nâng cao hiệu quả kinh doanh.',
   },
   {
-    icon: '👥',
-    title: 'Nhân viên không chịu dùng',
-    desc: 'Giao diện phức tạp, phải training 3 tháng, nhân viên vẫn quay lại Excel và sổ tay — phần mềm trở thành đồ trang trí.',
+    num: '05',
+    icon: '🤖',
+    title: 'Ngại ứng dụng automation',
+    desc: 'Một số cá nhân / doanh nghiệp còn ngại thay đổi, ngại ứng dụng phần mềm automation vào hoạt động kinh doanh.',
   },
   {
-    icon: '🔌',
-    title: 'Hệ thống rời rạc, không tích hợp',
-    desc: 'Sale, kho, kế toán, marketing mỗi nơi một phần mềm khác nhau — dữ liệu phải nhập tay nhiều lần, sai sót cao.',
-  },
-  {
-    icon: '🌍',
-    title: 'Phần mềm nước ngoài đắt và xa lạ',
-    desc: 'Không hiểu nghiệp vụ Việt: thuế VAT, hoá đơn điện tử, quy trình kế toán theo TT133/200 — phải custom thêm rất tốn kém.',
-  },
-  {
-    icon: '📞',
-    title: 'Mua xong không ai support',
-    desc: 'Gặp lỗi gọi mãi không được hỗ trợ, đội ngũ bán nói tiếng Anh, fix một bug đợi cả tuần — vận hành bị tê liệt.',
+    num: '06',
+    icon: '🤝',
+    title: 'Thiếu đơn vị đồng hành',
+    desc: 'Nhiều doanh nghiệp không có đối tác công nghệ, đơn vị đồng hành xuyên suốt quá trình chuyển đổi số.',
   },
 ]
 
+// 4 lợi ích Vsoftware mang lại (slide 10)
+const BENEFITS = [
+  { icon: '💰', label: 'Tiết kiệm chi phí' },
+  { icon: '⏰', label: 'Tiết kiệm thời gian' },
+  { icon: '⚡', label: 'Tự động hóa hoàn toàn' },
+  { icon: '📊', label: 'Tối ưu nguồn lực' },
+]
+
+// 5 cam kết Vsoftware (slide 10-11)
+const COMMITMENTS = [
+  'Hệ thống automation hoàn toàn tự động',
+  'Giải quyết bài toán chuyển đổi số end-to-end',
+  'Đồng hành xuyên suốt từ tư vấn → vận hành',
+  'Tối ưu nguồn lực, gia tăng năng suất',
+  'Bảo mật cao, mở rộng linh hoạt theo doanh nghiệp',
+]
+
+// 5 điểm khác biệt (slide 12 profile gốc)
 const USPS = [
   {
+    num: '01',
     icon: '🎯',
-    title: 'May đo 100% — không khuôn mẫu',
-    desc: 'Mỗi phần mềm được phân tích, thiết kế riêng theo nghiệp vụ thực tế của bạn. Không ép bạn theo template, không bắt thay đổi quy trình kinh doanh.',
+    title: 'Đáp ứng đúng nhu cầu',
+    desc: 'Phần mềm Vsoftware đáp ứng mọi nhu cầu và xây dựng đúng theo nhu cầu thực tế của khách hàng — không cố định template.',
     color: 'orange',
   },
   {
-    icon: '⚡',
-    title: 'Bàn giao trong 4-8 tuần',
-    desc: 'Quy trình tinh gọn, đội ngũ chuyên môn cao, dùng framework đã chuẩn hoá — nhanh gấp 5 lần so với tự xây phần mềm inhouse.',
+    num: '02',
+    icon: '🤝',
+    title: 'Cam kết đồng hành',
+    desc: 'Phần mềm Vsoftware đầu tiên tại Việt Nam thiết kế có cam kết đồng hành cùng khách hàng xuyên suốt.',
     color: 'blue',
   },
   {
-    icon: '🇻🇳',
-    title: 'Đội ngũ Việt — hiểu nghiệp vụ Việt',
-    desc: 'Toàn bộ kỹ sư, BA, designer đều ở Việt Nam. Hỗ trợ bằng tiếng Việt 24/7. Hiểu thuế, hoá đơn điện tử, quy trình thực tế ngành Việt.',
+    num: '03',
+    icon: '💬',
+    title: 'Chăm sóc chuyên nghiệp',
+    desc: 'Chăm sóc khách hàng chuyên nghiệp, tự động, đa kênh — đảm bảo phản hồi nhanh và không bỏ sót yêu cầu.',
     color: 'orange',
   },
   {
-    icon: '🤖',
-    title: 'Tích hợp AI Agent từ ngày đầu',
-    desc: 'Mọi sản phẩm đều có thể tích hợp AI Agent: chatbot CSKH, tự động viết content, phân tích dữ liệu, ra quyết định — vận hành 24/7 không cần người.',
+    num: '04',
+    icon: '🆓',
+    title: 'Tư vấn miễn phí 4.0',
+    desc: 'Tư vấn miễn phí xây dựng hệ thống phần mềm theo yêu cầu, giúp doanh nghiệp phát triển trong kỷ nguyên 4.0.',
     color: 'blue',
   },
   {
-    icon: '📈',
-    title: 'Mở rộng linh hoạt theo doanh nghiệp',
-    desc: 'Phần mềm lớn lên cùng bạn. Từ 1 chi nhánh thành 20 chi nhánh, từ 10 nhân viên thành 200 — không cần làm lại từ đầu.',
+    num: '05',
+    icon: '🛡️',
+    title: 'Hỗ trợ vận hành dài hạn',
+    desc: 'Hỗ trợ và đồng hành cùng doanh nghiệp trong suốt quá trình vận hành, không chỉ dừng ở giao sản phẩm.',
     color: 'orange',
-  },
-  {
-    icon: '🔍',
-    title: 'Minh bạch — không phí ẩn',
-    desc: 'Nói rõ làm được gì, không làm được gì, bao lâu, bao nhiêu tiền — trước khi ký hợp đồng. Không có điều khoản ẩn, không phí phát sinh bất ngờ.',
-    color: 'blue',
   },
 ]
 
-const VISION = {
-  vision: {
-    title: 'TẦM NHÌN',
-    body: 'Trở thành công ty phần mềm theo yêu cầu số 1 dành cho doanh nghiệp vừa và nhỏ tại Việt Nam.',
-    icon: '🔭',
-  },
-  mission: {
-    title: 'SỨ MỆNH',
-    body: 'Giúp mỗi doanh nghiệp Việt sở hữu một phần mềm vừa vặn — không quá to, không quá nhỏ, đúng bài toán của mình.',
-    icon: '🎯',
-  },
-}
-
+// 5 giá trị cốt lõi GỐC (slide 13)
 const CORE_VALUES = [
-  { num: '01', title: 'Thực chiến', desc: 'Mỗi tính năng phải giải quyết bài toán thực tế, không phải để đẹp slide.' },
-  { num: '02', title: 'Minh bạch', desc: 'Nói rõ từ đầu: làm được, không làm được, thời gian, chi phí.' },
-  { num: '03', title: 'Cam kết', desc: 'Đồng hành dài hạn sau triển khai — không bỏ rơi khách hàng.' },
-  { num: '04', title: 'Tốc độ', desc: 'Bàn giao đúng hẹn, fix bug trong giờ, không trì hoãn.' },
-  { num: '05', title: 'Đổi mới', desc: 'Ứng dụng AI, automation, công nghệ mới ngay từ ngày đầu.' },
+  { num: '01', title: 'BIẾT ƠN', desc: 'Trân trọng khách hàng, đối tác và đồng nghiệp đã đồng hành cùng Vsoftware.' },
+  { num: '02', title: 'NIỀM TIN', desc: 'Xây dựng niềm tin bằng cam kết, minh bạch và chất lượng sản phẩm thực tế.' },
+  { num: '03', title: 'TRÁCH NHIỆM', desc: 'Chịu trách nhiệm với mỗi dòng code, mỗi sản phẩm bàn giao và mỗi cam kết với khách hàng.' },
+  { num: '04', title: 'ĐỔI MỚI', desc: 'Liên tục cập nhật công nghệ, học tập xu hướng mới để giữ lợi thế cạnh tranh.' },
+  { num: '05', title: 'SÁNG TẠO', desc: 'Đưa ra giải pháp sáng tạo, tùy chỉnh đáp ứng yêu cầu đặc biệt của từng doanh nghiệp.' },
 ]
 
+// 4 loại hình dịch vụ chính (slide 15)
 const SERVICE_PILLARS = [
   {
     num: '01',
-    title: 'Phần mềm theo yêu cầu',
-    desc: 'Custom Software xây dựng riêng theo nghiệp vụ doanh nghiệp: CRM, HRM, WMS, POS, ERP mini, hệ thống quản lý chuỗi…',
-    bg: 'bg-vs-orange',
-    textColor: 'text-white',
-    featured: true,
+    title: 'Phần mềm quản lý',
+    items: [
+      'Tư vấn tính năng, giải pháp phát triển phần mềm quản lý',
+      'Đồng bộ Website – Web app – App',
+      'Nhận nghiên cứu, phát triển công nghệ theo yêu cầu',
+    ],
+    bg: 'bg-vs-blue',
     href: '/dich-vu',
   },
   {
     num: '02',
-    title: 'Website doanh nghiệp',
-    desc: 'Web bán hàng, landing page, corporate site, blog tin tức — chuẩn SEO, tốc độ cao, dễ chỉnh sửa qua admin.',
-    bg: 'bg-vs-blue',
-    textColor: 'text-white',
-    featured: false,
+    title: 'Phần mềm theo yêu cầu',
+    items: [
+      'Tư vấn tính năng, giải pháp phát triển theo yêu cầu',
+      'Xây dựng trọn gói và đồng bộ hệ thống',
+      'Đồng hành cùng doanh nghiệp trong suốt quá trình vận hành',
+    ],
+    bg: 'bg-vs-orange',
     href: '/dich-vu',
+    featured: true,
   },
   {
     num: '03',
     title: 'App Mobile',
-    desc: 'Ứng dụng iOS + Android: app bán hàng, app giao hàng, app khách hàng — quản lý kinh doanh trên điện thoại.',
+    items: [
+      'Tư vấn tính năng, giải pháp phát triển app',
+      'Nghiên cứu & phát triển App Mobile theo yêu cầu',
+      'Cam kết đồng hành thiết lập – xây dựng – vận hành',
+    ],
     bg: 'bg-[#21428A]',
-    textColor: 'text-white',
-    featured: false,
     href: '/dich-vu',
   },
   {
     num: '04',
-    title: 'AI Agent',
-    desc: 'Trợ lý AI tự động hoá vận hành: chatbot CSKH, viết content, sản xuất video, chạy quảng cáo, phân tích dữ liệu.',
-    bg: 'bg-vs-orange',
-    textColor: 'text-white',
-    featured: true,
-    href: '/ai-agent',
+    title: 'Web App',
+    items: [
+      'Tư vấn tính năng, giải pháp phát triển Web App',
+      'Xây dựng trọn gói, đồng bộ Website – Web app – App',
+      'Đồng hành xuyên suốt quá trình vận hành',
+    ],
+    bg: 'bg-teal-600',
+    href: '/dich-vu',
   },
 ]
 
+// 10 danh mục dịch vụ chi tiết (slide 16)
+const SERVICE_DETAILS = [
+  'App phần mềm điện thoại',
+  'Phần mềm quản lý',
+  'Phần mềm quản lý khách hàng (CRM)',
+  'Dịch vụ thiết kế Website',
+  'Phần mềm Marketing automation',
+  'Lập trình Web - App',
+  'Phần mềm quản lý bán hàng',
+  'Phần mềm iOS - Android',
+  'Phần mềm theo yêu cầu',
+  'Phần mềm quản lý nhà thuốc',
+]
+
+// 3 testimonials THẬT từ profile (slide 18)
 const TESTIMONIALS = [
   {
-    quote: 'Sau 2 tháng dùng phần mềm quản lý spa của Vsoftware, doanh thu của em tăng 30% nhờ quản lý lịch hẹn và chăm sóc khách cũ tốt hơn. Nhân viên không còn quên lịch khách. Đội support nhiệt tình, gọi là có người trả lời.',
-    name: 'Chị Nguyễn Thị Hương',
-    role: 'Chủ Hương Spa',
-    location: 'Hà Đông, Hà Nội',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80',
+    initial: 'B',
+    bgColor: 'bg-vs-blue',
+    quote: 'Sử dụng dịch vụ của Vsoftware, công ty chúng tôi đã xây dựng được hệ thống phần mềm riêng, phù hợp với mô hình kinh doanh và chiến lược phát triển lâu dài. Các bạn hỗ trợ rất nhiệt tình và kịp thời. Chúng tôi rất hài lòng về dịch vụ của Vsoftware.',
+    name: 'Anh Bình',
+    company: 'Công ty SXTM Từ Liêm',
+    location: 'Hà Nội',
   },
   {
-    quote: 'Trước đây mỗi chi nhánh dùng 1 phần mềm khác nhau, tổng hợp doanh thu cuối tháng mất 3 ngày. Vsoftware build cho em hệ thống quản lý chuỗi 6 chi nhánh, dashboard realtime — giờ em xem doanh thu từng quán ngay trên điện thoại.',
-    name: 'Anh Trần Văn Đạt',
-    role: 'CEO Chuỗi Phở Bắc',
-    location: '6 chi nhánh tại TP.HCM',
-    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=120&h=120&q=80',
+    initial: 'Q',
+    bgColor: 'bg-vs-orange',
+    quote: 'Trước khi chọn Vsoftware, tôi có tham khảo thêm vài đơn vị khác. Giải pháp các bạn đưa ra khá thực tế và đã thuyết phục được chúng tôi. Hiện phần mềm chuyên biệt do Vsoftware cung cấp, các phòng ban đều sử dụng và tiết kiệm được 50% nhân sự triển khai.',
+    name: 'Chị Quỳnh',
+    company: 'Công ty May Xuất khẩu',
+    location: 'Ninh Bình',
   },
   {
-    quote: 'Phần mềm nước ngoài đắt, không xuất hoá đơn điện tử được. Vsoftware làm cho em hệ thống quản lý nhà thuốc tích hợp đủ kho + kế toán + xuất hoá đơn điện tử theo TT78. Triển khai 6 tuần, giá hợp lý, nhân viên dùng được ngay.',
-    name: 'Chị Lê Thị Mai',
-    role: 'Giám đốc Mai Pharma',
-    location: 'Cần Thơ',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&h=120&q=80',
+    initial: 'T',
+    bgColor: 'bg-teal-600',
+    quote: 'Từ ngày dùng phần mềm Marketing của Vsoftware, việc kinh doanh trở nên tiện lợi và hiệu quả hơn. Các khâu tìm kiếm, quản lý khách hàng được chuyên nghiệp. Đặc biệt, công ty tiết kiệm và tối ưu được 40% chi phí nhân sự triển khai các công việc hiện tại.',
+    name: 'Anh Trung',
+    company: 'Công ty Dược Mỹ phẩm',
+    location: 'TP.HCM',
   },
 ]
 
@@ -221,27 +264,45 @@ export default async function GioiThieuPage() {
         titleTag="div"
       />
 
-      {/* 1. INTRO + Thư ngỏ */}
+      {/* Brand pillars bar */}
+      <section className="bg-vs-navy py-5">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-center flex-wrap gap-x-8 gap-y-2 text-white text-[13px] sm:text-[14px] font-extrabold tracking-[0.05em]">
+            {BRAND_PILLARS.map((pillar, i) => (
+              <span key={i} className="flex items-center gap-3">
+                <span className="text-vs-orange">{pillar}</span>
+                {i < BRAND_PILLARS.length - 1 && <span className="text-white/30">·</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 1. THƯ NGỎ */}
       <section className="pt-[72px] pb-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Thư ngỏ từ Vsoftware</span>
-              <h1 className="text-[clamp(28px,3.5vw,44px)] font-extrabold text-vs-dark leading-[1.2] mb-6">
-                Phần mềm <em className="not-italic text-vs-blue">vừa vặn</em> cho doanh nghiệp Việt — không phải trang trí công nghệ
+              <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">01 · Thư ngỏ</span>
+              <h1 className="text-[clamp(28px,3.5vw,42px)] font-extrabold text-vs-dark leading-[1.2] mb-6">
+                Kính gửi <em className="not-italic text-vs-blue">Quý khách hàng</em>
               </h1>
-              <div className="text-[16px] text-vs-gray-700 leading-[1.85]">
+              <div className="text-[15.5px] text-vs-gray-700 leading-[1.85]">
                 <p className="mb-[18px]">
-                  Vsoftware là đơn vị phát triển phần mềm theo yêu cầu thuộc hệ sinh thái <strong>ViTechGroup</strong> — tập đoàn công nghệ tập trung vào chuyển đổi số thực chất cho doanh nghiệp vừa và nhỏ tại Việt Nam.
+                  Thấu hiểu &ldquo;<strong className="text-vs-orange">nỗi đau</strong>&rdquo; thị trường cũng như nhu cầu chung của khách hàng trong thời kỳ bùng nổ công nghệ 4.0, <strong>Công ty CP Giải pháp Vsoftware</strong> ra đời với mong muốn đáp ứng nhu cầu và mang đến trải nghiệm tiện ích, chuyên nghiệp của phần mềm Việt, công nghệ Việt — giải quyết bài toán chuyển đổi số trong hoạt động kinh doanh.
                 </p>
                 <p className="mb-[18px]">
-                  Chúng tôi không bán phần mềm đóng hộp. Mỗi sản phẩm được phân tích, thiết kế và xây dựng riêng theo bài toán thực tế của từng khách hàng — từ spa 3 nhân viên đến chuỗi nhà hàng 20 chi nhánh.
+                  Tại Vsoftware, chúng tôi đáp ứng đa dạng nhu cầu: <strong>giải pháp Marketing, phần mềm AI Agent, xây dựng App, thiết kế Website – LadiPage và thiết kế phần mềm theo yêu cầu</strong>, phù hợp với đặc thù sản xuất – kinh doanh của từng tổ chức, cá nhân, doanh nghiệp.
                 </p>
                 <p className="mb-0">
-                  Triết lý của Vsoftware: <strong>giải quyết bài toán thực chiến, không phải trang trí công nghệ.</strong>
+                  Vsoftware là địa chỉ đáng tin cậy giúp doanh nghiệp <strong className="text-vs-blue">TỐI ƯU HIỆU QUẢ KINH DOANH – TIẾT KIỆM CHI PHÍ</strong> nhờ các giải pháp phần mềm theo yêu cầu được ứng dụng công nghệ hiện đại bậc nhất.
                 </p>
               </div>
-              <div className="flex gap-3 mt-8">
+              <div className="mt-7 pt-6 border-t border-vs-gray-200">
+                <div className="text-[13px] text-vs-gray-500 mb-1">Trân trọng,</div>
+                <div className="text-[15px] font-extrabold text-vs-dark">Ban Giám đốc Vsoftware</div>
+              </div>
+              <div className="flex gap-3 mt-7">
                 <Link href="/lien-he" className="inline-flex items-center gap-2 bg-vs-orange text-white px-6 py-3 rounded-vs font-extrabold text-[14px] hover:bg-vs-orange-dark transition-all no-underline">
                   Tư vấn miễn phí
                 </Link>
@@ -259,9 +320,11 @@ export default async function GioiThieuPage() {
                 className="w-full h-[460px] object-cover"
                 priority
               />
-              <div className="absolute bottom-6 left-6 bg-vs-navy/90 backdrop-blur-sm rounded-xl px-5 py-4 text-white">
-                <strong className="text-[28px] font-extrabold block leading-none text-vs-orange">2020</strong>
-                <span className="text-[13px] text-white/70 mt-1 block">Năm thành lập ViTechGroup</span>
+              <div className="absolute bottom-6 left-6 right-6 bg-vs-navy/90 backdrop-blur-sm rounded-xl px-5 py-4 text-white">
+                <div className="text-[12px] text-white/60 uppercase tracking-[0.1em] font-bold mb-1">Cam kết Vsoftware</div>
+                <p className="text-[13.5px] leading-[1.55] m-0 italic">
+                  &ldquo;Mang đến trải nghiệm phần mềm giao diện thân thiện, dễ thao tác — được phát triển trên nền tảng công nghệ thông minh, hiện đại.&rdquo;
+                </p>
               </div>
             </div>
           </div>
@@ -272,38 +335,43 @@ export default async function GioiThieuPage() {
       <section className="py-16 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-10">
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-4">Tổng quan giải pháp</span>
             <h2 className="text-[clamp(22px,2.6vw,32px)] font-extrabold text-vs-dark leading-[1.25]">
               Vsoftware trong <em className="not-italic text-vs-blue">4 con số</em>
             </h2>
+            <p className="text-[15px] text-vs-gray-600 mt-2 max-w-[560px] mx-auto">
+              Phần mềm theo yêu cầu cho mọi quy mô doanh nghiệp — phù hợp với đặc thù kinh doanh và quy mô của bạn.
+            </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {KPIS.map((s, i) => (
               <div key={i} className={`bg-white rounded-2xl p-8 text-center shadow-vs border-b-4 hover:-translate-y-1 transition-transform ${s.color === 'blue' ? 'border-vs-blue' : 'border-vs-orange'}`}>
                 <div className={`text-[48px] font-extrabold leading-none mb-2 ${s.color === 'blue' ? 'text-vs-blue' : 'text-vs-orange'}`}>{s.num}</div>
-                <div className="text-[13.5px] font-semibold text-vs-gray-600 leading-[1.5]">{s.label}</div>
+                <div className="text-[13px] font-semibold text-vs-gray-600 leading-[1.5]">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. Câu chuyện thị trường + giải pháp */}
+      {/* 3. NỖI ĐAU THỊ TRƯỜNG (6 thẻ profile gốc) + Giải pháp */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[760px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Bức tranh thị trường</span>
+          <div className="text-center mb-14 max-w-[780px] mx-auto">
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">02 · Bức tranh thị trường</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25] mb-4">
-              Vì sao SME Việt vẫn dùng Excel, Zalo và sổ tay?
+              Thực trạng SME trong <em className="not-italic text-vs-orange">kỷ nguyên 4.0</em>
             </h2>
             <p className="text-[16px] text-vs-gray-600 leading-[1.65]">
-              Thị trường phần mềm Việt không thiếu sản phẩm — nhưng hàng chục nghìn doanh nghiệp vừa và nhỏ vẫn chưa tìm được giải pháp thật sự vừa với mình. Đây là 6 nỗi đau Vsoftware đã quan sát được khi ngồi cùng hàng trăm chủ doanh nghiệp.
+              Thời kỳ &ldquo;cá nhanh nuốt cá chậm&rdquo; — chuyển đổi số là sống còn. Nhưng SME đang gặp nhiều rào cản:
             </p>
           </div>
 
           {/* 6 nỗi đau */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
             {PAIN_POINTS.map((p, i) => (
-              <div key={i} className="bg-vs-bg rounded-2xl p-6 border-l-4 border-vs-orange hover:shadow-vs hover:-translate-y-1 transition-all">
+              <div key={i} className="relative bg-vs-bg rounded-2xl p-7 hover:shadow-vs hover:-translate-y-1 transition-all border-l-4 border-vs-orange">
+                <div className="absolute top-4 right-5 text-[36px] font-extrabold text-vs-orange/15 leading-none">{p.num}</div>
                 <div className="text-[32px] mb-3 leading-none">{p.icon}</div>
                 <h3 className="text-[16px] font-extrabold text-vs-dark mb-2 leading-[1.35]">{p.title}</h3>
                 <p className="text-[13.5px] text-vs-gray-600 leading-[1.65] m-0">{p.desc}</p>
@@ -315,57 +383,73 @@ export default async function GioiThieuPage() {
           <div className="bg-vs-navy-gradient rounded-3xl p-10 lg:p-14 text-white">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7">
-                <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-white/10 px-3 py-1.5 rounded-full mb-5">Vsoftware giải quyết</span>
+                <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-white/10 px-3 py-1.5 rounded-full mb-5">03 · Giải pháp Vsoftware</span>
                 <h3 className="text-[clamp(22px,2.6vw,32px)] font-extrabold leading-[1.3] mb-5">
-                  Chúng tôi không bán phần mềm —<br />chúng tôi giải bài toán của bạn.
+                  Giải quyết &ldquo;nỗi đau&rdquo; thị trường bằng <em className="not-italic text-vs-orange">công nghệ 4.0</em>
                 </h3>
-                <p className="text-[15.5px] text-white/80 leading-[1.85] mb-4">
-                  Vsoftware bắt đầu mỗi dự án bằng cách <strong className="text-white">ngồi thực tế với khách hàng</strong>: quan sát quy trình, ghi lại điểm đau, đặt câu hỏi &ldquo;nếu không có phần mềm, bạn đang làm bước này như thế nào?&rdquo;.
+                <p className="text-[15px] text-white/80 leading-[1.85] mb-5">
+                  Vsoftware ra đời với nhiều dịch vụ tiện ích, đáp ứng và giải quyết bài toán <strong className="text-white">tìm kiếm – xây dựng – phát triển</strong> hệ thống phần mềm theo yêu cầu cho cá nhân, tổ chức, doanh nghiệp.
                 </p>
-                <p className="text-[15.5px] text-white/80 leading-[1.85] mb-0">
-                  Từ đó thiết kế giải pháp <strong className="text-white">vừa đủ, triển khai nhanh, và nhân viên dùng được ngay từ ngày đầu</strong> — không cần training 3 tháng, không cần đổi quy trình kinh doanh.
-                </p>
+
+                {/* 4 lợi ích */}
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  {BENEFITS.map((b, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/15">
+                      <span className="text-[22px] leading-none">{b.icon}</span>
+                      <span className="text-[13.5px] font-extrabold text-white">{b.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              {/* 5 cam kết */}
               <div className="lg:col-span-5">
-                <blockquote className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-7">
-                  <div className="text-vs-orange text-[40px] leading-none mb-2">&ldquo;</div>
-                  <p className="text-[15.5px] text-white leading-[1.7] m-0 mb-4 italic">
-                    Bài toán của SME Việt không cần giải pháp enterprise. Cần một phần mềm hiểu đúng nghiệp vụ, triển khai trong vài tuần, và nhân viên dùng được ngay mà không cần training 3 tháng.
-                  </p>
-                  <cite className="text-[12px] text-vs-orange font-bold block not-italic uppercase tracking-[0.05em]">
-                    — Lê Đức Nam, Founder & CEO ViTechGroup
-                  </cite>
-                </blockquote>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-7">
+                  <div className="text-[11px] font-extrabold tracking-[0.2em] uppercase text-vs-orange mb-3">Công nghệ 4.0</div>
+                  <div className="text-[18px] font-extrabold text-white mb-5 leading-[1.35]">Hiện đại · Tự động · Linh hoạt</div>
+                  <ul className="space-y-3 m-0 p-0 list-none">
+                    {COMMITMENTS.map((c, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="text-vs-orange text-[15px] font-extrabold leading-[1.4] flex-shrink-0">✓</span>
+                        <span className="text-[13.5px] text-white/90 leading-[1.55]">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Tầm nhìn — Sứ mệnh — Giá trị cốt lõi */}
+      {/* 4. TẦM NHÌN — SỨ MỆNH — GIÁ TRỊ CỐT LÕI */}
       <section className="py-20 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Định hướng phát triển</span>
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Kim chỉ nam của Vsoftware</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Tầm nhìn — Sứ mệnh — <em className="not-italic text-vs-orange">Giá trị cốt lõi</em>
+              Tầm nhìn · Sứ mệnh · <em className="not-italic text-vs-orange">Giá trị cốt lõi</em>
             </h2>
           </div>
 
           {/* Vision + Mission */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-vs-blue rounded-2xl p-10 text-white relative overflow-hidden">
-              <div className="absolute -top-6 -right-6 text-[140px] opacity-10 leading-none">{VISION.vision.icon}</div>
+              <div className="absolute -top-6 -right-6 text-[140px] opacity-10 leading-none">🔭</div>
               <div className="relative">
-                <div className="text-[12px] font-extrabold tracking-[0.2em] text-vs-orange uppercase mb-3">{VISION.vision.title}</div>
-                <p className="text-[20px] font-extrabold leading-[1.4] m-0">{VISION.vision.body}</p>
+                <div className="text-[12px] font-extrabold tracking-[0.2em] text-vs-orange uppercase mb-3">Tầm Nhìn</div>
+                <p className="text-[19px] font-extrabold leading-[1.4] m-0">
+                  Vsoftware phấn đấu trở thành <span className="text-vs-orange">TOP 1 Việt Nam</span> về phần mềm theo yêu cầu vào năm <span className="text-vs-orange">2030</span>.
+                </p>
               </div>
             </div>
             <div className="bg-vs-orange rounded-2xl p-10 text-white relative overflow-hidden">
-              <div className="absolute -top-6 -right-6 text-[140px] opacity-15 leading-none">{VISION.mission.icon}</div>
+              <div className="absolute -top-6 -right-6 text-[140px] opacity-15 leading-none">🎯</div>
               <div className="relative">
-                <div className="text-[12px] font-extrabold tracking-[0.2em] text-white/90 uppercase mb-3">{VISION.mission.title}</div>
-                <p className="text-[20px] font-extrabold leading-[1.4] m-0">{VISION.mission.body}</p>
+                <div className="text-[12px] font-extrabold tracking-[0.2em] text-white/90 uppercase mb-3">Sứ Mệnh</div>
+                <p className="text-[15.5px] font-bold leading-[1.55] m-0">
+                  Kế thừa và phát huy thành tựu công nghệ số, giúp cá nhân – doanh nghiệp thực hiện kế hoạch kinh doanh ngắn hạn, dài hạn <strong className="text-white">chuyên nghiệp – hiệu quả</strong>. Đóng góp vào công cuộc xây dựng nền công nghệ Việt Nam.
+                </p>
               </div>
             </div>
           </div>
@@ -373,15 +457,15 @@ export default async function GioiThieuPage() {
           {/* 5 Core values */}
           <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-vs">
             <div className="text-center mb-8">
-              <h3 className="text-[20px] font-extrabold text-vs-dark">5 Giá trị cốt lõi</h3>
-              <p className="text-[14px] text-vs-gray-600 mt-1">Mỗi quyết định sản phẩm — mỗi dòng code — đều xuất phát từ đây.</p>
+              <h3 className="text-[22px] font-extrabold text-vs-dark mb-1">5 Giá trị cốt lõi của con người Vsoftware</h3>
+              <p className="text-[14px] text-vs-gray-600">Vsoftware hướng đến và thực hiện theo những giá trị cốt lõi.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {CORE_VALUES.map((v, i) => (
-                <div key={i} className="text-center px-4 py-5 rounded-xl bg-vs-bg hover:bg-vs-blue-light transition-colors">
-                  <div className="text-[28px] font-extrabold text-vs-orange leading-none mb-2">{v.num}</div>
-                  <div className="text-[15px] font-extrabold text-vs-dark mb-1.5">{v.title}</div>
-                  <div className="text-[12.5px] text-vs-gray-600 leading-[1.55]">{v.desc}</div>
+                <div key={i} className="text-center px-4 py-6 rounded-xl bg-vs-bg hover:bg-vs-blue-light transition-colors">
+                  <div className="text-[24px] font-extrabold text-vs-orange leading-none mb-3">{v.num}</div>
+                  <div className="text-[16px] font-extrabold text-vs-dark mb-2 tracking-[0.05em]">{v.title}</div>
+                  <div className="text-[12px] text-vs-gray-600 leading-[1.55]">{v.desc}</div>
                 </div>
               ))}
             </div>
@@ -389,21 +473,19 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 5. 6 USP */}
+      {/* 5. ĐIỂM KHÁC BIỆT (5 USP) */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Điểm khác biệt</span>
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Vì sao SME chọn Vsoftware?</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Vì sao chọn <em className="not-italic text-vs-blue">Vsoftware</em>?
+              5 điểm khác biệt của <em className="not-italic text-vs-blue">Vsoftware</em>
             </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
-              6 lý do để các doanh nghiệp Việt tin tưởng và đồng hành cùng chúng tôi.
-            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {USPS.map((u, i) => (
-              <div key={i} className={`rounded-2xl p-7 hover:-translate-y-1 transition-all shadow-vs hover:shadow-vs-md ${u.color === 'orange' ? 'bg-white border-t-4 border-vs-orange' : 'bg-white border-t-4 border-vs-blue'}`}>
+              <div key={i} className={`relative rounded-2xl p-7 hover:-translate-y-1 transition-all shadow-vs hover:shadow-vs-md bg-white border-t-4 ${u.color === 'orange' ? 'border-vs-orange' : 'border-vs-blue'}`}>
+                <div className="absolute top-4 right-5 text-[36px] font-extrabold text-vs-gray-200 leading-none">{u.num}</div>
                 <div className={`w-14 h-14 rounded-[14px] flex items-center justify-center text-[26px] mb-4 ${u.color === 'orange' ? 'bg-vs-orange/10' : 'bg-vs-blue-light'}`}>{u.icon}</div>
                 <h3 className="text-[17px] font-extrabold text-vs-dark mb-2.5 leading-[1.35]">{u.title}</h3>
                 <p className="text-[14px] text-vs-gray-600 leading-[1.7] m-0">{u.desc}</p>
@@ -413,35 +495,65 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 6. 4 trụ cột dịch vụ + Sản phẩm cụ thể */}
+      {/* 6. 4 LOẠI HÌNH DỊCH VỤ + Danh mục chi tiết + Sản phẩm */}
       <section className="py-20 bg-vs-bg">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Dịch vụ phần mềm</span>
-            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              4 trụ cột dịch vụ <em className="not-italic text-vs-orange">theo yêu cầu</em>
+          <div className="text-center mb-14 max-w-[760px] mx-auto">
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">04 · Dịch vụ phần mềm theo yêu cầu</span>
+            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25] mb-3">
+              4 loại hình dịch vụ <em className="not-italic text-vs-orange">chính</em>
             </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
-              Mỗi trụ cột là một mảng chuyên sâu — kết hợp linh hoạt để giải bài toán riêng của bạn.
+            <p className="text-[16px] text-vs-gray-600 leading-[1.65]">
+              Bao phủ trọn vòng đời chuyển đổi số — từ phần mềm quản lý, phần mềm theo yêu cầu, App Mobile đến Web App.
             </p>
           </div>
 
           {/* 4 trụ cột */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
             {SERVICE_PILLARS.map((s, i) => (
-              <Link key={i} href={s.href} className={`group ${s.bg} ${s.textColor} rounded-2xl p-8 hover:-translate-y-1 transition-all shadow-vs hover:shadow-vs-lg no-underline block`}>
+              <Link key={i} href={s.href} className={`group ${s.bg} text-white rounded-2xl p-8 hover:-translate-y-1 transition-all shadow-vs hover:shadow-vs-lg no-underline block ${s.featured ? 'ring-2 ring-vs-orange ring-offset-2' : ''}`}>
                 <div className="flex items-start gap-5">
-                  <div className="text-[42px] font-extrabold leading-none opacity-90">{s.num}</div>
+                  <div className="text-[44px] font-extrabold leading-none opacity-90">{s.num}</div>
                   <div className="flex-1">
-                    <h3 className="text-[20px] font-extrabold mb-2 leading-[1.3]">{s.title}</h3>
-                    <p className="text-[14px] opacity-90 leading-[1.65] m-0">{s.desc}</p>
-                    <span className="inline-flex items-center gap-1 mt-4 text-[13px] font-extrabold opacity-95 group-hover:gap-2 transition-all">
+                    <h3 className="text-[19px] font-extrabold mb-3 leading-[1.3] uppercase tracking-[0.02em]">{s.title}</h3>
+                    <ul className="space-y-2 m-0 p-0 list-none mb-4">
+                      {s.items.map((item, j) => (
+                        <li key={j} className="flex items-start gap-2 text-[13.5px] opacity-95 leading-[1.55]">
+                          <span className="text-white flex-shrink-0">✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <span className="inline-flex items-center gap-1 text-[13px] font-extrabold opacity-95 group-hover:gap-2 transition-all">
                       Xem chi tiết →
                     </span>
                   </div>
                 </div>
               </Link>
             ))}
+          </div>
+
+          {/* Danh mục chi tiết (10 mục từ profile) */}
+          <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-vs mb-12">
+            <div className="text-center mb-7">
+              <span className="inline-block text-[11px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1 rounded-full mb-3">Đa dạng giải pháp</span>
+              <h3 className="text-[20px] font-extrabold text-vs-dark">Danh mục dịch vụ chi tiết</h3>
+              <p className="text-[14px] text-vs-gray-600 mt-1">Đáp ứng mọi mô hình SME — từ bán lẻ, sản xuất đến dịch vụ.</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              {SERVICE_DETAILS.map((item, i) => (
+                <div key={i} className="bg-vs-bg rounded-xl px-4 py-3.5 text-center hover:bg-vs-blue-light hover:text-vs-blue transition-all">
+                  <span className="text-[13px] font-bold text-vs-dark leading-[1.4]">{item}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-7 bg-gradient-to-r from-vs-orange to-vs-orange-dark rounded-2xl p-6 text-center">
+              <div className="text-[15px] text-white mb-1.5">Không có giải pháp bạn cần?</div>
+              <div className="text-[18px] font-extrabold text-white mb-3">Vsoftware xây dựng phần mềm <em className="not-italic">THEO YÊU CẦU</em> riêng cho doanh nghiệp bạn.</div>
+              <Link href="/lien-he" className="inline-flex items-center gap-2 bg-white text-vs-orange px-6 py-2.5 rounded-vs font-extrabold text-[14px] hover:bg-vs-bg transition-all no-underline">
+                Liên hệ tư vấn →
+              </Link>
+            </div>
           </div>
 
           {/* Sản phẩm cụ thể từ DB */}
@@ -470,16 +582,16 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 7. Testimonials */}
+      {/* 7. TESTIMONIALS (3 quote thật từ profile) */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Khách hàng nói về Vsoftware</span>
+          <div className="text-center mb-14 max-w-[760px] mx-auto">
+            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">05 · Quan hệ đối tác · Trải nghiệm khách hàng</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Hơn 200 doanh nghiệp Việt <em className="not-italic text-vs-orange">đã tin tưởng</em>
+              Khách hàng nói về <em className="not-italic text-vs-orange">Vsoftware</em>
             </h2>
             <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
-              Đây là một vài câu chuyện thật từ khách hàng SME đã đồng hành cùng Vsoftware.
+              Câu chuyện thật từ các doanh nghiệp đã triển khai và đồng hành cùng Vsoftware.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -493,12 +605,13 @@ export default async function GioiThieuPage() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-[14.5px] text-vs-gray-700 leading-[1.75] mb-6 flex-1 italic">&ldquo;{t.quote}&rdquo;</p>
+                <div className="text-vs-orange text-[40px] leading-none mb-2">&ldquo;</div>
+                <p className="text-[14.5px] text-vs-gray-700 leading-[1.75] mb-6 flex-1 italic -mt-2">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-vs-gray-200">
-                  <Image src={t.avatar} alt={t.name} width={48} height={48} className="w-12 h-12 rounded-full object-cover" />
+                  <div className={`w-12 h-12 rounded-full ${t.bgColor} flex items-center justify-center text-white text-[18px] font-extrabold flex-shrink-0`}>{t.initial}</div>
                   <div>
                     <div className="text-[14px] font-extrabold text-vs-dark">{t.name}</div>
-                    <div className="text-[12px] text-vs-blue font-semibold">{t.role}</div>
+                    <div className="text-[12.5px] text-vs-blue font-semibold">{t.company}</div>
                     <div className="text-[11.5px] text-vs-gray-500">{t.location}</div>
                   </div>
                 </div>
@@ -508,13 +621,13 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 8. Hệ sinh thái + Đội ngũ note */}
+      {/* 8. HỆ SINH THÁI ViTechGroup */}
       <section className="py-20 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14 max-w-[720px] mx-auto">
             <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Hệ sinh thái ViTechGroup</span>
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Vsoftware là <em className="not-italic text-vs-blue">một thành viên</em> trong hệ sinh thái công nghệ Vitech
+              Vsoftware thuộc hệ sinh thái <em className="not-italic text-vs-blue">ViTechGroup</em>
             </h2>
             <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
               Sức mạnh hợp lực — từ chiến lược tập đoàn đến giải pháp AI và đào tạo chuyển đổi số.
@@ -531,13 +644,31 @@ export default async function GioiThieuPage() {
             ))}
           </div>
 
-          <div className="bg-white rounded-2xl p-8 text-center shadow-vs">
-            <p className="text-[15px] text-vs-gray-700 mb-2 leading-[1.7]">
-              Đội ngũ Vsoftware có <strong className="text-vs-blue">20+ kỹ sư phần mềm</strong>, chuyên gia thiết kế UI/UX và chuyên viên hỗ trợ khách hàng — sẵn sàng đồng hành cùng doanh nghiệp bạn trên hành trình chuyển đổi số.
-            </p>
-            <Link href="/lien-he" className="inline-flex items-center gap-2 text-[14px] font-bold text-vs-blue mt-3 hover:text-vs-blue-dark no-underline">
-              Tìm hiểu cách Vsoftware hỗ trợ bạn →
-            </Link>
+          {/* Thông tin liên hệ trụ sở */}
+          <div className="bg-vs-navy rounded-2xl p-8 lg:p-10 text-white">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">📞</div>
+                <div>
+                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Hotline</div>
+                  <div className="text-[17px] font-extrabold text-white">0914 888 678</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">🌐</div>
+                <div>
+                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Website</div>
+                  <div className="text-[17px] font-extrabold text-white">vsoftware.vn</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-vs-orange flex items-center justify-center text-[22px] flex-shrink-0">📍</div>
+                <div>
+                  <div className="text-[12px] text-white/60 uppercase font-bold tracking-[0.1em] mb-1">Trụ sở</div>
+                  <div className="text-[14.5px] font-bold text-white leading-[1.45]">35 Lê Văn Thiêm<br />Thanh Xuân, Hà Nội</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
