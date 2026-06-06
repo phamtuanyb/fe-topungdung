@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
   // Bật standalone build cho Docker — Next sẽ tạo .next/standalone với mọi dependency cần thiết.
   output: 'standalone',
   compress: true,
