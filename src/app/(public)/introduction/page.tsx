@@ -175,11 +175,10 @@ export default function GioiThieuPage() {
       />
 
       {/* 1. THƯ NGỎ */}
-      <section className="pt-[72px] pb-20 bg-white">
+      <section className="pt-12 pb-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">01 · Thư ngỏ</span>
               <h1 className="text-[clamp(28px,3.5vw,42px)] font-extrabold text-vs-dark leading-[1.2] mb-6">
                 Kính gửi <em className="not-italic text-vs-blue">Quý khách hàng</em>
               </h1>
@@ -228,15 +227,14 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 2. 4 KPI — GIẢI PHÁP VSOFTWARE (gradient nổi bật) */}
-      <section className="py-20 bg-vs-bg relative overflow-hidden">
+      <section className="py-16 bg-vs-bg relative overflow-hidden">
         {/* bg pattern dots */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
           backgroundImage: 'radial-gradient(circle, #1450B4 1.5px, transparent 1.5px)',
           backgroundSize: '24px 24px',
         }} />
         <div className="container mx-auto px-6 relative">
-          <div className="text-center mb-14">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-4">Tổng quan giải pháp</span>
+          <div className="text-center mb-10">
             <h2 className="text-[clamp(26px,3.2vw,40px)] font-extrabold text-vs-dark leading-[1.2]">
               Giải Pháp <em className="not-italic text-vs-orange">Vsoftware</em>
             </h2>
@@ -272,10 +270,9 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 3. NỖI ĐAU + GIẢI PHÁP */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[780px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">02 · Bức tranh thị trường</span>
+          <div className="text-center mb-10 max-w-[780px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25] mb-4">
               Thực trạng SME trong <em className="not-italic text-vs-orange">kỷ nguyên 4.0</em>
             </h2>
@@ -301,7 +298,6 @@ export default function GioiThieuPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               {/* Trái */}
               <div className="lg:col-span-7 flex flex-col">
-                <span className="inline-block self-start text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-white/10 px-3 py-1.5 rounded-full mb-5">03 · Giải pháp Vsoftware</span>
                 <h3 className="text-[clamp(22px,2.6vw,32px)] font-extrabold leading-[1.3] mb-5">
                   Giải quyết &ldquo;nỗi đau&rdquo; thị trường bằng <em className="not-italic text-vs-orange">công nghệ 4.0</em>
                 </h3>
@@ -341,10 +337,9 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 4. TẦM NHÌN — SỨ MỆNH — GIÁ TRỊ CỐT LÕI */}
-      <section className="py-20 bg-vs-bg">
+      <section className="py-16 bg-vs-bg">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">Kim chỉ nam của Vsoftware</span>
+          <div className="text-center mb-10 max-w-[720px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
               Tầm nhìn · Sứ mệnh · <em className="not-italic text-vs-orange">Giá trị cốt lõi</em>
             </h2>
@@ -395,10 +390,9 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 5. 5 ĐIỂM KHÁC BIỆT */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[720px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-blue bg-vs-blue-light px-3 py-1.5 rounded-full mb-5">Vì sao SME chọn Vsoftware?</span>
+          <div className="text-center mb-10 max-w-[720px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
               <em className="not-italic text-vs-blue">Vsoftware</em> Cam Kết
             </h2>
@@ -417,10 +411,9 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 6. 4 LOẠI HÌNH DỊCH VỤ */}
-      <section className="py-20 bg-vs-bg">
+      <section className="py-16 bg-vs-bg">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[760px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">04 · Dịch vụ phần mềm theo yêu cầu</span>
+          <div className="text-center mb-10 max-w-[760px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25] mb-3">
               4 loại hình dịch vụ <em className="not-italic text-vs-orange">chính</em>
             </h2>
@@ -456,10 +449,9 @@ export default function GioiThieuPage() {
       </section>
 
       {/* 7. TESTIMONIALS */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14 max-w-[760px] mx-auto">
-            <span className="inline-block text-[12px] font-extrabold tracking-[0.15em] uppercase text-vs-orange bg-vs-orange/10 px-3 py-1.5 rounded-full mb-5">05 · Quan hệ đối tác · Trải nghiệm khách hàng</span>
+          <div className="text-center mb-10 max-w-[760px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
               Khách hàng nói về <em className="not-italic text-vs-orange">Vsoftware</em>
             </h2>
