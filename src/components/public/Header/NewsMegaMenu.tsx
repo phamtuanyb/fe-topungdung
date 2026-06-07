@@ -98,13 +98,13 @@ const NewsMegaMenu = ({ isOpen, subCategories, posts }: Props) => {
                     href={`/tin-tuc/${p.slug}`}
                     className="group flex gap-3 no-underline items-start"
                   >
-                    <div className="relative w-[72px] h-[72px] shrink-0 overflow-hidden rounded-lg bg-vs-bg">
+                    <div className="relative w-[96px] h-[64px] shrink-0 overflow-hidden rounded-lg bg-vs-bg">
                       <Image
                         src={p.thumbnail || FALLBACK_IMG}
                         alt={p.title}
                         fill
                         unoptimized
-                        sizes="72px"
+                        sizes="96px"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
