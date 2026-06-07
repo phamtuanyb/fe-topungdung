@@ -341,7 +341,7 @@ export default function GioiThieuPage() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-10 max-w-[720px] mx-auto">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Tầm nhìn · Sứ mệnh · <em className="not-italic text-vs-orange">Giá trị cốt lõi</em>
+              Tầm nhìn & <em className="not-italic text-vs-orange">Sứ mệnh</em>
             </h2>
           </div>
 
@@ -367,25 +367,6 @@ export default function GioiThieuPage() {
             </div>
           </div>
 
-          {/* 5 Core values — ảnh đơn */}
-          <div className="bg-white rounded-2xl p-6 md:p-10 shadow-vs">
-            <div className="text-center mb-8">
-              <h3 className="text-[clamp(22px,2.4vw,30px)] font-extrabold text-vs-dark mb-2">5 Giá trị cốt lõi</h3>
-              <p className="text-[14.5px] text-vs-gray-600 leading-[1.65] whitespace-nowrap overflow-hidden text-ellipsis">
-                Vsoftware hướng đến và thực hiện theo những giá trị cốt lõi trong từng hành động hàng ngày.
-              </p>
-            </div>
-            <div className="rounded-2xl overflow-hidden bg-vs-bg">
-              <Image
-                src="/images/5-gia-tri-cot-loi.png"
-                alt="5 Giá trị cốt lõi của Vsoftware - ViTechGroup: Biết ơn, Niềm tin, Trách nhiệm, Đổi mới, Rõ ràng"
-                width={1600}
-                height={1000}
-                className="w-full h-auto object-contain"
-                priority={false}
-              />
-            </div>
-          </div>
         </div>
       </section>
 
