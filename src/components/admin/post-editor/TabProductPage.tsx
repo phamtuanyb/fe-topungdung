@@ -17,8 +17,6 @@ import type {
   PpcFaq,
   PpcFinalCta,
   PpcIconItem,
-  PpcSolutionItem,
-  PpcFeatureItem,
   PpcTestimonial,
   PpcFaqItem,
 } from '@/types'
@@ -174,7 +172,7 @@ export default function TabProductPage() {
     <div className="space-y-3">
       <p className="text-xs text-slate-500 -mb-1 leading-relaxed bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
         💡 Trang chi tiết sản phẩm AI Agent gồm 9 section. Bỏ trống section nào → trên web tự ẩn (không hiện rỗng).
-        Hero lấy <strong>Logo + Tên</strong> từ panel "Sản phẩm AI Agent" + <strong>Tóm tắt</strong> + ảnh hero ở dưới.
+        Hero lấy <strong>Logo + Tên</strong> từ panel &ldquo;Sản phẩm AI Agent&rdquo; + <strong>Tóm tắt</strong> + ảnh hero ở dưới.
       </p>
 
       {/* ── 1. Hero & Demo ── */}
@@ -387,7 +385,7 @@ export default function TabProductPage() {
       {/* ── 6. Commitments ── */}
       <Collapse title="6. Cam kết" badge={com.items.length}>
         <Field label="Heading section">
-          <input value={com.heading ?? ''} onChange={(e) => setCom({ heading: e.target.value })} className={inputCls} placeholder="Vsoftware cam kết" />
+          <input value={com.heading ?? ''} onChange={(e) => setCom({ heading: e.target.value })} className={inputCls} placeholder="Cam kết của chúng tôi" />
         </Field>
         <AddButton onClick={() => setCom({ items: [{ title: '', description: '', iconName: 'ShieldCheck' } as PpcIconItem, ...com.items] })} label="Thêm cam kết (lên đầu)" />
         <div className="space-y-2">

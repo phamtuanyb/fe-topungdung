@@ -56,20 +56,20 @@ const navGroups: NavGroup[] = [
         ),
       },
       {
-        label: 'Sản phẩm AI Agent',
-        href: '/admin/ai-agents',
+        label: 'Nạp bài từ JSON',
+        href: '/admin/nhap-bai',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V4.5m0 12l-3.75-3.75M12 16.5l3.75-3.75M4.5 19.5h15" />
           </svg>
         ),
       },
       {
-        label: 'Dịch vụ',
-        href: '/admin/services',
+        label: 'Ứng dụng (review)',
+        href: '/admin/ung-dung',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h4.5v4.5h-4.5v-4.5zM3.75 12.75h4.5v4.5h-4.5v-4.5zM9.75 6.75h4.5v4.5h-4.5v-4.5zM9.75 12.75h4.5v4.5h-4.5v-4.5zM15.75 6.75h4.5v4.5h-4.5v-4.5zM15.75 12.75h4.5v4.5h-4.5v-4.5z" />
           </svg>
         ),
       },
@@ -98,6 +98,24 @@ const navGroups: NavGroup[] = [
     label: 'Tương tác',
     items: [
       {
+        label: 'Đề xuất ứng dụng',
+        href: '/admin/de-xuat',
+        icon: (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
+      },
+      {
+        label: 'Bình chọn ứng dụng',
+        href: '/admin/binh-chon',
+        icon: (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.5a.56.56 0 011.04 0l2.12 4.3 4.75.69c.46.07.64.63.31.95l-3.44 3.35.81 4.73c.08.46-.4.81-.81.59L12 15.85l-4.26 2.24c-.41.22-.89-.13-.81-.59l.81-4.73-3.44-3.35a.56.56 0 01.31-.95l4.75-.69 2.12-4.3z" />
+          </svg>
+        ),
+      },
+      {
         label: 'Đăng ký nhận form',
         href: '/admin/contacts',
         icon: (
@@ -121,29 +139,11 @@ const navGroups: NavGroup[] = [
     label: 'Giao diện',
     items: [
       {
-        label: 'Trang chủ',
-        href: '/admin/homepage',
+        label: 'Trang chủ TopỨngDụng',
+        href: '/admin/trang-chu',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-          </svg>
-        ),
-      },
-      {
-        label: 'Chân trang',
-        href: '/admin/footer',
-        icon: (
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
-          </svg>
-        ),
-      },
-      {
-        label: 'Cam kết',
-        href: '/admin/commitments',
-        icon: (
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h12A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6zM3.75 9h16.5M9 9v11.25" />
           </svg>
         ),
       },
@@ -152,15 +152,6 @@ const navGroups: NavGroup[] = [
   {
     label: 'Hệ thống',
     items: [
-      {
-        label: 'Menu',
-        href: '/admin/menus',
-        icon: (
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        ),
-      },
       {
         label: 'Người dùng',
         href: '/admin/users',
@@ -193,7 +184,6 @@ export default function Sidebar() {
     if (exact) return pathname === href
     // Posts create không được active khi đang ở /admin/posts list
     if (href === '/admin/posts' && pathname === '/admin/posts/create') return false
-    if (href === '/admin/menus' && pathname === '/admin/menus/create') return false
     return pathname.startsWith(href)
   }
 

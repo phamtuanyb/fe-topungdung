@@ -7,64 +7,72 @@ import { useForm } from 'react-hook-form';
 import type { ContactConfig } from '@/types';
 
 const PROCESS_STEPS = [
-  { num: '1', title: 'Tư vấn phân tích', desc: '30 phút gặp mặt hoặc online — nghe bài toán, phân tích quy trình hiện tại, xác định phạm vi', color: 'blue' },
-  { num: '2', title: 'Đề xuất giải pháp', desc: 'Vsoftware gửi đề xuất giải pháp và báo giá chi tiết trong vòng 24 giờ làm việc', color: 'orange' },
-  { num: '3', title: 'Ký hợp đồng & build', desc: 'Chốt scope, ký hợp đồng rõ ràng — tiến hành phát triển có demo từng sprint', color: 'blue' },
-  { num: '4', title: 'Nghiệm thu & go-live', desc: 'Test thực tế, đào tạo nhân viên, bàn giao và hỗ trợ 90 ngày sau go-live', color: 'orange' },
+  { num: '1', title: 'Bạn gửi nội dung', desc: 'Báo lỗi thông tin, đề xuất ứng dụng nên có mặt, hoặc góp ý về cách chúng tôi đánh giá', color: 'blue' },
+  { num: '2', title: 'Chúng tôi kiểm chứng', desc: 'Với báo lỗi giá hoặc tính năng, chúng tôi mở trang chính thức của nhà cung cấp để đối chiếu', color: 'orange' },
+  { num: '3', title: 'Cập nhật bài viết', desc: 'Nếu thông tin sai, bài được sửa và ngày cập nhật đổi theo. Sai lớn thì ghi chú rõ trong bài', color: 'blue' },
+  { num: '4', title: 'Phản hồi lại bạn', desc: 'Chúng tôi trả lời trong vòng 7 ngày làm việc, kể cả khi kết luận là giữ nguyên nội dung cũ', color: 'orange' },
 ]
 
 const FAQS = [
-  { q: 'Chi phí tư vấn ban đầu là bao nhiêu?', a: 'Hoàn toàn miễn phí. Buổi tư vấn phân tích 30 phút đầu tiên không tốn bất kỳ chi phí nào, kể cả khi bạn quyết định không tiếp tục. Chúng tôi chỉ tính phí khi bắt đầu phát triển dự án theo hợp đồng đã ký.' },
-  { q: 'Thời gian phát triển phần mềm mất bao lâu?', a: 'Phụ thuộc vào độ phức tạp. Gói đặt lịch + quản lý cơ bản: 5–10 ngày. CRM đầy đủ với tích hợp: 3–6 tuần. App mobile on-demand: 6–12 tuần. Vsoftware cam kết timeline cụ thể trước khi ký hợp đồng.' },
-  { q: 'Phần mềm có tích hợp với MISA, Zalo, ngân hàng không?', a: 'Có. Vsoftware hỗ trợ tích hợp với MISA (kế toán), Zalo OA (nhắc lịch, CSKH), các cổng thanh toán nội địa (VNPay, MoMo, ZaloPay), sàn thương mại điện tử (Shopee, Lazada, TikTok Shop) và hầu hết ngân hàng thương mại tại Việt Nam.' },
-  { q: 'Sau khi bàn giao, hỗ trợ như thế nào?', a: 'Vsoftware cung cấp 90 ngày hỗ trợ sau go-live miễn phí — bao gồm sửa lỗi, điều chỉnh nhỏ và đào tạo nhân viên mới. Sau đó có gói maintenance hàng tháng hoặc theo sự cố tùy nhu cầu.' },
-  { q: 'Doanh nghiệp nhỏ < 10 người có phù hợp không?', a: 'Rất phù hợp. Nhiều khách hàng của Vsoftware là doanh nghiệp 3–5 nhân viên — spa, nha khoa, cửa hàng lẻ. Chúng tôi có gói vừa đủ với chi phí SaaS từ vài trăm nghìn/tháng, không ép mua tính năng không cần.' },
+  { q: 'Tôi muốn phần mềm của mình được đánh giá thì làm thế nào?', a: 'Gửi cho chúng tôi tên và địa chỉ trang chủ. Chúng tôi ưu tiên những công cụ nhiều người Việt đang tìm và những nhóm còn thiếu lựa chọn. Xin nói trước: gửi yêu cầu không đảm bảo sẽ có bài, và chúng tôi không nhận tiền để viết.' },
+  { q: 'Tôi trả tiền để được xếp hạng cao hơn có được không?', a: 'Không. Điểm số và thứ tự trong bài dựa trên đánh giá biên tập, không bán được. Nếu chúng tôi chấm sai, cách duy nhất để đổi là chỉ ra chỗ sai — chúng tôi sẽ kiểm chứng và sửa nếu bạn đúng.' },
+  { q: 'Thông tin về giá trong bài không còn đúng thì báo ở đâu?', a: 'Gửi qua biểu mẫu này, nêu tên ứng dụng và chỗ sai. Bảng giá phần mềm thay đổi thường xuyên và chúng tôi không thể theo dõi hết — báo lỗi từ người đọc là cách sửa nhanh nhất.' },
+  { q: 'Tôi là chủ sở hữu thương hiệu, muốn gỡ logo hoặc ảnh thì sao?', a: 'Gửi yêu cầu kèm thông tin xác nhận bạn là chủ sở hữu. Chúng tôi gỡ hoặc thay hình ảnh theo yêu cầu. Riêng phần nội dung đánh giá là quan điểm biên tập nên vẫn giữ, nhưng nếu có chi tiết sai thì chúng tôi sửa.' },
+  { q: 'Các bạn có bán phần mềm hoặc hỗ trợ kỹ thuật không?', a: 'Không. Chúng tôi chỉ viết đánh giá. Khi bạn cần mua, dùng thử hay được hỗ trợ kỹ thuật, hãy liên hệ trực tiếp nhà cung cấp — mỗi bài đều có liên kết tới trang chính thức của họ.' },
 ]
 
+
+/**
+ * Cấu hình dự phòng khi chưa gọi được API.
+ *
+ * CHỈ khai báo kênh liên hệ thật sự tồn tại. Để trống hotline, văn phòng,
+ * Zalo nếu chưa có — giao diện đã có điều kiện nên khối rỗng sẽ không hiện,
+ * tốt hơn nhiều so với đăng một số điện thoại không ai nghe máy.
+ */
 const FALLBACK_CONFIG: ContactConfig = {
   form: {
-    heading: 'Nói chuyện 30 phút — biết ngay có làm được không',
+    heading: 'Góp ý, báo lỗi hoặc đề xuất ứng dụng',
     description:
-      'Không ràng buộc. Không phí tư vấn. Vsoftware sẽ phân tích bài toán và đề xuất giải pháp phù hợp nhất — dù bạn có chọn chúng tôi hay không.',
+      'Thông tin phần mềm thay đổi liên tục và chúng tôi không theo dõi hết được. Nếu bạn thấy chỗ nào sai, báo cho chúng tôi là cách sửa nhanh nhất.',
     needs: [
-      'Phần mềm quản lý theo ngành (spa, nhà hàng, phòng khám...)',
-      'CRM & Quản lý bán hàng',
-      'App bán hàng đa kênh / Mobile App',
-      'AI Agent & Automation',
-      'Website & Landing Page',
-      'Tích hợp hệ thống (MISA, Zalo, ngân hàng...)',
-      'Tư vấn chuyển đổi số toàn diện',
+      'Báo thông tin sai (giá, tính năng, phần mềm đã ngừng)',
+      'Đề xuất ứng dụng nên có mặt trên trang',
+      'Góp ý về cách đánh giá và chấm điểm',
+      'Yêu cầu về hình ảnh, logo thương hiệu',
+      'Yêu cầu liên quan tới dữ liệu cá nhân',
+      'Hợp tác nội dung',
       'Khác',
     ],
-    submitText: 'Gửi yêu cầu tư vấn',
+    submitText: 'Gửi nội dung',
     noteText:
-      'Vsoftware phản hồi trong vòng 2 giờ làm việc. Thông tin của bạn được bảo mật tuyệt đối.',
-    successHeading: 'Đã nhận yêu cầu!',
-    successText: 'Đội Vsoftware sẽ liên hệ với bạn trong vòng 2 giờ làm việc.',
+      'Chúng tôi phản hồi trong vòng 7 ngày làm việc. Thông tin của bạn chỉ dùng để trả lời chính yêu cầu này.',
+    successHeading: 'Đã nhận nội dung!',
+    successText:
+      'Cảm ơn bạn. Chúng tôi sẽ kiểm chứng và phản hồi trong vòng 7 ngày làm việc.',
   },
   quickContact: {
-    heading: 'Liên hệ ngay — không cần chờ',
-    description: 'Cần trao đổi nhanh? Nhắn tin hoặc gọi trực tiếp đội tư vấn Vsoftware.',
-    zaloText: 'Chat Zalo OA ngay',
-    zaloHref: 'https://zalo.me/0914888678',
-    phoneText: 'Gọi: 0914 888 678',
-    phoneHref: 'tel:+84914888678',
+    heading: 'Báo lỗi nội dung',
+    description:
+      'Giá đã đổi, tính năng bị nêu nhầm, hay phần mềm đã đóng cửa — đây là loại góp ý hữu ích nhất với chúng tôi.',
+    zaloText: '',
+    zaloHref: '',
+    phoneText: '',
+    phoneHref: '',
   },
   info: {
     sectionTitle: 'Thông tin liên hệ',
-    offices: [{ name: 'Văn phòng Hà Nội', address: '35 Lê Văn Thiêm, Thanh Xuân, Hà Nội' }],
-    hotlines: ['0912 345 678', '0987 654 321'],
-    emails: ['hello@vsoftware.vn', 'support@vsoftware.vn'],
+    offices: [],
+    hotlines: [],
+    emails: ['topungdung.net@gmail.com'],
   },
   workingHours: {
-    sectionTitle: 'Giờ làm việc',
+    sectionTitle: 'Thời gian phản hồi',
     slots: [
-      { day: 'Thứ 2 – 6', time: '8:00 – 18:00' },
-      { day: 'Thứ 7', time: '8:00 – 12:00' },
-      { day: 'Chủ nhật', time: 'Nghỉ' },
-      { day: 'Zalo / Email', time: '24/7 auto' },
+      { day: 'Báo lỗi nội dung', time: 'Trong 7 ngày làm việc' },
+      { day: 'Yêu cầu về dữ liệu cá nhân', time: 'Trong 7 ngày làm việc' },
+      { day: 'Đề xuất ứng dụng mới', time: 'Không cam kết thời hạn' },
     ],
-    note: 'Ngoài giờ hành chính: nhắn Zalo, đội tư vấn phản hồi trong vòng 30 phút (7:00–22:00 tất cả các ngày).',
+    note: 'Chúng tôi không có tổng đài. Mọi trao đổi đi qua biểu mẫu này hoặc email.',
   },
 }
 
@@ -122,7 +130,7 @@ export default function LienHePage() {
   return (
     <>
       <PageHero
-        title="Liên Hệ Vsoftware"
+        title="Liên Hệ"
         titleEm="Hệ"
         breadcrumbs={[{ label: 'Trang chủ', href: '/' }, { label: 'Liên hệ' }]}
       />
@@ -152,8 +160,8 @@ export default function LienHePage() {
                     </div>
 
                     <div>
-                      <label className="block text-[13px] font-bold text-vs-gray-700 mb-1.5">Số điện thoại <span className="text-vs-orange">*</span></label>
-                      <input {...register('phone', { required: 'Số điện thoại là bắt buộc', pattern: { value: /^0\d{9}$/, message: 'Số điện thoại không hợp lệ' } })} type="tel" placeholder="0912 345 678" className="w-full px-4 py-3 border-[1.5px] border-vs-gray-200 rounded-lg text-[14px] text-vs-dark bg-white outline-none focus:border-vs-blue transition-colors" />
+                      <label className="block text-[13px] font-bold text-vs-gray-700 mb-1.5">Số điện thoại <span className="text-vs-gray-400 font-normal">(không bắt buộc)</span></label>
+                      <input {...register('phone', { pattern: { value: /^0\d{9}$/, message: 'Số điện thoại không hợp lệ' } })} type="tel" placeholder="0912 345 678" className="w-full px-4 py-3 border-[1.5px] border-vs-gray-200 rounded-lg text-[14px] text-vs-dark bg-white outline-none focus:border-vs-blue transition-colors" />
                       {errors.phone && <div className="text-[13px] text-red-500 mt-1">{errors.phone.message}</div>}
                     </div>
 
@@ -167,7 +175,7 @@ export default function LienHePage() {
 
                   <div className="mb-[18px]">
                     <label className="block text-[13px] font-bold text-vs-gray-700 mb-1.5">Tên doanh nghiệp</label>
-                    <input {...register('company', { required: 'Tên doanh nghiệp là bắt buộc' })} type="text" placeholder="Công ty / Cửa hàng của bạn" className="w-full px-4 py-3 border-[1.5px] border-vs-gray-200 rounded-lg text-[14px] text-vs-dark bg-white outline-none focus:border-vs-blue transition-colors" />
+                    <input {...register('company')} type="text" placeholder="Công ty / Cửa hàng của bạn" className="w-full px-4 py-3 border-[1.5px] border-vs-gray-200 rounded-lg text-[14px] text-vs-dark bg-white outline-none focus:border-vs-blue transition-colors" />
                     {errors.company && <div className="text-[13px] text-red-500 mt-1">{errors.company.message}</div>}
                   </div>
 
@@ -203,16 +211,23 @@ export default function LienHePage() {
               <div className="bg-vs-gradient rounded-2xl p-7 text-center">
                 <h3 className="text-[17px] font-extrabold text-white mb-2">{quickContact.heading}</h3>
                 <p className="text-[13px] text-white/75 mb-5 leading-[1.5] whitespace-pre-line">{quickContact.description}</p>
-                <div className="flex flex-col gap-2.5">
-                  <a href={quickContact.zaloHref} className="flex items-center gap-2.5 px-5 py-3.5 rounded-[10px] bg-white/15 text-white border border-white/20 font-extrabold text-[14px] no-underline hover:bg-white/25 transition-all">
-                    <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-                    {quickContact.zaloText}
-                  </a>
-                  <a href={quickContact.phoneHref} className="flex items-center gap-2.5 px-5 py-3.5 rounded-[10px] bg-vs-orange text-white font-extrabold text-[14px] no-underline hover:bg-vs-orange-dark transition-all">
-                    <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-                    {quickContact.phoneText}
-                  </a>
-                </div>
+                {/* Chỉ hiện kênh nào thực sự có cấu hình — tránh nút rỗng bấm không ra gì */}
+                {(quickContact.zaloHref || quickContact.phoneHref) && (
+                  <div className="flex flex-col gap-2.5">
+                    {quickContact.zaloHref && (
+                      <a href={quickContact.zaloHref} className="flex items-center gap-2.5 px-5 py-3.5 rounded-[10px] bg-white/15 text-white border border-white/20 font-extrabold text-[14px] no-underline hover:bg-white/25 transition-all">
+                        <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                        {quickContact.zaloText}
+                      </a>
+                    )}
+                    {quickContact.phoneHref && (
+                      <a href={quickContact.phoneHref} className="flex items-center gap-2.5 px-5 py-3.5 rounded-[10px] bg-vs-orange text-white font-extrabold text-[14px] no-underline hover:bg-vs-orange-dark transition-all">
+                        <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                        {quickContact.phoneText}
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="bg-white rounded-2xl p-7 shadow-vs">
@@ -221,7 +236,7 @@ export default function LienHePage() {
                   {info.sectionTitle}
                 </div>
 
-                {info.offices.map((office, i) => (
+                {info.offices.length > 0 && info.offices.map((office, i) => (
                   <div key={i} className="flex items-start gap-3.5 mb-[18px]">
                     <div className="w-11 h-11 rounded-xl bg-vs-blue-light flex items-center justify-center flex-shrink-0 text-vs-blue">
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>

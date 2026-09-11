@@ -11,7 +11,7 @@ export const SITE_PAGES = [
 export type SitePageId = (typeof SITE_PAGES)[number]['id']
 
 export function categoryMenuUrl(slug: string): string {
-  return `/category/${slug}`
+  return `/chuyen-muc/${slug}`
 }
 
 export function postMenuUrl(slug: string): string {

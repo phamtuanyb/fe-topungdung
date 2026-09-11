@@ -427,31 +427,12 @@ export interface HomepageHighlightsConfig {
   images: HomepageHighlightImage[]
 }
 
-export interface HomepageConfig {
-  hero: HomepageHeroConfig
-  painPoints: HomepagePainPointsConfig
-  services: HomepageServicesSectionConfig
-  aiAgent: HomepageAiAgentSectionConfig
-  howItWorks: HomepageHowItWorksConfig
-  why: HomepageWhyConfig
-  showcase: HomepageShowcaseConfig
-  pricing: HomepagePricingConfig
-  highlights: HomepageHighlightsConfig
-  blog: HomepageBlogConfig
-  cta: HomepageCtaConfig
-}
-
 // ─── Commitments (shared — dùng chung mọi nơi) ────────────────────────────────
 
 export interface CommitmentItem {
   iconName?: string
   title: string
   description?: string
-}
-
-export interface CommitmentsConfig {
-  heading: string
-  items: CommitmentItem[]
 }
 
 // ─── Contact page config ──────────────────────────────────────────────────────
@@ -526,20 +507,3 @@ export interface FooterLegalLink {
   href: string
 }
 
-export interface FooterConfig {
-  brand: {
-    /** Tiêu đề cột Brand mới (vd "Vsoftware"). Render giống các cột links khác. */
-    title?: string
-    /** Danh sách MXH (vẫn dùng cho cột Brand) */
-    socials: FooterSocial[]
-    // ─── Các field cũ (giữ optional cho backward compat — không còn dùng) ───
-    logoUrl?: string
-    logoAlt?: string
-    tagline?: string
-    ecosystemLabel?: string
-    ecosystemName?: string
-  }
-  sections: FooterSection[]
-  copyright: string
-  legalLinks: FooterLegalLink[]
-}

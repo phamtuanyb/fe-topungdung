@@ -173,7 +173,7 @@ export default function MediaUploadModal({ onSuccess, onClose }: Props) {
               value={altText}
               onChange={(e) => setAltText(e.target.value)}
               className={`${inputCls} ${hasMedia && !altText.trim() ? 'border-red-300 focus:ring-red-400' : ''}`}
-              placeholder='VD: "Logo Vsoftware nền tối"'
+              placeholder='VD: "Logo TopỨngDụng nền tối"'
             />
             <p className="text-xs text-slate-400 mt-1">Mô tả nội dung ảnh cho SEO và người khiếm thị. BẮT BUỘC điền.</p>
             {hasMedia && !altText.trim() && (

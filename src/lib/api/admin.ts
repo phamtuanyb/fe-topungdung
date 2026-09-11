@@ -17,11 +17,9 @@ import type {
   ApiResponse,
   SeoScoreResult,
   SeoAnalyzePayload,
-  FooterConfig,
-  HomepageConfig,
   ContactConfig,
-  CommitmentsConfig,
 } from '@/types'
+import type { TudHomeConfig } from '@/types/tud'
 
 // Auth
 export interface AuthTokenResponse {
@@ -301,22 +299,6 @@ export function adminDeleteContact(id: number): Promise<void> {
 
 // ─── Site Settings ────────────────────────────────────────────────────────────
 
-export function adminGetFooterConfig(): Promise<{ data: FooterConfig }> {
-  return apiClient.get('/api/settings/footer', true)
-}
-
-export function adminUpdateFooterConfig(config: FooterConfig): Promise<{ data: FooterConfig }> {
-  return apiClient.put('/api/settings/footer', config, true)
-}
-
-export function adminGetHomepageConfig(): Promise<{ data: HomepageConfig }> {
-  return apiClient.get('/api/settings/homepage', true)
-}
-
-export function adminUpdateHomepageConfig(config: HomepageConfig): Promise<{ data: HomepageConfig }> {
-  return apiClient.put('/api/settings/homepage', config, true)
-}
-
 export function adminGetContactConfig(): Promise<{ data: ContactConfig }> {
   return apiClient.get('/api/settings/contact', true)
 }
@@ -325,10 +307,110 @@ export function adminUpdateContactConfig(config: ContactConfig): Promise<{ data:
   return apiClient.put('/api/settings/contact', config, true)
 }
 
-export function adminGetCommitmentsConfig(): Promise<{ data: CommitmentsConfig }> {
-  return apiClient.get('/api/settings/commitments', true)
+export function adminGetTudHomeConfig(): Promise<{ data: TudHomeConfig }> {
+  return apiClient.get('/api/settings/tud-home', true)
 }
 
-export function adminUpdateCommitmentsConfig(config: CommitmentsConfig): Promise<{ data: CommitmentsConfig }> {
-  return apiClient.put('/api/settings/commitments', config, true)
+export function adminUpdateTudHomeConfig(config: TudHomeConfig): Promise<{ data: TudHomeConfig }> {
+  return apiClient.put('/api/settings/tud-home', config, true)
+}
+
+// ─── Bình chọn ────────────────────────────────────────────────────────────────
+
+export interface AdminVoteRow {
+  id: number
+  rating: number
+  voterKey: string
+  createdAt: string
+  postSlug: string
+  postTitle: string
+}
+
+export function adminGetVotes(params: { page?: number; limit?: number } = {}): Promise<{
+  data: AdminVoteRow[]
+  meta: { page: number; limit: number; total: number; totalPages: number }
+}> {
+  const q = new URLSearchParams()
+  if (params.page) q.set('page', String(params.page))
+  if (params.limit) q.set('limit', String(params.limit))
+  const qs = q.toString()
+  return apiClient.get(`/api/admin/votes${qs ? `?${qs}` : ''}`, true)
+}
+
+export function adminDeleteVote(id: number): Promise<{ message: string }> {
+  return apiClient.delete(`/api/admin/votes/${id}`, true)
+}
+
+// ─── Đề xuất ứng dụng từ khách ───────────────────────────────────────────────
+
+export interface AppSuggestion {
+  id: number
+  appName: string
+  website?: string | null
+  categorySlug?: string | null
+  reason?: string | null
+  submitterName?: string | null
+  submitterEmail?: string | null
+  status: 'new' | 'reviewing' | 'accepted' | 'rejected'
+  adminNote?: string | null
+  createdAt: string
+}
+
+export function adminGetSuggestions(params: { page?: number; limit?: number; status?: string } = {}) {
+  const q = new URLSearchParams()
+  if (params.page) q.set('page', String(params.page))
+  if (params.limit) q.set('limit', String(params.limit))
+  if (params.status) q.set('status', params.status)
+  const qs = q.toString()
+  return apiClient.get<{ data: AppSuggestion[]; meta: { page: number; limit: number; total: number; totalPages: number } }>(
+    `/api/admin/app-suggestions${qs ? `?${qs}` : ''}`,
+    true,
+  )
+}
+
+export function adminGetSuggestionCounts(): Promise<{ data: Record<string, number> }> {
+  return apiClient.get('/api/admin/app-suggestions/counts', true)
+}
+
+export function adminUpdateSuggestion(
+  id: number,
+  payload: { status?: string; adminNote?: string },
+): Promise<{ data: AppSuggestion }> {
+  return apiClient.patch(`/api/admin/app-suggestions/${id}`, payload, true)
+}
+
+export function adminDeleteSuggestion(id: number): Promise<{ data: { message: string } }> {
+  return apiClient.delete(`/api/admin/app-suggestions/${id}`, true)
+}
+
+// ─── Nạp bài từ tệp JSON ─────────────────────────────────────────────────────
+// Cách trình bày bài của site không dựng được bằng trình soạn thảo thường, nên
+// bài được soạn ngoài rồi nạp qua đây. Backend kiểm chuẩn trước khi ghi.
+
+export interface ImportItemReport {
+  slug: string
+  action: 'tạo mới' | 'cập nhật' | 'bỏ qua'
+  errors: string[]
+  stats: { words: number; h2: number; h3: number; tables: number; links: number; faq: number }
+  /** Đường dẫn công khai, chỉ có khi bài đạt chuẩn */
+  url?: string
+  /** Câu văn trùng với bài đã đăng */
+  duplicates?: { sentence: string; withSlug: string }[]
+}
+
+export interface ImportResult {
+  dryRun: boolean
+  total: number
+  passed: number
+  failed: number
+  created: number
+  updated: number
+  reports: ImportItemReport[]
+}
+
+export function adminImportPosts(
+  items: unknown[],
+  dryRun: boolean,
+): Promise<{ data: ImportResult }> {
+  return apiClient.post('/api/admin/posts/import', { items, dryRun }, true)
 }

@@ -13,50 +13,48 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader'
 
 const DEFAULT_CONFIG: ContactConfig = {
   form: {
-    heading: 'Nói chuyện 30 phút — biết ngay có làm được không',
+    heading: 'Góp ý, báo lỗi hoặc đề xuất ứng dụng',
     description:
-      'Không ràng buộc. Không phí tư vấn. Vsoftware sẽ phân tích bài toán và đề xuất giải pháp phù hợp nhất — dù bạn có chọn chúng tôi hay không.',
+      'Thông tin phần mềm thay đổi liên tục và chúng tôi không theo dõi hết được. Nếu bạn thấy chỗ nào sai, báo cho chúng tôi là cách sửa nhanh nhất.',
     needs: [
-      'Phần mềm quản lý theo ngành (spa, nhà hàng, phòng khám...)',
-      'CRM & Quản lý bán hàng',
-      'App bán hàng đa kênh / Mobile App',
-      'AI Agent & Automation',
-      'Website & Landing Page',
-      'Tích hợp hệ thống (MISA, Zalo, ngân hàng...)',
-      'Tư vấn chuyển đổi số toàn diện',
+      'Báo thông tin sai (giá, tính năng, phần mềm đã ngừng)',
+      'Đề xuất ứng dụng nên có mặt trên trang',
+      'Góp ý về cách đánh giá và chấm điểm',
+      'Yêu cầu về hình ảnh, logo thương hiệu',
+      'Yêu cầu liên quan tới dữ liệu cá nhân',
+      'Hợp tác nội dung',
       'Khác',
     ],
-    submitText: 'Gửi yêu cầu tư vấn',
+    submitText: 'Gửi nội dung',
     noteText:
-      'Vsoftware phản hồi trong vòng 2 giờ làm việc. Thông tin của bạn được bảo mật tuyệt đối.',
-    successHeading: 'Đã nhận yêu cầu!',
-    successText: 'Đội Vsoftware sẽ liên hệ với bạn trong vòng 2 giờ làm việc.',
+      'Chúng tôi phản hồi trong vòng 7 ngày làm việc. Thông tin của bạn chỉ dùng để trả lời chính yêu cầu này.',
+    successHeading: 'Đã nhận nội dung!',
+    successText:
+      'Cảm ơn bạn. Chúng tôi sẽ kiểm chứng và phản hồi trong vòng 7 ngày làm việc.',
   },
   quickContact: {
-    heading: 'Liên hệ ngay — không cần chờ',
-    description: 'Cần trao đổi nhanh? Nhắn tin hoặc gọi trực tiếp đội tư vấn Vsoftware.',
-    zaloText: 'Chat Zalo OA ngay',
-    zaloHref: 'https://zalo.me/0914888678',
-    phoneText: 'Gọi: 0914 888 678',
-    phoneHref: 'tel:+84914888678',
+    heading: 'Báo lỗi nội dung',
+    description:
+      'Giá đã đổi, tính năng bị nêu nhầm, hay phần mềm đã đóng cửa — đây là loại góp ý hữu ích nhất với chúng tôi.',
+    zaloText: '',
+    zaloHref: '',
+    phoneText: '',
+    phoneHref: '',
   },
   info: {
     sectionTitle: 'Thông tin liên hệ',
-    offices: [
-      { name: 'Văn phòng Hà Nội', address: '35 Lê Văn Thiêm, Thanh Xuân, Hà Nội' },
-    ],
-    hotlines: ['0912 345 678', '0987 654 321'],
-    emails: ['hello@vsoftware.vn', 'support@vsoftware.vn'],
+    offices: [],
+    hotlines: [],
+    emails: ['topungdung.net@gmail.com'],
   },
   workingHours: {
-    sectionTitle: 'Giờ làm việc',
+    sectionTitle: 'Thời gian phản hồi',
     slots: [
-      { day: 'Thứ 2 – 6', time: '8:00 – 18:00' },
-      { day: 'Thứ 7', time: '8:00 – 12:00' },
-      { day: 'Chủ nhật', time: 'Nghỉ' },
-      { day: 'Zalo / Email', time: '24/7 auto' },
+      { day: 'Báo lỗi nội dung', time: 'Trong 7 ngày làm việc' },
+      { day: 'Yêu cầu về dữ liệu cá nhân', time: 'Trong 7 ngày làm việc' },
+      { day: 'Đề xuất ứng dụng mới', time: 'Không cam kết thời hạn' },
     ],
-    note: 'Ngoài giờ hành chính: nhắn Zalo, đội tư vấn phản hồi trong vòng 30 phút (7:00–22:00 tất cả các ngày).',
+    note: 'Chúng tôi không có tổng đài. Mọi trao đổi đi qua biểu mẫu này hoặc email.',
   },
 }
 
@@ -331,7 +329,7 @@ function InfoTab({ config, onChange }: { config: ContactConfig; onChange: (c: Co
         <StringListEditor
           items={info.emails}
           onChange={(emails) => set({ emails })}
-          placeholder="VD: hello@vsoftware.vn"
+          placeholder="VD: topungdung.net@gmail.com"
           addLabel="Thêm email (lên đầu)"
         />
       </SectionCard>

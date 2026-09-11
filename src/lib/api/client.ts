@@ -130,8 +130,9 @@ function normalizeMediaItem(item: Record<string, unknown>): Record<string, unkno
 }
 
 export const apiClient = {
-  get: <T>(path: string, auth = false) =>
-    request<T>(path, { method: 'GET', auth }),
+  /** `revalidate: false` → luôn lấy dữ liệu mới (dùng cho số liệu bình chọn). */
+  get: <T>(path: string, auth = false, opts?: { revalidate?: number | false }) =>
+    request<T>(path, { method: 'GET', auth, ...opts }),
 
   post: <T>(path: string, body: unknown, auth = false) =>
     request<T>(path, { method: 'POST', body, auth }),

@@ -115,12 +115,6 @@ export default function AdminDashboardPage() {
       gradient: 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700',
       icon: '🖼️',
     },
-    {
-      label: 'Quản lý menu',
-      href: '/admin/menus',
-      gradient: 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700',
-      icon: '☰',
-    },
   ]
 
   return (

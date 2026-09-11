@@ -1,0 +1,2022 @@
+/* ============================================================
+   TopỨngDụng — Homepage
+   Mọi selector được scope trong .tud để không rò rỉ sang các
+   trang khác đang dùng Tailwind.
+   ============================================================ */
+
+html { scroll-behavior: smooth; }
+
+/* Thuộc tính `hidden` phải thắng mọi khai báo display của trang.
+   Trình duyệt chỉ đặt `[hidden]{display:none}` ở mức mặc định, nên bất kỳ
+   luật nào của chúng ta như `.cat-card{display:flex}` cũng đè lên nó — khi đó
+   thẻ mang `hidden` vẫn hiện và nút "Xem thêm" trở thành vô nghĩa. */
+.tud [hidden] { display: none !important; }
+
+.tud{
+  --bg:#F5F8FC;
+  --panel:#FFFFFF;
+  --ink:#0B1220;
+  --muted:#5A667A;
+  --faint:#8A94A6;
+  --line:rgba(11,18,32,.10);
+  --line-em:rgba(0,111,230,.35);
+  --blue:#006FE6;
+  --blue-mkt:#0057D9;
+  --blue-deep:#003FA3;
+  --blue-night:#071E8C;
+  --cyan:#00A8E8;
+  --cyan-lt:#29C7F2;
+  --orange:#FF9700;
+  --orange-mid:#FFB52E;
+  --orange-lt:#FFC857;
+  --on-orange:#07101F;
+  --accent:#FF9700;
+  --accent-2:#F8FAFC;
+  --surface-dark:#0B111C;
+  --soft:rgba(0,111,230,.10);
+  --radius:22px;
+  --shadow: 0 18px 50px rgba(11,18,32,.10);
+  --max:1280px;
+
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  line-height:1.45;
+}
+.tud *{box-sizing:border-box}
+/* Nhãn chỉ dành cho trình đọc màn hình. Khai ở đây chứ không mượn lớp sr-only
+   của Tailwind: trang người dùng không nạp bộ tiện ích đó. */
+.tud .sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0
+}
+.tud a{color:inherit;text-decoration:none}
+.tud a:hover{color:var(--blue)}
+.tud button,.tud input{font:inherit}
+.tud ::placeholder{color:var(--faint)}
+
+.tud .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+.tud .topbar{
+  position:sticky; top:0; z-index:40;
+  backdrop-filter:blur(14px);
+  background:rgba(245,248,252,.86);
+  border-bottom:1px solid rgba(11,18,32,.08);
+}
+.tud .nav{
+  height:80px; display:flex; align-items:center; justify-content:space-between; gap:22px;
+}
+/* Logo là ảnh ngang tỉ lệ 3:1. Khoá theo CHIỀU CAO rồi để chiều rộng tự tính,
+   như vậy đổi ảnh khác tỉ lệ cũng không vỡ hàng thanh điều hướng. */
+.tud .brand{
+  display:flex; align-items:center; gap:2px;
+  font-weight:900; letter-spacing:-1.6px; font-size:25px;
+}
+/* Ảnh logo có sẵn khoảng trắng và dòng chữ nhỏ bên trong, nên phần nhìn thấy
+   luôn nhỏ hơn chiều cao khai báo. Thanh 80px với logo 62px (khoảng 77%): giữ
+   logo gần như nguyên cỡ nhưng cắt bớt khoảng trống thừa trên dưới, để thanh
+   không chiếm quá nhiều màn hình đầu tiên. */
+.tud .brand img{height:62px;width:auto;display:block}
+/* Cao hơn hẳn thanh điều hướng: tệp logo.png có khoảng trắng trên dưới khá
+   nhiều nên ở 50px phần chữ chỉ còn hơn 20px, nhìn như bị teo. */
+.tud .brand-footer img{height:110px;margin-left:-10px}
+.tud .brand:hover{color:var(--ink)}
+.tud .brand .top{
+  background:linear-gradient(135deg,var(--blue),var(--blue-mkt)); color:white; padding:4px 8px 5px; border-radius:8px;
+}
+.tud .brand .dot{color:var(--orange);font-size:30px;line-height:0}
+/* Đuôi tên miền ".net" — cùng cỡ và cùng độ đậm với phần chữ chính,
+   chỉ khác màu cam để tách phần tên miền ra khỏi tên thương hiệu. */
+.tud .brand .suffix{
+  color:var(--orange);text-transform:lowercase
+}
+.tud .navlinks{display:flex;align-items:center;gap:30px;color:var(--muted);font-size:15.5px;font-weight:650}
+.tud .navlinks a:hover{opacity:.75;color:var(--blue)}
+.tud .nav-actions{display:flex;gap:10px;align-items:center}
+
+.tud .btn{
+  /* inline-flex để dùng chung cho <button> và <a>: thẻ <a> mặc định là inline
+     nên padding không đẩy được dòng phía trên, gây đè chữ. */
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid var(--blue); background:transparent; color:var(--ink);
+  padding:11px 16px; border-radius:999px; font-weight:750; cursor:pointer;
+  text-decoration:none; transition:.2s ease;
+}
+.tud .btn:hover{transform:translateY(-2px);border-color:var(--cyan-lt);box-shadow:0 0 0 1px rgba(41,199,242,.25), 0 10px 28px rgba(0,111,230,.28)}
+.tud .btn.dark{background:var(--blue);color:white;border-color:var(--blue)}
+.tud .btn.dark:hover{background:var(--blue-mkt);box-shadow:0 10px 30px rgba(0,111,230,.35)}
+.tud .btn.accent{background:linear-gradient(135deg,var(--orange-lt),var(--orange));color:var(--on-orange);border-color:transparent}
+.tud .btn.accent:hover{filter:brightness(1.06);box-shadow:0 10px 30px rgba(255,151,0,.28)}
+
+/* ── HERO ────────────────────────────────────────────────────────────────
+   Bố cục căn giữa. Nền có hoạ tiết mờ: hai quầng sáng lớn hai bên và lưới
+   chấm nhạt, vẽ bằng gradient nên không tốn thêm tệp ảnh nào. */
+.tud .hero{
+  padding:72px 0 34px;text-align:center;position:relative;overflow:hidden
+}
+.tud .hero:before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 8% 22%, rgba(0,111,230,.10), transparent 42%),
+    radial-gradient(circle at 92% 30%, rgba(255,151,0,.09), transparent 40%),
+    radial-gradient(circle at 50% 120%, rgba(0,111,230,.07), transparent 55%)
+}
+.tud .hero:after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(0,111,230,.20) 1.2px, transparent 1.2px);
+  background-size:22px 22px;
+  /* Chỉ để chấm ở hai mép, chừa khoảng giữa cho chữ khỏi rối */
+  -webkit-mask-image:linear-gradient(90deg,#000 0 14%,transparent 26% 74%,#000 86% 100%);
+  mask-image:linear-gradient(90deg,#000 0 14%,transparent 26% 74%,#000 86% 100%)
+}
+.tud .hero > .wrap{position:relative;z-index:1}
+
+.tud .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid rgba(0,111,230,.22);
+  background:rgba(255,255,255,.9);border-radius:999px;font-size:13.5px;font-weight:750;color:var(--blue-night);
+}
+.tud .eyebrow.eyebrow-flat{
+  border-color:transparent;background:rgba(0,111,230,.10);color:var(--blue-mkt);
+  letter-spacing:.4px;font-size:12.5px;padding:7px 14px
+}
+/* Nửa sau tiêu đề mục được tô xanh để mắt bắt được ý chính. */
+.tud .section-title h2 .h2-accent{color:var(--blue)}
+/* Biến thể xanh-cam cho khối Top ứng dụng */
+/* Hai lớp tô màu tiêu đề, dùng chung cho mọi khối chứ không riêng .section-title */
+.tud .h2-blue{color:var(--blue-mkt)}
+.tud .h2-accent-warm{color:var(--orange)}
+
+.tud .pulse{width:9px;height:9px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px rgba(0,111,230,.14)}
+
+.tud .hero h1{
+  margin:24px auto 18px;max-width:15ch;
+  font-size:clamp(38px,6vw,86px);line-height:1.14;letter-spacing:-3px;font-weight:950;
+}
+.tud .hero h1 .h1-line{display:block}
+.tud .hero h1 .w-orange{color:var(--orange)}
+.tud .hero h1 .w-blue{color:var(--blue-night)}
+.tud .hero h1 .grad-word{
+  background:linear-gradient(100deg,var(--cyan-lt) 0%,var(--blue) 45%,var(--blue-night) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  /* Dấu tiếng Việt chồng hai tầng (Ố, Ế, Ắ…) vươn cao hơn hộp chữ. Nền gradient
+     chỉ phủ hộp nên phần dấu nhô ra không được tô và biến mất. Nới hộp lên trên
+     rồi kéo lại bằng margin âm để nền phủ hết dấu mà chữ không bị xê dịch. */
+  padding-top:.20em;margin-top:-.20em;padding-bottom:.06em;margin-bottom:-.06em;
+}
+.tud .hero-copy{
+  max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:18px;line-height:1.65
+}
+
+.tud .search-shell{
+  background:var(--panel);border:1px solid rgba(11,18,32,.10);border-radius:999px;padding:9px 9px 9px 20px;
+  display:flex;gap:12px;align-items:center;box-shadow:0 14px 44px rgba(11,18,32,.10);
+  max-width:820px;margin:0 auto;text-align:left
+}
+.tud .search-shell:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,111,230,.14),0 14px 44px rgba(11,18,32,.10)}
+.tud .search-icon{display:grid;place-items:center;color:var(--blue);flex:none}
+.tud .search-shell input{
+  border:0;outline:0;flex:1;font-size:17px;background:transparent;min-width:0;
+  padding:14px 4px;color:var(--ink)
+}
+.tud .search-shell button{
+  border:0;background:linear-gradient(135deg,var(--orange-lt),var(--orange));color:var(--on-orange);
+  padding:15px 26px;border-radius:999px;font-weight:800;font-size:15px;cursor:pointer;transition:.2s ease;flex:none
+}
+.tud .search-shell button:hover{filter:brightness(1.06);box-shadow:0 10px 30px rgba(255,151,0,.30)}
+
+.tud .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;justify-content:center}
+.tud .chip{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(11,18,32,.12);background:#FFFFFF;color:var(--dark);border-radius:999px;
+  padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.18s ease
+}
+.tud .chips-left{justify-content:flex-start}
+.tud .chip-ico{display:grid;place-items:center;color:var(--blue);flex:none}
+.tud .chip:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,111,230,.14)}
+
+.tud .section{padding:44px 0}
+.tud .section-title{
+  display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:22px
+}
+.tud .section-title h2{margin:0;font-size:clamp(34px,4vw,56px);letter-spacing:-2.8px;line-height:1}
+.tud .section-title p{margin:0;color:var(--muted);max-width:460px}
+/* Mô tả và link phụ nằm cùng hàng ở mép phải tiêu đề mục. */
+.tud .title-aside{display:flex;align-items:flex-end;gap:26px}
+.tud .title-more{
+  color:var(--blue-mkt);font-size:14px;font-weight:800;text-decoration:none;
+  white-space:nowrap;flex:none;transition:.18s ease
+}
+.tud .title-more:hover{color:var(--blue);text-decoration:underline}
+
+.tud .trending{
+  margin-top:50px;background:var(--panel);color:var(--ink);
+  border:1.5px solid rgba(11,18,32,.16);border-radius:26px;padding:16px 20px;
+  display:flex;gap:18px;align-items:center;overflow:hidden;box-shadow:var(--shadow)
+}
+.tud .trend-label{
+  font-size:12px;letter-spacing:.18em;font-weight:850;color:var(--orange);
+  white-space:nowrap;text-decoration:none;transition:color .2s ease
+}
+.tud .trend-label:hover{color:var(--blue-mkt)}
+.tud .trend-track{display:flex;gap:10px;overflow:auto;scrollbar-width:none}
+.tud .trend-track::-webkit-scrollbar{display:none}
+.tud .trend-item{
+  display:flex;align-items:center;gap:9px;
+  border:1.5px solid rgba(11,18,32,.14);background:#FFFFFF;
+  padding:9px 15px;border-radius:999px;white-space:nowrap;font-size:13px;
+  color:var(--muted);text-decoration:none;transition:.2s ease
+}
+.tud .trend-item b{font-size:14px;font-weight:850;color:var(--ink);letter-spacing:-.2px;transition:color .2s ease}
+.tud .trend-score{font-weight:850;color:var(--blue-mkt)}
+.tud .trend-up{color:var(--orange);font-weight:800}
+.tud .trend-flat{color:var(--faint);font-weight:800}
+/* Cùng cách phản hồi với 6 thẻ khám phá: viền rõ, rê chuột thì xanh */
+.tud .trend-item:hover,
+.tud .trend-item:focus-visible{
+  border-color:var(--blue);background:rgba(0,111,230,.07);
+  box-shadow:0 0 0 3px rgba(0,111,230,.12);transform:translateY(-2px)
+}
+.tud .trend-item:hover b,
+.tud .trend-item:focus-visible b{color:var(--blue-night)}
+.tud .trend-more{
+  display:flex;align-items:center;padding:9px 15px;border-radius:999px;white-space:nowrap;
+  font-size:13px;font-weight:850;color:var(--blue-mkt);background:rgba(0,111,230,.08);
+  border:1.5px solid transparent;text-decoration:none;transition:.2s ease
+}
+.tud .trend-more:hover{border-color:var(--blue);background:rgba(0,111,230,.14)}
+
+/* Nền lưới 6 cột chứ không phải 3: thẻ thường chiếm 2 ô nên vẫn ra 3 thẻ một
+   hàng, còn hai thẻ cuối chiếm 3 ô mỗi thẻ — rộng bằng 1,5 thẻ thường. */
+.tud .intent-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.tud .intent{grid-column:span 2}
+/* Chỉ có 7 thẻ: thẻ cuối đứng lẻ một mình trông rất trống nên cho trải hết hàng */
+.tud .intent-grid > .intent:nth-child(7):last-child{grid-column:span 6}
+/* Đủ 8 thẻ: hai thẻ cuối chia đôi hàng cuối */
+.tud .intent-grid > .intent:nth-child(7):nth-last-child(2),
+.tud .intent-grid > .intent:nth-child(8):last-child{grid-column:span 3}
+
+/* Thẻ nhu cầu: ô biểu tượng bên trái, nội dung ở giữa, nút mũi tên góc dưới
+   phải. Mũi tên đặt tuyệt đối nên phần mô tả phải chừa chỗ ở lề phải. */
+.tud .intent{
+  background:var(--panel);border:1px solid rgba(11,18,32,.12);border-radius:18px;
+  padding:18px 18px 20px;display:grid;grid-template-columns:auto 1fr;gap:14px;
+  align-items:start;transition:.18s ease;position:relative;text-decoration:none;
+  color:inherit
+}
+.tud .intent-ico{
+  width:52px;height:52px;border-radius:15px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(150deg,rgba(0,111,230,.15),rgba(0,111,230,.05));
+  transition:.18s ease
+}
+.tud .intent-body{min-width:0;display:flex;flex-direction:column;gap:7px}
+.tud .intent-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.tud .intent h3{font-size:18px;letter-spacing:-.4px;margin:0;font-weight:800;line-height:1.2}
+/* Số ứng dụng làm dạng viên thuốc cam: đọc lướt thấy ngay, không lẫn vào mô tả. */
+.tud .intent .intent-count{
+  padding:3px 10px 4px;border-radius:999px;background:rgba(255,151,0,.13);
+  color:#B25E00;font-size:12px;font-weight:800;white-space:nowrap;flex:none;line-height:1.35
+}
+/* Nhóm chưa có bài: viên xanh nhạt, không dùng màu cam của số đếm thật */
+.tud .intent .intent-count.soon{background:rgba(0,111,230,.10);color:var(--blue-mkt)}
+.tud .intent .intent-subs{
+  margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;padding-right:42px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.tud .intent-go{
+  position:absolute;right:16px;bottom:16px;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;flex:none;
+  color:var(--blue);background:rgba(0,111,230,.10);transition:.18s ease
+}
+
+/* Trạng thái rê chuột và giữ chuột */
+/* Thẻ nhỏ nên nhấc nhẹ thôi, nhấc mạnh như thẻ cũ sẽ giật mắt. */
+.tud .intent:hover,
+.tud .intent:focus-visible{
+  transform:translateY(-2px);
+  border-color:var(--blue);
+  box-shadow:0 8px 22px rgba(0,111,230,.13)
+}
+.tud .intent:hover h3,
+.tud .intent:focus-visible h3{color:var(--blue-mkt)}
+.tud .intent:hover .intent-ico,
+.tud .intent:focus-visible .intent-ico{
+  background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#fff
+}
+.tud .intent:hover .intent-go,
+.tud .intent:focus-visible .intent-go{background:var(--blue);color:#fff}
+.tud .intent:active{transform:translateY(0);box-shadow:0 3px 10px rgba(0,111,230,.16)}
+
+/* Hai thẻ nửa hàng: nới mô tả lên 2 dòng đầy và tăng nhẹ đệm cho cân bề ngang */
+.tud .intent-grid > .intent:nth-child(7):nth-last-child(2),
+.tud .intent-grid > .intent:nth-child(8):last-child{padding:20px 20px 22px}
+
+/* Thẻ trải ngang: dồn mũi tên ra sát mép phải và căn giữa theo chiều dọc. */
+.tud .intent-grid > .intent:nth-child(7):last-child{
+  grid-template-columns:auto 1fr auto;align-items:center;padding:20px 22px
+}
+.tud .intent-grid > .intent:nth-child(7):last-child .intent-subs{padding-right:0}
+.tud .intent-grid > .intent:nth-child(7):last-child .intent-go{
+  position:static;width:44px;height:44px;background:var(--blue);color:#fff
+}
+
+.tud .picks{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}
+/* Bo góc và viền đồng bộ với thẻ ở khối "Bạn đang muốn làm gì" bên trên:
+   trước đây thẻ này bo 30px còn thẻ kia 18px nên hai khối lệch nhau rõ. */
+.tud .featured{
+  background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px;
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;min-height:450px
+}
+.tud .featured-body{display:flex;flex-direction:column;align-items:flex-start}
+/* Ô logo và điểm số đứng cạnh nhau, không dàn ra hai mép: mắt đọc được cụm
+   "app này — điểm này" trong một lần nhìn. */
+.tud .featured-head{display:flex;align-items:center;gap:14px}
+.tud .featured-name{font-size:clamp(34px,3.6vw,46px);letter-spacing:-2px;margin:20px 0 6px;line-height:1.05}
+.tud .featured-tagline{margin:0 0 10px;color:var(--blue-mkt);font-size:18px;font-weight:800;letter-spacing:-.3px}
+.tud .featured-desc{margin:0;color:var(--muted);line-height:1.65}
+.tud .featured-tags{margin:16px 0 20px}
+/* Nút chính đẩy xuống đáy cột để chân thẻ thẳng hàng với khung ảnh bên phải. */
+.tud .featured-body .btn-go{margin-top:auto}
+
+/* Viên điểm số: nền cam nhạt, dùng chung cho thẻ lớn và 4 thẻ nhỏ.
+   Bản cũ để số 54px chiếm gần hết đầu thẻ mà chỉ nói được một con số. */
+.tud .score-pill{
+  display:inline-flex;align-items:center;padding:6px 14px 7px;border-radius:999px;
+  background:rgba(255,151,0,.14);color:#B25E00;font-size:15px;font-weight:850;
+  letter-spacing:-.2px;white-space:nowrap;flex:none
+}
+.tud .mini-app .score-pill{padding:4px 10px 5px;font-size:12.5px}
+
+.tud .btn-go{display:inline-flex;align-items:center;gap:9px}
+.tud .btn.dark.btn-go{background:linear-gradient(135deg,var(--blue),var(--blue-mkt));padding:15px 26px;font-size:16px}
+.tud .btn.accent.btn-go{padding:17px 32px;font-size:17px;box-shadow:0 10px 26px rgba(255,151,0,.30)}
+.tud .btn.dark.btn-go:hover{background:linear-gradient(135deg,var(--blue-mkt),var(--blue-night))}
+.tud .btn-go svg{transition:transform .18s ease}
+.tud .btn-go:hover svg{transform:translateX(3px)}
+
+.tud .app-logo .img-slot,.tud .story-image .img-slot,.tud .story-thumb .img-slot{width:100%;height:100%;place-self:stretch}
+.tud .img-slot{
+  width:100%;height:100%;display:grid;place-items:center;background:#EEF3FA;color:#8A94A6;
+  font-size:11px;font-weight:800;letter-spacing:.02em;text-align:center;padding:4px;line-height:1.15
+}
+.tud .app-logo{
+  width:68px;height:68px;border-radius:19px;display:grid;place-items:center;font-size:30px;font-weight:900;
+  background:linear-gradient(135deg,var(--blue),var(--blue-mkt));color:white;
+}
+/* Ô có ảnh thật: nền trắng viền mảnh cho logo nhiều màu không bị chìm.
+   Nền đặt ở đây chứ không ở style nội tuyến để từng khối còn đổi được. */
+.tud .app-logo.has-img{
+  background:#FFFFFF;border:1px solid var(--line);padding:0;overflow:hidden;
+  box-shadow:0 2px 8px rgba(11,18,32,.06)
+}
+.tud .score{font-size:54px;font-weight:950;letter-spacing:-3px;color:var(--orange)}
+.tud .tag{display:inline-flex;padding:7px 12px;border-radius:999px;background:var(--soft);color:var(--blue-mkt);font-size:12.5px;font-weight:800;margin:4px 6px 0 0}
+/* Khung ảnh sản phẩm: nền sáng cho khớp với phần còn lại của trang.
+   Nền tối cũ làm nửa thẻ nặng hẳn so với các khối bên trên. */
+.tud .feature-art{
+  background:linear-gradient(150deg,#EAF2FD,#F7FAFF);border:1px solid var(--line);
+  border-radius:18px;display:grid;place-items:center;position:relative;overflow:hidden;
+  min-height:300px;color:var(--ink)
+}
+.tud .feature-art:before,.tud .feature-art:after{
+  content:"";position:absolute;border-radius:50%;filter:blur(2px)
+}
+.tud .feature-art:before{width:210px;height:210px;background:radial-gradient(circle,rgba(0,111,230,.20),rgba(0,111,230,.07) 60%,transparent 72%);left:-60px;bottom:-60px}
+.tud .feature-art:after{width:150px;height:150px;background:radial-gradient(circle,rgba(0,168,232,.18),transparent 70%);opacity:.9;right:-30px;top:-30px}
+.tud .feature-art strong{font-size:74px;letter-spacing:-6px;z-index:2}
+/* Khung có ảnh thật: ảnh phủ kín, bỏ hai quầng sáng trang trí */
+.tud .feature-art.has-img{padding:0;background:#EEF3FA}
+.tud .feature-art.has-img:before,.tud .feature-art.has-img:after{display:none}
+.tud .feature-art.has-img img{width:100%;height:100%;object-fit:cover;display:block;border-radius:17px}
+/* Chưa có ảnh: logo + tên, đỡ chói hơn một chữ phóng to */
+.tud .art-fallback{z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;
+  text-align:center;padding:24px}
+.tud .art-fallback .app-logo{border-radius:20px}
+.tud .art-fallback b{font-size:30px;font-weight:900;letter-spacing:-1.2px;color:var(--ink)}
+.tud .art-fallback span{font-size:13px;font-weight:750;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase}
+
+.tud .side-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tud .mini-app{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:215px;
+  text-decoration:none;color:inherit;transition:.18s ease
+}
+.tud .mini-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.tud .mini-app .app-logo{width:46px;height:46px;border-radius:14px;font-size:19px}
+.tud .mini-app h4{font-size:19px;letter-spacing:-.5px;margin:14px 0 2px}
+.tud .mini-app p{font-size:13px;margin:0}
+.tud .mini-app .mini-kind{color:var(--blue-mkt);font-weight:800}
+.tud .mini-app .mini-desc{
+  color:var(--muted);line-height:1.55;margin-top:7px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+/* Chân thẻ: nhãn hành động bên trái, nút mũi tên tròn bên phải — cùng ngôn ngữ
+   với thẻ ở khối "Bạn đang muốn làm gì". */
+.tud .mini-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tud .mini-foot b{color:var(--blue-mkt);font-size:13.5px;font-weight:850}
+.tud .mini-go{
+  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:rgba(0,111,230,.10);transition:.18s ease
+}
+.tud .mini-app:hover,
+.tud .mini-app:focus-visible{
+  transform:translateY(-2px);border-color:var(--blue);box-shadow:0 8px 22px rgba(0,111,230,.13)
+}
+.tud .mini-app:hover h4,
+.tud .mini-app:focus-visible h4{color:var(--blue-mkt)}
+.tud .mini-app:hover .mini-go,
+.tud .mini-app:focus-visible .mini-go{background:var(--blue);color:#fff}
+.tud .mini-app:active{transform:translateY(0);box-shadow:0 3px 10px rgba(0,111,230,.16)}
+
+.tud .stack{
+  background:#FFFFFF;border:1px solid var(--line);color:var(--ink);border-radius:26px;padding:38px 40px;
+  display:grid;grid-template-columns:.82fr 1.18fr;gap:40px;box-shadow:var(--shadow)
+}
+.tud .stack h2{font-size:clamp(42px,5vw,64px);line-height:1.06;letter-spacing:-3px;margin:18px 0 16px}
+/* Chừa hẹp để mô tả xuống dòng thành hai dòng cân nhau */
+.tud .stack p{color:var(--muted);max-width:282px;line-height:1.7;margin:0 0 26px;font-size:16px}
+/* Cột chữ căn giữa theo chiều dọc cho cân với danh sách bên phải */
+.tud .stack-intro{display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+/* Dải biểu tượng nhắc lại 5 bước, đặt dưới nút chính */
+.tud .stack-chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.tud .stack-chip{
+  width:62px;height:62px;border-radius:17px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(160deg,#FFFFFF,#F2F7FE);
+  border:1px solid rgba(0,111,230,.16)
+}
+
+/* min-width:0 cho hai cột: ô lưới mặc định không co xuống dưới bề rộng nội
+   dung, nên ở màn hẹp cả cột phải tràn ra ngoài khung. */
+.tud .stack > *{min-width:0}
+.tud .stack-flow{display:flex;flex-direction:column;gap:18px;justify-content:center}
+.tud .stack-flow-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0}
+.tud .stack-flow-head h3{margin:0;font-size:26px;letter-spacing:-1px;font-weight:850}
+.tud .stack-count{
+  padding:4px 12px 5px;border-radius:999px;background:rgba(0,111,230,.10);color:var(--blue-mkt);
+  font-size:12.5px;font-weight:800;white-space:nowrap
+}
+
+/* Danh sách bước: số thứ tự nằm ngoài thẻ, trên một đường nối dọc.
+   Đường nối vẽ bằng :before của khung bao nên không thêm thẻ rỗng nào. */
+.tud .stack-steps{display:flex;flex-direction:column;gap:14px;position:relative;min-width:0}
+.tud .stack-steps:before{
+  content:"";position:absolute;left:22px;top:24px;bottom:24px;width:3px;
+  background:rgba(0,111,230,.20);border-radius:3px
+}
+.tud .stack-row{display:flex;align-items:center;gap:18px;min-width:0}
+.tud .stack-step{
+  position:relative;z-index:1;flex:none;width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;font-size:14px;font-weight:850;letter-spacing:.02em;
+  color:#FFFFFF;background:linear-gradient(150deg,var(--blue),var(--blue-mkt));
+  box-shadow:0 0 0 5px #FFFFFF,0 4px 12px rgba(0,111,230,.28)
+}
+.tud .stack-card{
+  flex:1;min-width:0;display:flex;align-items:center;gap:18px;
+  background:#FFFFFF;border:1px solid var(--line);border-radius:18px;padding:18px 22px;
+  text-decoration:none;color:inherit;transition:.18s ease;box-shadow:0 2px 10px rgba(11,18,32,.04)
+}
+.tud .stack-ico{
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:#EEF5FE;transition:.18s ease
+}
+.tud .stack-main{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.tud .stack-main b{font-size:18px;letter-spacing:-.5px;font-weight:850;transition:color .18s ease}
+.tud .stack-desc{color:var(--muted);font-size:14px;line-height:1.5}
+/* Tên app dồn về mép phải; ở màn hẹp chỉ giữ ô logo, bỏ chữ cho đỡ chật. */
+.tud .stack-app{display:flex;align-items:center;gap:10px;flex:none;margin-left:auto}
+.tud .stack-app b{font-size:17px;font-weight:850;letter-spacing:-.4px;white-space:nowrap}
+.tud .stack-card .app-logo{width:42px;height:42px;border-radius:12px;font-size:16px;flex:none}
+/* Logo đứng trần, không khung: khung viền làm mỗi hàng thêm một hộp thừa */
+.tud .stack-card .app-logo.has-img{
+  background:transparent;border:0;padding:0;overflow:hidden;box-shadow:none;border-radius:10px
+}
+.tud .stack-card .app-logo.has-img img{width:100%;height:100%;object-fit:contain}
+.tud .stack-card:hover,
+.tud .stack-card:focus-visible{
+  background:#FFFFFF;border-color:var(--blue);box-shadow:0 8px 22px rgba(0,111,230,.13)
+}
+.tud .stack-card:hover .stack-main b,
+.tud .stack-card:focus-visible .stack-main b{color:var(--blue-mkt)}
+.tud .stack-card:hover .stack-ico,
+.tud .stack-card:focus-visible .stack-ico{background:var(--blue);color:#FFFFFF}
+
+/* Khối so sánh gọn: bỏ bớt padding và bo góc lớn của bản cũ (34px / 30px),
+   thu nhỏ logo, tên và chữ VS. Thẻ hai bên nhẹ nền thay vì là hộp đậm lồng
+   trong hộp — trước đây hai tầng hộp làm khối cao gần gấp đôi cần thiết. */
+.tud .battle{
+  /* Giới hạn bề ngang: trước đây khối trải hết 1280px nên mỗi thẻ rộng gần
+     570px mà chỉ chứa logo nhỏ với hai dòng chữ canh giữa — thừa chỗ trống
+     là thứ khiến khối trông to, chứ không phải chiều cao. */
+  max-width:620px;margin:0 auto;
+  border:1px solid var(--line-em);border-radius:18px;
+  background:linear-gradient(140deg,var(--blue-deep),var(--blue-night));color:#fff;
+  padding:14px;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch
+}
+.tud .fighter{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:13px;
+  padding:13px 10px;text-align:center;color:inherit;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:4px;transition:.18s ease
+}
+.tud .fighter:hover,.tud .fighter:focus-visible{
+  background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.3);transform:translateY(-2px)
+}
+.tud .fighter .app-logo{margin:0}
+.tud .fighter h3{font-size:16px;font-weight:800;letter-spacing:-.2px;margin:0;line-height:1.25}
+.tud .fighter p{margin:0;font-size:11.5px;color:rgba(255,255,255,.72)}
+.tud .fighter-cta{margin-top:2px;font-size:11.5px;font-weight:700;color:var(--cyan-lt)}
+/* VS thành huy hiệu tròn nhỏ, thay cho chữ 52px chiếm cả một cột rộng. */
+.tud .vs{
+  align-self:center;width:32px;height:32px;border-radius:50%;
+  display:grid;place-items:center;flex:none;
+  font-size:12px;font-weight:900;letter-spacing:0;color:var(--on-orange);
+  background:linear-gradient(135deg,var(--orange-lt),var(--orange));
+  box-shadow:0 3px 12px rgba(255,151,0,.34)
+}
+
+.tud .leaderboard{background:var(--panel);border:1px solid var(--line);border-radius:28px;overflow:hidden}
+.tud .table-head,.tud .rank-row{
+  display:grid;grid-template-columns:80px 1fr 140px 120px;gap:14px;align-items:center;padding:16px 22px
+}
+.tud .table-head{font-size:11px;letter-spacing:.14em;color:var(--faint);font-weight:850;border-bottom:1px solid var(--line)}
+.tud .rank-row{border-bottom:1px solid var(--line)}
+.tud .rank-row:last-child{border-bottom:0}
+.tud .rank-num{font-size:24px;font-weight:900;color:var(--ink)}
+.tud .rank-app{display:flex;align-items:center;gap:12px;font-weight:800}
+.tud .rank-app .app-logo{width:42px;height:42px;border-radius:12px;font-size:16px}
+.tud .rank-score{font-size:24px;font-weight:900;color:var(--blue-mkt)}
+
+.tud .editorial{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.tud .story{
+  background:var(--panel);border:1px solid var(--line);border-radius:26px;overflow:hidden
+}
+/* Khung ảnh nổi bật lấy đúng tỉ lệ ảnh bìa (1200x630) thay vì chiều cao cố
+   định: ảnh bìa của bài có chữ, cắt trên cắt dưới là mất chữ. */
+.tud .story-image{
+  aspect-ratio:1200/630;background:linear-gradient(135deg,#0A1220,#16304F);
+  position:relative;overflow:hidden
+}
+/* Dòng chữ trang trí chỉ dành cho ô chưa có ảnh thật; có ảnh rồi thì nó đè lên. */
+.tud .story-image:after{content:"THE BIG LIST";position:absolute;bottom:22px;left:22px;color:white;font-size:52px;font-weight:950;letter-spacing:-3px;pointer-events:none;text-shadow:0 4px 24px rgba(0,0,0,.55);z-index:2}
+.tud .story-image.co-anh:after{content:none}
+.tud .story-small{display:grid;grid-template-columns:128px 1fr;gap:16px;align-items:center}
+/* Ô nhỏ cũng theo tỉ lệ ảnh bìa, khung 4:3 cũ cắt mất quá nửa ảnh */
+.tud .story-thumb{width:128px;aspect-ratio:1200/630;border-radius:12px;overflow:hidden;background:#EEF3FA;flex:none}
+.tud .story-body{padding:24px}
+.tud .story-body .meta{font-size:12px;font-weight:850;letter-spacing:.14em;color:var(--blue-mkt)}
+.tud .story-body h3{font-size:34px;line-height:1.05;letter-spacing:-1.8px;margin:10px 0}
+.tud .story-list{display:grid;gap:16px}
+.tud .story-small{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px}
+.tud .story-small span{font-size:11px;font-weight:850;letter-spacing:.14em;color:var(--blue-mkt)}
+.tud .story-small h4{font-size:23px;line-height:1.1;letter-spacing:-1px;margin:10px 0 0}
+
+.tud .ai-finder{
+  background:#FFFFFF;border:1px solid var(--line);color:var(--ink);border-radius:36px;padding:54px;position:relative;overflow:hidden;box-shadow:var(--shadow)
+}
+.tud .ai-finder:before{
+  content:"✦";position:absolute;right:34px;top:-36px;font-size:210px;color:var(--blue);opacity:.14;transform:rotate(15deg)
+}
+.tud .ai-finder h2{font-size:64px;line-height:.95;letter-spacing:-3.2px;margin:8px 0 16px;max-width:750px}
+.tud .ai-finder p{color:var(--muted);max-width:650px}
+.tud .ai-box{
+  margin-top:28px;display:flex;gap:10px;background:#F5F8FC;border:1px solid var(--line);border-radius:22px;padding:12px;max-width:860px
+}
+.tud .ai-box:focus-within{border-color:var(--blue)}
+.tud .ai-box input{flex:1;border:0;outline:0;background:transparent;color:var(--ink);padding:14px;font-size:16px;min-width:0}
+.tud .ai-box button{border:0;background:linear-gradient(135deg,var(--orange-lt),var(--orange));color:var(--on-orange);font-weight:850;padding:14px 18px;border-radius:14px;cursor:pointer;transition:.2s ease}
+.tud .ai-box button:hover{filter:brightness(1.06);box-shadow:0 10px 30px rgba(255,151,0,.28)}
+
+.tud footer{padding:54px 0 28px}
+.tud .footer{
+  display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:34px;
+  border-top:1px solid var(--line);padding-top:44px
+}
+.tud .foot-brand{max-width:400px}
+.tud .foot-tagline{
+  font-size:19px;font-weight:850;letter-spacing:-.5px;color:var(--ink);margin:20px 0 10px
+}
+.tud .foot-sub{font-size:15px;line-height:1.6;margin:0}
+/* Tiêu đề cột tô xanh và to hẳn lên: bản cũ 13px đen, gần như lẫn vào danh sách
+   liên kết bên dưới nên không còn tác dụng phân nhóm. */
+.tud .footer h5,.tud .foot-col-title{
+  margin:0 0 18px;font-size:16px;font-weight:900;letter-spacing:.02em;color:var(--blue-mkt)
+}
+.tud .footer a,.tud .footer p{display:block;color:var(--muted);font-size:15px;margin:12px 0}
+.tud .footer a:hover{color:var(--blue)}
+/* Một liên kết được tô cam kèm mũi tên để dẫn người dùng vào việc chính */
+.tud .footer a.foot-hot{
+  display:inline-flex;align-items:center;gap:8px;line-height:1.5;
+  color:var(--orange);font-weight:800
+}
+.tud .footer a.foot-hot:hover{color:var(--orange-mid)}
+.tud .footer a.foot-hot svg{transition:transform .18s ease}
+.tud .footer a.foot-hot:hover svg{transform:translateX(3px)}
+
+/* Thanh dưới cùng: bản quyền bên trái, nút cuộn lên đầu bên phải */
+.tud .foot-bottom{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin-top:38px;padding-top:22px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:14px
+}
+.tud .foot-top{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  border:1.5px solid rgba(0,111,230,.30);background:#FFFFFF;color:var(--blue-mkt);
+  border-radius:999px;padding:11px 20px;font-size:14px;font-weight:850;transition:.18s ease
+}
+.tud .foot-top:hover{background:var(--blue);color:#FFFFFF;border-color:transparent;transform:translateY(-2px)}
+.tud .foot-top:active{transform:translateY(0)}
+
+.tud .reveal{opacity:0;transform:translateY(18px);transition:.7s ease}
+.tud .reveal.show{opacity:1;transform:none}
+
+@media(max-width:980px){
+  .tud .navlinks{display:none}
+  .tud .hero h1{letter-spacing:-4px}
+  .tud .hero h1 .grad-word{white-space:normal !important}
+  .tud .intent-grid{grid-template-columns:1fr 1fr}
+  /* Phải khai lại đủ ba bộ chọn ở trên, chúng đặc hiệu hơn .intent đơn lẻ */
+  .tud .intent,
+  .tud .intent-grid > .intent:nth-child(7):last-child,
+  .tud .intent-grid > .intent:nth-child(7):nth-last-child(2),
+  .tud .intent-grid > .intent:nth-child(8):last-child{grid-column:auto}
+  .tud .intent-grid > .intent:nth-child(7):last-child{grid-column:1 / -1}
+  .tud .picks,.tud .editorial,.tud .stack{grid-template-columns:1fr}
+  .tud .featured{grid-template-columns:1fr}
+  .tud .battle{grid-template-columns:1fr}
+  .tud .vs{justify-self:center}
+  .tud .table-head,.tud .rank-row{grid-template-columns:60px 1fr 90px}
+  .tud .table-head div:last-child,.tud .rank-row div:last-child{display:none}
+  .tud .footer{grid-template-columns:1fr 1fr}
+  .tud .foot-brand{grid-column:1 / -1;max-width:none}
+}
+@media(max-width:640px){
+  .tud .wrap{padding:0 16px}
+  .tud .nav{height:66px}
+  .tud .nav-actions .btn:first-child{display:none}
+  .tud .brand{font-size:20px}
+  .tud .brand img{height:46px}
+  .tud .hero{padding-top:56px}
+  .tud .hero h1{font-size:58px;letter-spacing:-3.5px}
+  .tud .hero-copy{font-size:16px}
+  .tud .search-shell{display:grid;grid-template-columns:28px 1fr}
+  .tud .search-shell button{grid-column:1/-1;width:100%}
+  .tud .intent-grid,.tud .side-list{grid-template-columns:1fr}
+  .tud .intent{padding:16px}
+  .tud .intent-ico{width:46px;height:46px;border-radius:13px}
+  .tud .intent-grid > .intent:nth-child(7):last-child{
+    grid-template-columns:auto 1fr;padding:16px
+  }
+  .tud .intent-grid > .intent:nth-child(7):last-child .intent-go{
+    position:absolute;right:14px;bottom:14px;width:34px;height:34px
+  }
+  .tud .intent-grid > .intent:nth-child(7):last-child .intent-subs{padding-right:42px}
+  .tud .stack,.tud .ai-finder{padding:22px}
+  .tud .stack h2,.tud .ai-finder h2{font-size:42px}
+  .tud .stack{border-radius:18px;gap:26px}
+  /* Điện thoại: bỏ tên app bằng chữ, ô logo đã đủ nhận ra là app nào. */
+  .tud .stack-app b{display:none}
+  .tud .stack-flow-head h3{font-size:21px}
+  .tud .stack-ico{width:44px;height:44px;border-radius:13px}
+  .tud .stack-step{width:38px;height:38px;font-size:12.5px;box-shadow:0 0 0 4px #FFFFFF}
+  .tud .stack-steps:before{left:18px}
+  .tud .stack-main b{font-size:16px}
+  .tud .stack-card{padding:12px;gap:12px}
+  .tud .stack-row{gap:12px}
+  .tud .stack-chip{width:46px;height:46px;border-radius:13px}
+  .tud .table-head,.tud .rank-row{grid-template-columns:48px 1fr 70px;padding:14px}
+  .tud .rank-score{font-size:18px}
+  .tud .section-title{align-items:flex-start;flex-direction:column}
+  .tud .title-aside{flex-direction:column;align-items:flex-start;gap:12px}
+  .tud .featured{padding:20px;border-radius:18px;min-height:0}
+  .tud .featured-name{margin-top:16px}
+  .tud .mini-app{min-height:0}
+  .tud .footer{grid-template-columns:1fr;gap:26px;padding-top:32px}
+  .tud .foot-tagline{font-size:17px}
+  .tud .foot-bottom{margin-top:26px}
+}
+
+/* ── Trang danh mục /ungdung/<slug> ─────────────────────────────────── */
+.tud .cat-hero{padding:52px 0 10px;position:relative;overflow:hidden}
+/* Nền chuyển sắc rất nhạt, cùng tông với khối hero trang chủ */
+.tud .cat-hero:before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:radial-gradient(760px 340px at 82% 22%,rgba(0,111,230,.12),transparent 70%)
+}
+.tud .cat-hero > .wrap{position:relative;z-index:1}
+.tud .cat-hero-row{display:flex;align-items:center;gap:32px}
+.tud .cat-hero-main{flex:1;min-width:0}
+.tud .cat-hero h1{margin:16px 0 12px;font-size:clamp(38px,5.2vw,72px);letter-spacing:-3px;line-height:1.05;font-weight:950}
+.tud .cat-hero p{max-width:660px;color:var(--muted);font-size:18px;margin:0}
+/* Câu mô tả ở /prompt dài 80 ký tự, mức 660px cắt nó thành hai dòng lệch nhau.
+   Nới trần riêng cho trang này để câu nằm gọn một dòng trên màn hình rộng; hẹp
+   hơn thì vẫn tự xuống dòng như thường, không dùng nowrap để khỏi tràn ngang. */
+.tud .cat-hero p.hero-1dong{max-width:880px}
+/* Trang /ungdung: mô tả đứng cạnh tiêu đề, ngăn bằng một vạch dọc mảnh.
+   Đặt SAU `.tud .cat-hero p` vì hai chọn lọc cùng độ mạnh, ai sau thì thắng. */
+.tud .ud-hero-row{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.tud .ud-hero-row h1{flex:none;margin:14px 0 12px}
+.tud .ud-hero-row p{
+  max-width:340px;padding-left:26px;border-left:1px solid var(--line-em);
+  font-size:17px;line-height:1.6
+}
+@media(max-width:980px){
+  /* Hết chỗ đứng cạnh nhau thì xuống dòng, vạch dọc bỏ đi cho khỏi lửng lơ */
+  .tud .ud-hero-row h1{margin-bottom:0}
+  .tud .ud-hero-row p{max-width:660px;padding-left:0;border-left:0}
+}
+/* Chấm tròn thay cho emoji ở nhãn nhỏ: emoji mỗi máy một kiểu, chấm thì không */
+.tud .cat-hero .eyebrow .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block
+}
+/* Hai con số thành viên tròn có biểu tượng, thay cho dòng chữ xám ngăn bằng dấu chấm */
+.tud .cat-stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.tud .cat-stats span{
+  display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;
+  background:rgba(255,255,255,.85);border:1px solid rgba(0,111,230,.16);
+  color:var(--blue-mkt);font-size:14px;font-weight:800
+}
+/* Ô biểu tượng lớn bên phải, thuần trang trí */
+.tud .cat-hero-art{flex:none;display:grid;place-items:center;padding:8px}
+.tud .cat-hero-ico{
+  width:190px;height:190px;border-radius:46px;display:grid;place-items:center;
+  color:var(--blue);background:linear-gradient(150deg,rgba(255,255,255,.95),rgba(219,235,255,.85));
+  border:1px solid rgba(0,111,230,.16);box-shadow:0 20px 50px rgba(0,111,230,.16)
+}
+.tud .crumb{display:flex;gap:8px;align-items:center;color:var(--faint);font-size:12.5px;font-weight:700;margin-bottom:6px}
+.tud .crumb a:hover{color:var(--blue)}
+
+/* Ô sắp xếp nằm bên phải, ngay trên lưới */
+.tud .cat-tools{display:flex;justify-content:flex-end;margin-bottom:16px}
+.tud .cat-sort{position:relative;display:inline-flex;align-items:center;flex:none}
+.tud .cat-sort select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  border:1.5px solid var(--line);background:#FFFFFF;color:var(--ink);
+  border-radius:999px;padding:12px 44px 12px 20px;font-size:14px;font-weight:800;
+  transition:.18s ease
+}
+.tud .cat-sort select:hover{border-color:var(--blue);color:var(--blue-mkt)}
+.tud .cat-sort svg{position:absolute;right:17px;pointer-events:none;color:var(--muted)}
+
+.tud .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tud .cat-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px;display:flex;flex-direction:column;gap:12px;transition:.25s ease
+}
+.tud .cat-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,111,230,.13);border-color:var(--blue);color:var(--ink)}
+.tud .cat-card:hover h3{color:var(--blue-mkt)}
+/* Đầu thẻ: logo · tên và loại · viên điểm. Bản cũ để điểm 34px chiếm gần hết
+   một hàng riêng, còn tên app phải xuống dòng dưới. */
+.tud .cat-card-top{display:flex;align-items:flex-start;gap:14px}
+.tud .cat-card-name{flex:1;min-width:0}
+.tud .cat-card h3{margin:0;font-size:20px;font-weight:900;letter-spacing:-.7px;line-height:1.25}
+.tud .cat-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6;flex:1}
+.tud .cat-card .app-logo{width:56px;height:56px;border-radius:16px;font-size:20px;flex:none}
+.tud .cat-card .app-logo.has-img{background:#FFFFFF;border:1px solid var(--line);padding:0;overflow:hidden;box-shadow:0 2px 8px rgba(11,18,32,.06)}
+.tud .cat-card .score-pill{font-size:17px;padding:5px 12px 6px;align-self:flex-start}
+.tud .cat-card .score-pill i{font-style:normal;font-size:12.5px;opacity:.75}
+.tud .cat-kind{font-size:14px;font-weight:800;letter-spacing:-.2px;color:var(--blue-mkt);margin-top:3px}
+/* Chân thẻ: nhãn nền tảng bên trái, liên kết bên phải */
+.tud .cat-card-foot{
+  margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;
+  gap:10px;flex-wrap:wrap
+}
+.tud .cat-tags{display:flex;flex-wrap:wrap;gap:0}
+.tud .cat-card .tag{margin:0 6px 0 0;padding:6px 12px;font-size:12.5px}
+.tud .cat-go{
+  display:inline-flex;align-items:center;gap:6px;margin-left:auto;
+  font-size:13.5px;font-weight:850;color:var(--blue-mkt);white-space:nowrap
+}
+.tud .cat-go svg{transition:transform .18s ease}
+.tud .cat-card:hover .cat-go svg{transform:translateX(3px)}
+/* Nút xem thêm: viền cam, căn giữa */
+.tud .cat-more{display:flex;justify-content:center;margin-top:26px}
+.tud .cat-more button{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  border:1.5px solid var(--orange);background:#FFFFFF;color:var(--orange);
+  border-radius:999px;padding:15px 30px;font-size:15px;font-weight:850;transition:.18s ease
+}
+.tud .cat-more button:hover{
+  background:linear-gradient(135deg,var(--orange-lt),var(--orange));color:var(--on-orange);
+  border-color:transparent;box-shadow:0 10px 26px rgba(255,151,0,.28)
+}
+.tud .cat-empty{
+  background:var(--panel);border:1px dashed var(--line-em);border-radius:var(--radius);
+  padding:44px;text-align:center;color:var(--muted)
+}
+/* Lối đi tiếp trong khối rỗng phải nhìn ra là link, không thì người đọc bỏ qua */
+.tud .cat-empty a{color:var(--blue);font-weight:700;text-decoration:none}
+.tud .cat-empty a:hover{text-decoration:underline}
+@media(max-width:1100px){
+  .tud .cat-hero-ico{width:150px;height:150px;border-radius:38px}
+}
+@media(max-width:980px){
+  .tud .cat-grid{grid-template-columns:1fr 1fr}
+  /* Ô biểu tượng chiếm gần nửa hàng ở máy tính bảng, bỏ hẳn cho chữ thở */
+  .tud .cat-hero-art{display:none}
+}
+@media(max-width:640px){
+  .tud .cat-grid{grid-template-columns:1fr}
+  .tud .cat-hero{padding-top:40px}
+  .tud .cat-hero h1{font-size:40px;letter-spacing:-2px}
+  .tud .cat-stats span{padding:9px 15px;font-size:13px}
+  .tud .cat-tools{justify-content:stretch}
+  .tud .cat-sort,.tud .cat-sort select{width:100%}
+  .tud .cat-more button{width:100%;justify-content:center}
+}
+
+/* ── Trang chi tiết ứng dụng /app/<slug> ────────────────────────────── */
+.tud .app-hero{
+  background:var(--panel);border:1px solid var(--line);border-radius:30px;padding:32px;
+  display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:center;box-shadow:var(--shadow)
+}
+.tud .app-hero .app-logo{width:84px;height:84px;border-radius:22px;font-size:32px}
+.tud .app-head{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+.tud .app-hero h1{margin:0;font-size:clamp(34px,4.4vw,58px);letter-spacing:-2.4px;line-height:1.02;font-weight:950}
+.tud .app-hero .cat-kind{margin-bottom:6px}
+.tud .app-hero p{color:var(--muted);font-size:17px;margin:0 0 18px;max-width:640px}
+.tud .app-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.tud .app-score-box{
+  background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#fff;border-radius:24px;
+  padding:26px;text-align:center
+}
+.tud .app-score-box .big{font-size:70px;font-weight:950;letter-spacing:-4px;line-height:1;color:var(--orange-lt)}
+.tud .app-score-box .lbl{font-size:11.5px;font-weight:850;letter-spacing:.16em;color:rgba(255,255,255,.75);margin-top:8px}
+.tud .app-score-box .rank{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font-size:13px;color:rgba(255,255,255,.9)}
+
+.tud .app-body{
+  background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:34px;
+  color:var(--ink);font-size:16.5px;line-height:1.75
+}
+.tud .app-body h2{font-size:30px;letter-spacing:-1.4px;margin:28px 0 12px}
+.tud .app-body h3{font-size:23px;letter-spacing:-1px;margin:22px 0 10px}
+.tud .app-body p{margin:0 0 14px;color:var(--muted)}
+/* Tailwind preflight đặt `ul,ol{list-style:none}` cho toàn trang, nên danh
+   sách trong thân bài mất hết dấu đầu dòng và mất cả số thứ tự — với danh
+   sách có thứ tự thì đó là mất nghĩa. Trả lại dấu ở đúng ba khối thân bài;
+   các danh sách tự khai `list-style:none` (mục lục, thẻ bước) nằm ngoài ba
+   khối này nên không bị đụng tới. */
+.tud .app-body ul,.tud .app-body ol{margin:0 0 16px;padding-left:22px;color:var(--muted)}
+.tud .app-body ul{list-style:disc}
+.tud .app-body ol{list-style:decimal}
+.tud .app-body li{margin:6px 0}
+.tud .app-body a{color:var(--blue);text-decoration:underline}
+.tud .app-body img{max-width:100%;height:auto;border-radius:16px;margin:12px 0}
+.tud .app-body blockquote{
+  margin:16px 0;padding:14px 18px;border-left:4px solid var(--blue);
+  background:#F5F8FC;border-radius:0 14px 14px 0;color:var(--muted)
+}
+.tud .app-body code{background:#F5F8FC;padding:2px 6px;border-radius:6px;font-size:14.5px}
+
+@media(max-width:980px){
+  .tud .app-hero{grid-template-columns:1fr;padding:26px}
+}
+@media(max-width:640px){
+  .tud .app-head{gap:12px}
+  .tud .app-hero .app-logo{width:64px;height:64px;border-radius:18px;font-size:24px}
+  .tud .app-body{padding:22px;font-size:15.5px}
+}
+
+/* ── Bài review ứng dụng: các khối mở rộng ─────────────────────────── */
+.tud .app-tagline{font-size:19px;color:var(--ink);font-weight:750;margin:0 0 10px}
+
+/* Bảng thông số nhanh */
+.tud .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--panel);
+  border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.tud .fact{padding:20px 22px;border-right:1px solid var(--line)}
+.tud .fact:last-child{border-right:0}
+.tud .fact .k{font-size:11px;font-weight:850;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.tud .fact .v{font-size:15.5px;font-weight:750;margin-top:6px;color:var(--ink)}
+
+/* Điểm thành phần */
+.tud .bars{display:grid;gap:12px;margin-top:18px}
+.tud .bar-row{display:grid;grid-template-columns:150px 1fr 44px;gap:12px;align-items:center;font-size:13.5px}
+.tud .bar-row .lbl{color:var(--muted);font-weight:700}
+.tud .bar-track{height:9px;border-radius:999px;background:rgba(11,18,32,.08);overflow:hidden}
+.tud .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--cyan-lt),var(--blue))}
+.tud .bar-row .num{text-align:right;font-weight:900;color:var(--blue-mkt)}
+
+/* Ảnh sản phẩm */
+.tud .shots{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tud .shot{background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.tud .shot-img{width:100%;aspect-ratio:16/10;background:#EEF3FA;display:block;object-fit:cover}
+.tud .shot figcaption{padding:14px 18px;font-size:13px;color:var(--muted)}
+.tud .shot:first-child{grid-column:1 / -1}
+.tud .shot:first-child .shot-img{aspect-ratio:16/8}
+
+/* Ưu / nhược */
+.tud .proscons{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tud .pc-box{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px}
+.tud .pc-box.good{border-color:rgba(0,111,230,.35)}
+.tud .pc-box.bad{border-color:rgba(255,151,0,.45)}
+.tud .pc-box h3{margin:0 0 14px;font-size:21px;letter-spacing:-1px}
+.tud .pc-box ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.tud .pc-box li{display:flex;gap:10px;color:var(--muted);font-size:14.5px;line-height:1.55}
+.tud .pc-box li:before{font-weight:900;flex:none}
+.tud .pc-box.good li:before{content:"+";color:var(--blue)}
+.tud .pc-box.bad li:before{content:"−";color:var(--orange)}
+
+/* Ai nên dùng */
+.tud .bestfor{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.tud .bestfor span{background:var(--soft);color:var(--blue-mkt);border-radius:999px;
+  padding:9px 14px;font-size:13.5px;font-weight:750}
+
+/* Bảng giá */
+.tud .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tud .plan{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:26px;
+  display:flex;flex-direction:column;gap:14px}
+.tud .plan.featured{background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#fff;border-color:transparent}
+.tud .plan h4{margin:0;font-size:19px;letter-spacing:-.6px}
+.tud .plan .price{font-size:38px;font-weight:950;letter-spacing:-2px;line-height:1}
+.tud .plan.featured .price{color:var(--orange-lt)}
+.tud .plan .period{font-size:12.5px;color:var(--faint);font-weight:700}
+.tud .plan.featured .period{color:rgba(255,255,255,.72)}
+.tud .plan ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.tud .plan li{font-size:13.5px;color:var(--muted);display:flex;gap:8px}
+.tud .plan li:before{content:"✓";color:var(--blue);font-weight:900;flex:none}
+.tud .plan.featured li{color:rgba(255,255,255,.9)}
+.tud .plan.featured li:before{color:var(--orange-lt)}
+
+/* FAQ */
+.tud .faq-list{display:grid;gap:12px}
+.tud .faq-item{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px 24px}
+.tud .faq-item h4{margin:0 0 8px;font-size:17.5px;letter-spacing:-.5px}
+.tud .faq-item p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.6}
+
+/* Kết luận */
+.tud .verdict{background:linear-gradient(140deg,var(--blue-deep),var(--blue-night));color:#fff;
+  border-radius:28px;padding:36px}
+.tud .verdict .lbl{font-size:11.5px;font-weight:850;letter-spacing:.16em;color:var(--orange-mid)}
+.tud .verdict p{margin:14px 0 0;font-size:19px;line-height:1.6;color:rgba(255,255,255,.92);max-width:820px}
+
+@media(max-width:980px){
+  .tud .facts{grid-template-columns:1fr 1fr}
+  .tud .fact:nth-child(2n){border-right:0}
+  .tud .fact:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .tud .shots,.tud .proscons,.tud .plans{grid-template-columns:1fr}
+  .tud .shot:first-child{grid-column:auto}
+}
+@media(max-width:640px){
+  .tud .facts{grid-template-columns:1fr}
+  .tud .fact{border-right:0;border-bottom:1px solid var(--line)}
+  .tud .fact:last-child{border-bottom:0}
+  .tud .bar-row{grid-template-columns:110px 1fr 40px}
+  .tud .verdict{padding:26px}
+  .tud .verdict p{font-size:16.5px}
+}
+
+/* ── Trang tin tức /tin-tuc và /tin-tuc/<slug> ─────────────────────── */
+.tud .art-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;color:var(--faint);
+  font-size:13px;font-weight:700;margin-top:14px}
+.tud .art-meta .sep{opacity:.5}
+.tud .art-cover{width:100%;border-radius:26px;overflow:hidden;border:1px solid var(--line);
+  background:#EEF3FA;aspect-ratio:16/7;display:block;object-fit:cover}
+.tud .art-lead{font-size:19px;line-height:1.65;color:var(--muted);max-width:820px;margin:0}
+
+.tud .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tud .news-card{background:var(--panel);border:1.5px solid rgba(11,18,32,.16);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;transition:.22s ease}
+.tud .news-card:hover{transform:translateY(-5px);border-color:var(--blue);
+  background:rgba(0,111,230,.05);box-shadow:0 0 0 3px rgba(0,111,230,.12), var(--shadow);color:var(--ink)}
+.tud .news-thumb{width:100%;aspect-ratio:1200/630;background:#EEF3FA;object-fit:cover;display:block}
+.tud .news-body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tud .news-body .meta{font-size:11px;font-weight:850;letter-spacing:.14em;color:var(--blue-mkt)}
+.tud .news-body h3{margin:0;font-size:20px;line-height:1.25;letter-spacing:-.9px}
+.tud .news-body p{margin:0;font-size:13.5px;color:var(--muted);flex:1}
+
+@media(max-width:980px){ .tud .news-grid{grid-template-columns:1fr 1fr} }
+@media(max-width:640px){
+  .tud .news-grid{grid-template-columns:1fr}
+  .tud .art-lead{font-size:16.5px}
+}
+
+/* ── Trải nghiệm đọc bài viết ──────────────────────────────────────── */
+
+/* Thanh tiến độ đọc */
+.tud .read-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:transparent;pointer-events:none}
+.tud .read-progress-bar{height:100%;background:linear-gradient(90deg,var(--cyan-lt),var(--blue),var(--orange));
+  transition:width .1s linear}
+
+/* Bố cục 2 cột: nội dung + mục lục dính */
+/* Khoảng cách giữa hai cột đúng bằng `gap`. Trước đây thân bài bị chặn ở
+   820px trong một cột rộng gần 1000px, nên phần thừa của cột cộng thêm vào
+   `gap` làm mục lục nhìn như trôi hẳn ra xa. */
+.tud .art-layout{display:grid;grid-template-columns:minmax(0,1fr) 264px;gap:15px;align-items:start}
+
+/* Khổ chữ đọc được: ~70 ký tự mỗi dòng */
+/* Thẻ phủ kín cột; bề rộng dòng chữ được giữ lại bằng lề trong thay cho
+   `max-width`, nên vẫn dễ đọc mà không chừa một mảng trống cạnh mục lục. */
+.tud .art-body{
+  background:var(--panel);border:1px solid var(--line);border-radius:26px;
+  padding:44px clamp(30px,4.2vw,72px);
+  color:var(--ink);font-size:17.5px;line-height:1.8
+}
+.tud .art-body > *:first-child{margin-top:0}
+.tud .art-body > *:last-child{margin-bottom:0}
+.tud .art-body h2{font-size:29px;letter-spacing:-1.3px;margin:38px 0 14px;scroll-margin-top:100px;line-height:1.2}
+.tud .art-body h3{font-size:22px;letter-spacing:-.8px;margin:28px 0 10px;scroll-margin-top:100px;line-height:1.3}
+.tud .art-body p{margin:0 0 18px;color:#33415C}
+.tud .art-body > p:first-of-type{font-size:19px;line-height:1.72;color:var(--ink);font-weight:550}
+.tud .art-body ul,.tud .art-body ol{margin:0 0 20px;padding-left:24px;color:#33415C}
+.tud .art-body ul{list-style:disc}
+.tud .art-body ol{list-style:decimal}
+.tud .art-body li{margin:9px 0}
+.tud .art-body li::marker{color:var(--blue)}
+.tud .art-body a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+.tud .art-body img{max-width:100%;height:auto;border-radius:18px;margin:22px 0;display:block}
+.tud .art-body figure{margin:22px 0}
+.tud .art-body figcaption{font-size:13.5px;color:var(--faint);text-align:center;margin-top:8px}
+.tud .art-body blockquote{
+  margin:24px 0;padding:18px 24px;border-left:4px solid var(--blue);
+  background:#F5F8FC;border-radius:0 16px 16px 0;color:var(--muted);font-size:17px
+}
+.tud .art-body blockquote p:last-child{margin-bottom:0}
+.tud .art-body code{background:#F5F8FC;padding:2px 7px;border-radius:6px;font-size:15px;color:var(--blue-mkt)}
+.tud .art-body pre{background:#0B1220;color:#E6EDF7;padding:18px 20px;border-radius:16px;overflow:auto;margin:22px 0}
+.tud .art-body pre code{background:transparent;color:inherit;padding:0}
+.tud .art-body hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+.tud .art-body table{width:100%;border-collapse:collapse;margin:22px 0;font-size:15.5px}
+.tud .art-body th,.tud .art-body td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+.tud .art-body th{background:#F5F8FC;font-weight:800}
+
+/* Mục lục */
+.tud .toc{position:sticky;top:96px;background:var(--panel);border:1px solid var(--line);
+  border-radius:20px;padding:20px 18px;max-height:calc(100vh - 130px);overflow:auto}
+.tud .toc-title{font-size:11px;font-weight:850;letter-spacing:.14em;color:var(--faint);
+  text-transform:uppercase;margin-bottom:12px}
+.tud .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.tud .toc li a{display:block;padding:7px 10px;border-radius:10px;font-size:13.5px;line-height:1.45;
+  color:var(--muted);font-weight:650;border-left:2px solid transparent;transition:.16s ease}
+.tud .toc li.lv3 a{padding-left:22px;font-size:13px}
+.tud .toc li a:hover{background:rgba(0,111,230,.07);color:var(--blue-mkt)}
+.tud .toc li.on a{background:rgba(0,111,230,.1);color:var(--blue-mkt);border-left-color:var(--blue);font-weight:800}
+
+/* Chia sẻ */
+.tud .share{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.tud .share-label{font-size:12px;font-weight:850;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.tud .share-btn{border:1px solid rgba(0,111,230,.3);background:#fff;color:var(--ink);border-radius:999px;
+  padding:7px 14px;font-size:13px;font-weight:750;cursor:pointer;transition:.18s ease}
+.tud .share-btn:hover{background:rgba(0,111,230,.08);border-color:var(--blue);color:var(--blue)}
+
+/* Lên đầu trang */
+.tud .to-top{position:fixed;right:24px;bottom:24px;z-index:50;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--line);background:#fff;color:var(--blue);font-size:20px;font-weight:900;
+  cursor:pointer;box-shadow:var(--shadow);transition:.18s ease}
+.tud .to-top:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+
+@media(max-width:1100px){
+  .tud .art-layout{grid-template-columns:1fr}
+  .tud .toc{position:static;max-height:none;order:-1}
+  .tud .art-body{max-width:none}
+}
+@media(max-width:640px){
+  .tud .art-body{padding:26px 22px;font-size:16.5px;line-height:1.75}
+  .tud .art-body > p:first-of-type{font-size:17.5px}
+  .tud .art-body h2{font-size:24px;margin:30px 0 12px}
+  .tud .art-body h3{font-size:19.5px}
+  .tud .to-top{right:14px;bottom:14px;width:42px;height:42px}
+}
+
+/* ── Bình chọn sao ─────────────────────────────────────────────────── */
+.tud .stars{display:inline-flex;gap:2px;line-height:1;white-space:nowrap}
+.tud .star{position:relative;display:inline-block}
+.tud .star-bg{color:rgba(11,18,32,.16)}
+.tud .star-fg{position:absolute;left:0;top:0;overflow:hidden;color:var(--orange);display:inline-block}
+
+.tud .vote-box{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:24px}
+.tud .vote-head{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.tud .vote-avg{font-size:46px;font-weight:950;letter-spacing:-2.4px;line-height:1;color:var(--orange)}
+.tud .vote-count{font-size:12.5px;color:var(--faint);font-weight:700;margin-top:6px}
+.tud .vote-dist{display:grid;gap:5px;min-width:0}
+.tud .vote-dist-row{display:grid;grid-template-columns:30px 1fr 30px;gap:8px;align-items:center;font-size:11.5px;color:var(--faint);font-weight:750}
+.tud .vote-dist-row .track{height:7px;border-radius:999px;background:rgba(11,18,32,.08);overflow:hidden}
+.tud .vote-dist-row .fill{display:block;height:100%;border-radius:999px;background:var(--orange)}
+.tud .vote-dist-row .n{text-align:right}
+
+.tud .vote-action{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;
+  padding-top:18px;border-top:1px solid var(--line)}
+.tud .vote-label{font-size:13px;font-weight:800;color:var(--ink)}
+.tud .vote-stars{display:inline-flex;gap:2px}
+.tud .vote-star{background:none;border:0;cursor:pointer;font-size:30px;line-height:1;padding:0 2px;
+  color:rgba(11,18,32,.18);transition:transform .12s ease,color .12s ease}
+.tud .vote-star:hover{transform:scale(1.15)}
+.tud .vote-star.on{color:var(--orange)}
+.tud .vote-star:disabled{cursor:wait;opacity:.6}
+.tud .vote-undo{background:none;border:0;color:var(--muted);font-size:12.5px;font-weight:700;
+  cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.tud .vote-undo:hover{color:var(--blue)}
+.tud .vote-msg{margin-top:10px;font-size:13px;font-weight:750;color:var(--blue-mkt)}
+.tud .vote-note{margin-top:8px;font-size:11.5px;color:var(--faint)}
+
+@media(max-width:640px){
+  .tud .vote-head{grid-template-columns:1fr;gap:16px}
+  .tud .vote-avg{font-size:38px}
+}
+
+/* ── Trang xếp hạng /ranking ───────────────────────────────────────── */
+.tud .rank-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.tud .rank-tab{border:1.5px solid rgba(11,18,32,.16);background:#fff;color:var(--ink);
+  border-radius:999px;padding:12px 22px;font-size:14.5px;font-weight:800;cursor:pointer;transition:.18s ease}
+.tud .rank-tab:hover{border-color:var(--blue);background:rgba(0,111,230,.06);color:var(--blue)}
+.tud .rank-tab.on{background:linear-gradient(135deg,var(--blue),var(--blue-mkt));color:#fff;border-color:transparent}
+
+.tud .rank-table{background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+/* Sáu cột: hạng · ứng dụng · điểm biên tập · sao người dùng · nhóm · mũi tên */
+.tud .rank-head,.tud .rank-line{display:grid;
+  grid-template-columns:78px minmax(0,1fr) 110px 190px 190px 52px;gap:14px;align-items:center;padding:16px 24px}
+.tud .rank-head{font-size:11px;letter-spacing:.14em;color:var(--faint);font-weight:850;
+  border-bottom:1px solid var(--line);text-transform:uppercase;background:#F8FAFD}
+.tud .rank-line{border-bottom:1px solid var(--line);transition:.18s ease}
+.tud .rank-line:last-child{border-bottom:0}
+.tud .rank-line:hover{background:rgba(0,111,230,.05);color:var(--ink)}
+/* Hạng là ô vuông bo góc, ba hạng đầu tô cam — số trần rất dễ trôi mắt */
+.tud .rank-pos{
+  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+  font-size:20px;font-weight:900;letter-spacing:-.5px;
+  background:#F1F5FA;color:var(--faint)
+}
+.tud .rank-pos.top{background:linear-gradient(150deg,var(--orange-lt),var(--orange));color:#FFFFFF}
+.tud .rank-name{display:flex;align-items:center;gap:14px;min-width:0}
+.tud .rank-name .app-logo{width:52px;height:52px;border-radius:15px;font-size:15px;flex:none}
+.tud .rank-name .app-logo.has-img{background:#FFFFFF;border:1px solid var(--line);padding:0;overflow:hidden;box-shadow:none}
+.tud .rank-name b{display:block;font-size:17px;letter-spacing:-.5px}
+.tud .rank-name span{display:block;font-size:13px;color:var(--muted);font-weight:750;margin-top:2px}
+.tud .rank-editor{font-size:26px;font-weight:950;letter-spacing:-1px;color:var(--blue-mkt);text-align:center}
+/* Ba cột số liệu canh giữa để đọc dọc theo cột cho nhanh */
+.tud .rank-head div:nth-child(3),
+.tud .rank-head div:nth-child(4),
+.tud .rank-head div:nth-child(5){text-align:center}
+.tud .rank-user{display:flex;flex-direction:column;gap:4px;align-items:center}
+.tud .rank-cat-cell{text-align:center}
+.tud .rank-user .n{font-size:12.5px;color:var(--muted);font-weight:750}
+/* Nhóm là viên xanh nhạt thay vì chữ trần căn phải — chữ trần hay bị ngắt
+   thành hai dòng và trông như một liên kết lạc chỗ */
+.tud .rank-cat-cell{min-width:0;text-align:center}
+.tud .rank-cat{
+  display:inline-block;max-width:100%;padding:7px 14px;border-radius:999px;
+  background:rgba(0,111,230,.09);color:var(--blue-mkt);
+  font-size:12.5px;font-weight:800;line-height:1.35;transition:.18s ease
+}
+.tud .rank-cat:hover{background:rgba(0,111,230,.18);color:var(--blue-mkt)}
+.tud .rank-go{
+  width:36px;height:36px;border-radius:50%;display:grid;place-items:center;justify-self:end;
+  color:var(--blue);background:rgba(0,111,230,.08);transition:.18s ease
+}
+.tud .rank-line:hover .rank-go{background:var(--blue);color:#FFFFFF}
+/* Nút chốt khối căn giữa */
+.tud .rank-foot{display:flex;justify-content:center;margin-top:26px}
+
+@media(max-width:1180px){
+  .tud .rank-head,.tud .rank-line{grid-template-columns:64px minmax(0,1fr) 92px 176px 160px 44px;padding:14px 18px}
+  .tud .rank-pos{width:44px;height:44px;font-size:18px}
+  .tud .rank-name .app-logo{width:46px;height:46px;border-radius:13px}
+  .tud .rank-editor{font-size:22px}
+}
+@media(max-width:980px){
+  .tud .rank-head,.tud .rank-line{grid-template-columns:56px minmax(0,1fr) 84px 176px 44px}
+  .tud .rank-head div:nth-child(5),.tud .rank-line .rank-cat-cell{display:none}
+}
+@media(max-width:640px){
+  /* Giữ lại cột điểm biên tập: đó là con số quyết định thứ hạng, ẩn đi thì
+     người xem trên điện thoại thấy một danh sách có thứ tự mà không rõ vì sao. */
+  .tud .rank-head,.tud .rank-line{
+    grid-template-columns:40px minmax(0,1fr) 52px 118px;padding:12px 12px;gap:8px
+  }
+  .tud .rank-head div:last-child,.tud .rank-line .rank-go{display:none}
+  .tud .rank-editor{font-size:19px}
+  /* Bóp hàng sao lại cho vừa cột hẹp, vẫn bấm được bằng ngón tay */
+  .tud .rank-user .quick-vote{gap:0}
+  .tud .rank-user .qv-star svg{width:14px;height:14px}
+  .tud .rank-user .n{font-size:11px}
+  .tud .rank-pos{width:38px;height:38px;border-radius:11px;font-size:15px}
+  .tud .rank-name .app-logo{width:40px;height:40px;border-radius:12px}
+  .tud .rank-name b{font-size:15px}
+  .tud .rank-name span{font-size:12px}
+  .tud .rank-tab{padding:10px 16px;font-size:13.5px}
+}
+
+/* Nút làm mới số liệu bình chọn */
+.tud .rank-refresh{margin-left:auto;display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:800;cursor:pointer;transition:.18s ease}
+.tud .rank-refresh:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,111,230,.06)}
+.tud .rank-refresh:disabled{opacity:.55;cursor:wait}
+.tud .rank-tabs{align-items:center}
+
+/* Nút chấm sao nhanh ngay trong bảng xếp hạng */
+.tud .quick-vote{display:flex;align-items:center;gap:2px}
+.tud .qv-star{position:relative;background:none;border:0;padding:0;cursor:pointer;
+  font-size:18px;line-height:1;transition:transform .12s ease}
+.tud .qv-star .star-bg{display:block;color:rgba(11,18,32,.18)}
+.tud .qv-star .star-fg{position:absolute;left:0;top:0;display:block;overflow:hidden;
+  color:var(--orange);pointer-events:none;transition:width .12s ease}
+/* Rê chuột lên hàng sao thì đổi sang vàng đậm để biết đang xem trước phiếu của mình */
+.tud .quick-vote:hover .star-fg{color:#F59E0B}
+.tud .qv-star:hover{transform:scale(1.22)}
+.tud .qv-star:focus-visible{outline:2px solid var(--blue-mkt);outline-offset:2px;border-radius:3px}
+.tud .qv-star:disabled{cursor:wait;opacity:.55}
+/* Hàng không còn là thẻ <a>, nên chỉ phần tên và nhóm mới bắt sự kiện liên kết */
+.tud .rank-line .rank-name,.tud .rank-line .rank-cat{cursor:pointer}
+.tud .rank-line .rank-name:hover b{color:var(--blue)}
+.tud .rank-line .rank-cat:hover{text-decoration:underline}
+
+/* ── /topapp — bộ công cụ, thứ tự do admin sắp ────────────────────────────── */
+/* Hai viên thống kê dưới tiêu đề, thay cho dòng chữ xám ngăn bằng dấu chấm */
+.tud .tapp-stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.tud .tapp-stat{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;
+  border:1px solid rgba(0,111,230,.20);background:rgba(255,255,255,.85);
+  color:var(--blue-mkt);font-size:13.5px;font-weight:750
+}
+.tud .tapp-stat svg{color:var(--blue);flex:none}
+
+.tud .tapp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+/* Số bước nằm ngoài thẻ, trên một đường kẻ dọc chạy suốt danh sách. Đường kẻ
+   vẽ bằng `::before` của cả mục rồi để huy hiệu che đi đoạn giữa — cách này
+   không cần tính chiều cao thẻ, vốn thay đổi theo độ dài mô tả. */
+.tud .tapp-item{
+  position:relative;display:grid;grid-template-columns:54px minmax(0,1fr);
+  gap:20px;align-items:center
+}
+.tud .tapp-item:before{
+  content:'';position:absolute;left:26px;top:0;bottom:-12px;
+  border-left:2px dotted rgba(0,111,230,.34)
+}
+.tud .tapp-item:last-child:before{bottom:auto;height:50%}
+.tud .tapp-no{
+  position:relative;z-index:1;width:54px;height:54px;border-radius:50%;
+  display:grid;place-items:center;background:var(--blue);color:#FFFFFF;
+  font-size:17px;font-weight:900;letter-spacing:-.4px;
+  /* Vành cùng màu nền trang để cắt đường kẻ, thay cho việc chia nhỏ đường kẻ */
+  box-shadow:0 0 0 6px var(--bg),0 6px 16px rgba(0,111,230,.30)
+}
+
+.tud .tapp-row{
+  display:grid;grid-template-columns:60px minmax(0,1fr) auto;gap:18px;align-items:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 20px;
+  text-decoration:none;color:inherit;transition:.2s ease
+}
+.tud a.tapp-row:hover{border-color:var(--blue-mkt);transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,111,230,.12)}
+.tud .tapp-row-plain{opacity:.72}
+/* Trang tìm kiếm dùng lại đúng thẻ này nhưng có thêm cột số thứ tự đứng trước,
+   vì ở đó danh sách không có đường kẻ dọc như bộ công cụ. */
+.tud .tapp-row.co-so{grid-template-columns:46px 60px minmax(0,1fr) auto}
+.tud .tapp-step{font-size:20px;font-weight:950;color:var(--blue-mkt);letter-spacing:-1px}
+.tud .tapp-logo{width:60px;height:60px;border-radius:16px;font-size:20px;flex:none;padding:0}
+.tud .tapp-logo-img{background:#F2F6FC;overflow:hidden}
+.tud .tapp-logo-img img{width:100%;height:100%;object-fit:contain;padding:9px}
+.tud .tapp-main{min-width:0;display:flex;flex-direction:column;gap:3px}
+.tud .tapp-main b{font-size:18px;font-weight:850;letter-spacing:-.4px}
+.tud .tapp-note{font-size:14px;color:var(--blue-mkt);font-weight:800}
+.tud .tapp-tagline{font-size:13.5px;color:var(--muted);line-height:1.5;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tud .tapp-side{display:flex;align-items:center;gap:14px;flex:none}
+/* Điểm là thứ cần bắt mắt nhất bên phải nên tô cam, mẫu số để nhạt */
+.tud .tapp-score{
+  display:inline-flex;align-items:baseline;gap:3px;
+  background:rgba(255,151,0,.14);border-radius:11px;padding:6px 12px
+}
+.tud .tapp-score b{font-size:17px;font-weight:900;color:#C2700A;letter-spacing:-.5px}
+.tud .tapp-score small{font-size:12px;font-weight:700;color:var(--faint)}
+.tud .tapp-cat{
+  display:inline-flex;align-items:center;gap:8px;max-width:230px;
+  padding:8px 14px;border-radius:12px;background:rgba(0,111,230,.06);
+  color:var(--blue-mkt);font-size:13px;font-weight:750;line-height:1.3
+}
+.tud .tapp-cat svg{color:var(--blue);flex:none}
+.tud .tapp-go{
+  display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  padding:11px 18px;border-radius:12px;border:1.5px solid var(--blue);
+  color:var(--blue-mkt);font-size:13.5px;font-weight:800;transition:.16s ease
+}
+.tud a.tapp-row:hover .tapp-go{background:var(--blue);border-color:var(--blue);color:#FFFFFF}
+.tud a.tapp-row:hover .tapp-go svg{transform:translateX(3px)}
+.tud .tapp-go svg{transition:.16s ease}
+.tud .tapp-empty{padding:40px;text-align:center;color:var(--muted);font-size:14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:22px}
+.tud .tapp-foot{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+
+@media (max-width:1080px){
+  /* Hết chỗ cho một hàng ngang: phần điểm và nút xuống dòng dưới, thẳng lề
+     với chữ chứ không thụt vào giữa. */
+  .tud .tapp-row{grid-template-columns:60px minmax(0,1fr);align-items:start}
+  .tud .tapp-row.co-so{grid-template-columns:46px 60px minmax(0,1fr)}
+  .tud .tapp-side{grid-column:2;justify-content:flex-start;flex-wrap:wrap;margin-top:5px}
+  /* Thẻ cao lên vì chữ xuống dòng: căn giữa sẽ để biểu trưng lửng lơ giữa thẻ */
+  .tud .tapp-logo{margin-top:2px}
+}
+@media (max-width:760px){
+  .tud .tapp-item{grid-template-columns:42px minmax(0,1fr);gap:13px}
+  .tud .tapp-item:before{left:20px}
+  .tud .tapp-no{width:42px;height:42px;font-size:14px;box-shadow:0 0 0 5px var(--bg),0 5px 12px rgba(0,111,230,.28)}
+  .tud .tapp-row{grid-template-columns:46px minmax(0,1fr);gap:12px;padding:14px 15px}
+  .tud .tapp-row.co-so{grid-template-columns:34px 46px minmax(0,1fr)}
+  .tud .tapp-step{font-size:16px}
+  .tud .tapp-logo{width:46px;height:46px;border-radius:13px;font-size:16px}
+  .tud .tapp-main b{font-size:16px}
+  .tud .tapp-tagline{white-space:normal}
+  .tud .tapp-cat{max-width:100%}
+}
+
+/* Mỗi bước trong Creator Stack ở trang chủ giờ bấm được sang trang app */
+
+
+/* Tiêu đề khối Creator Stack ở trang chủ dẫn thẳng sang /topapp */
+.tud .stack-title-link{color:inherit;text-decoration:none;transition:color .18s ease}
+.tud .stack-title-link:hover{color:var(--blue-mkt)}
+
+/* ── Hộp thoại chung: tìm kiếm & đề xuất ứng dụng ─────────────────────────── */
+.tud .tud-modal-bg{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(7,16,31,.52);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  animation:tud-fade .18s ease
+}
+@keyframes tud-fade{from{opacity:0}to{opacity:1}}
+.tud .tud-modal{
+  width:100%;max-width:660px;max-height:calc(100vh - 48px);
+  display:flex;flex-direction:column;
+  background:#FFFFFF;border:1px solid rgba(11,18,32,.08);
+  border-radius:26px;box-shadow:0 40px 120px rgba(7,16,31,.35),0 0 0 1px rgba(255,255,255,.6) inset;
+  overflow:hidden;animation:tud-rise .22s cubic-bezier(.2,.9,.3,1)
+}
+@keyframes tud-rise{from{transform:translateY(14px) scale(.985);opacity:0}to{transform:none;opacity:1}}
+.tud .tud-modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:22px 26px 18px;border-bottom:1px solid var(--line);flex:none
+}
+.tud .tud-modal-head h3{margin:0;font-size:21px;font-weight:900;letter-spacing:-.6px}
+.tud .tud-modal-x{
+  background:rgba(11,18,32,.05);border:0;width:34px;height:34px;border-radius:50%;
+  font-size:14px;color:var(--muted);cursor:pointer;display:grid;place-items:center;
+  flex:none;transition:.16s ease
+}
+.tud .tud-modal-x:hover{background:rgba(11,18,32,.1);color:var(--ink);transform:rotate(90deg)}
+
+/* ── Tìm kiếm ─────────────────────────────────────────────────────────────── */
+.tud .search-modal{max-width:620px}
+.tud .search-bar{
+  display:flex;align-items:center;gap:14px;padding:20px 22px;
+  border-bottom:1px solid var(--line);flex:none
+}
+.tud .search-icon{font-size:18px;flex:none;opacity:.5}
+.tud .search-bar input{
+  flex:1;border:0;outline:none;background:transparent;font:inherit;font-size:18px;
+  font-weight:700;color:var(--ink);min-width:0;letter-spacing:-.3px
+}
+.tud .search-bar input::placeholder{color:var(--faint);font-weight:600;letter-spacing:0}
+.tud .search-body{flex:1;overflow-y:auto;padding:8px 10px 14px;min-height:120px}
+.tud .search-hint{padding:44px 20px;text-align:center;color:var(--muted);font-size:14px;
+  line-height:1.7;margin:0}
+.tud .search-hint a{color:var(--blue-mkt);font-weight:800}
+.tud .search-group + .search-group{margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+.tud .search-group-title{padding:12px 14px 7px;font-size:10.5px;font-weight:900;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+.tud .search-item{
+  display:flex;align-items:center;gap:14px;padding:11px 14px;border-radius:16px;
+  text-decoration:none;color:inherit;transition:background .14s ease
+}
+.tud .search-item:hover{background:#F1F6FC}
+.tud .search-logo{
+  width:42px;height:42px;border-radius:13px;font-size:15px;flex:none;padding:0;
+  background:#EEF3FA;color:var(--blue-mkt);overflow:hidden;font-weight:900
+}
+.tud .search-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
+.tud .search-logo-doc{background:#F2F5F9;font-size:18px}
+.tud .search-text{min-width:0;display:flex;flex-direction:column;gap:2px;flex:1}
+.tud .search-text b{font-size:15px;font-weight:800;letter-spacing:-.2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tud .search-text span{font-size:12.5px;color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tud .search-score{font-size:13px;font-weight:900;color:var(--blue-mkt);
+  background:rgba(0,111,230,.09);border-radius:9px;padding:5px 10px;flex:none}
+.tud .search-all{
+  display:block;margin:10px 14px 4px;padding:13px;text-align:center;border-radius:15px;
+  background:#F1F6FC;color:var(--blue-mkt);font-weight:850;font-size:13.5px;text-decoration:none;
+  transition:background .16s ease
+}
+.tud .search-all:hover{background:#E4EFFB}
+
+/* ── Đề xuất ứng dụng ─────────────────────────────────────────────────────── */
+.tud .suggest-modal{max-width:600px}
+.tud .suggest-form{padding:20px 26px 26px;display:flex;flex-direction:column;gap:15px;
+  overflow-y:auto}
+.tud .suggest-intro{margin:0 0 2px;color:var(--muted);font-size:13.5px;line-height:1.65}
+.tud .suggest-form label{display:flex;flex-direction:column;gap:7px}
+.tud .suggest-form label > span{font-size:12px;font-weight:850;color:var(--ink);
+  letter-spacing:.02em}
+.tud .suggest-form label > span i{color:#E0284A;font-style:normal;margin-left:2px}
+.tud .suggest-form input,.tud .suggest-form textarea,.tud .suggest-form select{
+  border:1px solid var(--line);border-radius:13px;padding:12px 14px;font:inherit;font-size:14.5px;
+  background:#F8FAFD;color:var(--ink);outline:none;transition:.16s ease;width:100%;
+  font-weight:600
+}
+.tud .suggest-form input::placeholder,.tud .suggest-form textarea::placeholder{
+  color:var(--faint);font-weight:500}
+.tud .suggest-form input:focus,.tud .suggest-form textarea:focus,.tud .suggest-form select:focus{
+  border-color:var(--blue-mkt);background:#FFFFFF;box-shadow:0 0 0 4px rgba(0,111,230,.10)
+}
+.tud .suggest-form textarea{resize:vertical;min-height:82px;line-height:1.6}
+.tud .suggest-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.tud .suggest-error{
+  background:#FEF1F3;border:1px solid #F3C9D1;color:#B4152F;
+  border-radius:13px;padding:11px 14px;font-size:13px;font-weight:750;line-height:1.5
+}
+.tud .suggest-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px;
+  padding-top:16px;border-top:1px solid var(--line)}
+.tud .suggest-actions .btn:disabled{opacity:.6;cursor:wait}
+.tud .suggest-done{padding:40px 30px 34px;text-align:center;display:flex;flex-direction:column;
+  align-items:center;gap:18px}
+.tud .suggest-done-icon{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;
+  background:#E6F7EE;color:#12864A;font-size:30px;font-weight:900;
+  box-shadow:0 0 0 8px rgba(18,134,74,.07)}
+.tud .suggest-done p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.7;max-width:400px}
+.tud .suggest-done b{color:var(--ink)}
+
+@media (max-width:640px){
+  .tud .tud-modal-bg{padding:0;align-items:flex-end}
+  .tud .tud-modal{max-width:none;max-height:92vh;border-radius:24px 24px 0 0}
+  .tud .suggest-row{grid-template-columns:1fr}
+  .tud .suggest-form{padding:18px 20px 22px}
+  .tud .tud-modal-head,.tud .search-bar{padding-left:20px;padding-right:20px}
+}
+
+/* ── Bảng và khối nhấn trong thân bài ─────────────────────────────────────── */
+.tud .app-body .tbl-wrap,.tud .art-body .tbl-wrap{overflow-x:auto;margin:20px 0;
+  border:1px solid var(--line);border-radius:16px}
+.tud .app-body table,.tud .art-body table{
+  width:100%;border-collapse:collapse;font-size:15px;min-width:520px;background:#FFFFFF
+}
+.tud .app-body th,.tud .art-body th{
+  text-align:left;padding:12px 14px;background:#F1F6FC;color:var(--ink);
+  font-weight:850;font-size:13px;letter-spacing:.02em;border-bottom:1px solid var(--line);
+  white-space:nowrap
+}
+.tud .app-body td,.tud .art-body td{padding:12px 14px;border-bottom:1px solid var(--line);
+  color:#33415C;vertical-align:top}
+.tud .app-body tr:last-child td,.tud .art-body tr:last-child td{border-bottom:0}
+.tud .app-body tbody tr:hover,.tud .art-body tbody tr:hover{background:#FAFCFE}
+.tud .app-body td b,.tud .art-body td b{color:var(--ink)}
+/* Câu trả lời ngắn đặt ngay đầu bài — cho người đọc lướt và cho máy trích */
+.tud .app-body .answer,.tud .art-body .answer{
+  background:#F1F6FC;border:1px solid rgba(0,111,230,.18);border-left:4px solid var(--blue);
+  border-radius:0 16px 16px 0;padding:18px 22px;margin:0 0 24px
+}
+.tud .app-body .answer p,.tud .art-body .answer p{margin:0;color:var(--ink);font-weight:600}
+.tud .app-body .answer p + p,.tud .art-body .answer p + p{margin-top:10px}
+.tud .app-body .note,.tud .art-body .note{
+  background:#FFF8EC;border:1px solid #F3DCB4;border-radius:14px;padding:14px 18px;
+  margin:20px 0;font-size:14.5px;color:#7A5416
+}
+.tud .app-body .note b,.tud .art-body .note b{color:#5C3E0C}
+
+/* ── Thẻ nhóm con trong trang danh mục ────────────────────────────────────── */
+.tud .subcat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tud .subcat{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;
+  display:flex;flex-direction:column;gap:16px;transition:.18s ease;text-decoration:none;color:inherit
+}
+.tud .subcat-head{display:flex;align-items:flex-start;gap:14px}
+.tud .subcat-ico{
+  width:52px;height:52px;border-radius:15px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(150deg,rgba(0,111,230,.15),rgba(0,111,230,.05));
+  transition:.18s ease
+}
+.tud .subcat-text{display:flex;flex-direction:column;gap:5px;min-width:0}
+.tud .subcat b{font-size:18px;font-weight:850;letter-spacing:-.5px;transition:color .18s ease}
+.tud .subcat-text > span{font-size:13.5px;color:var(--muted);line-height:1.55}
+.tud .subcat-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+/* Số công cụ làm viên cam, giống viên đếm ở khối khám phá trang chủ */
+.tud .subcat-count{
+  padding:6px 14px;border-radius:999px;background:rgba(255,151,0,.14);color:#B25E00;
+  font-size:12.5px;font-weight:800;line-height:1.35
+}
+.tud .subcat-go{
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:rgba(0,111,230,.10);transition:.18s ease
+}
+.tud .subcat:hover{
+  transform:translateY(-2px);border-color:var(--blue);box-shadow:0 8px 22px rgba(0,111,230,.13)
+}
+.tud .subcat:hover b{color:var(--blue-mkt)}
+.tud .subcat:hover .subcat-ico{background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#fff}
+.tud .subcat:hover .subcat-go{background:var(--blue);color:#fff}
+@media (max-width:900px){.tud .subcat-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.tud .subcat-grid{grid-template-columns:1fr}}
+
+/* ── THƯ VIỆN PROMPT ──────────────────────────────────────────────────────
+   Lưới nhóm prompt: thẻ nhỏ, ô biểu tượng bo tròn màu pastel, nhãn ở dưới.
+   Cùng ngôn ngữ thị giác với thẻ Khám phá nhưng gọn hơn vì có tới 12 nhóm. */
+.tud .prompt-head{margin-bottom:22px}
+/* Cùng thang với tiêu đề mục ở trang chủ (`.section-title h2`), chỉ nhỏ hơn
+   một bậc vì bên dưới là lưới thẻ nhỏ. Trước đây dùng thang riêng 22–30px nên
+   tiêu đề mục ở trang prompt lép hẳn so với phần còn lại của trang web. */
+.tud .prompt-head h2{margin:0;font-size:clamp(30px,3.4vw,46px);letter-spacing:-2px;line-height:1.08}
+.tud .prompt-head p{margin:8px 0 0;color:var(--muted);font-size:15.5px}
+
+.tud .prompt-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.tud .prompt-cat{
+  background:var(--panel);border:1px solid rgba(11,18,32,.10);border-radius:14px;
+  padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-align:center;transition:.18s ease
+}
+.tud .prompt-cat:hover,.tud .prompt-cat:focus-visible{
+  border-color:var(--blue);background:rgba(0,111,230,.04);transform:translateY(-2px)
+}
+.tud .prompt-ico{
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(150deg,rgba(0,111,230,.15),rgba(0,111,230,.05));
+  transition:.18s ease
+}
+.tud .prompt-cat:hover .prompt-ico,
+.tud .prompt-cat:focus-visible .prompt-ico{
+  background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#fff
+}
+.tud .prompt-cat b{font-size:13.5px;font-weight:800;line-height:1.3;letter-spacing:-.2px}
+/* Số lượng làm viên cam, đọc lướt thấy ngay — giống thẻ nhóm ở /ungdung */
+.tud .prompt-cat small{
+  padding:3px 10px 4px;border-radius:999px;background:rgba(255,151,0,.13);
+  color:#B25E00;font-size:11.5px;font-weight:800;line-height:1.35;white-space:nowrap
+}
+
+@media (max-width:1080px){
+  .tud .prompt-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:760px){
+  .tud .prompt-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:460px){
+  .tud .prompt-grid{grid-template-columns:repeat(2,1fr)}
+}
+/* Tiêu đề trang nhóm: ô biểu tượng đứng cạnh chữ, cỡ ô theo cỡ chữ nên
+   không bị lọt thỏm khi tiêu đề lớn. Chừa khoảng dưới cho dòng mô tả thở. */
+.tud .prompt-cat-head{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.tud .prompt-cat-head h1{margin:0}
+.tud .prompt-cat-head .prompt-ico{width:58px;height:58px;border-radius:18px}
+@media(max-width:640px){
+  .tud .prompt-cat-head{gap:12px}
+  .tud .prompt-cat-head .prompt-ico{width:44px;height:44px;border-radius:14px}
+}
+
+/* Khối chứa đoạn prompt: chữ đều nét để giữ nguyên xuống dòng và thụt đầu dòng,
+   nền tối nhẹ cho tách khỏi phần diễn giải, cuộn ngang khi dòng quá dài. */
+.tud .prompt-box{
+  background:#F7F9FD;color:#16203A;border-radius:12px;padding:16px 18px;margin:0 0 18px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;
+  border:1px solid var(--line-em)
+}
+
+/* Khối mời gửi prompt: thu gọn thành một dải mỏng, chỉ mở rộng khi người dùng bấm. */
+/* ── Lưới "Mới thêm gần đây" ─────────────────────────────────────────────
+   Ba cột ở màn hình rộng. Thẻ xếp dọc: viên nhóm · tiêu đề · mô tả · lối vào.
+   Mô tả dùng flex:1 để dòng "Xem prompt" của mọi thẻ nằm cùng một hàng dù
+   tiêu đề dài ngắn khác nhau. */
+.tud .prompt-new{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tud .prompt-new-card{
+  background:var(--panel);border:1px solid rgba(11,18,32,.10);border-radius:16px;
+  padding:16px 18px 15px;display:flex;flex-direction:column;align-items:flex-start;gap:9px;
+  transition:.18s ease;color:inherit;text-decoration:none
+}
+.tud .prompt-new-card:hover,.tud .prompt-new-card:focus-visible{
+  border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,111,230,.12)
+}
+.tud .prompt-chip{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 11px 6px;border-radius:999px;
+  background:rgba(0,111,230,.09);color:var(--blue-mkt);font-size:12.5px;font-weight:800
+}
+.tud .prompt-new-card b{font-size:17px;letter-spacing:-.4px;line-height:1.3;font-weight:800}
+.tud .prompt-new-card:hover b{color:var(--blue-mkt)}
+.tud .prompt-new-desc{
+  flex:1;color:var(--muted);font-size:13.5px;line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.tud .prompt-new-go{
+  display:inline-flex;align-items:center;gap:7px;color:var(--blue);
+  font-size:13.5px;font-weight:800;margin-top:2px
+}
+/* Biến thể "ngang": ô biểu tượng nằm bên trái, chữ dồn sang cột phải.
+   Dùng ở trang từng nhóm prompt, nơi mỗi thẻ có biểu tượng riêng theo chủ đề. */
+.tud .prompt-new-card.ngang{flex-direction:row;align-items:flex-start;gap:14px}
+.tud .prompt-new-card.ngang .prompt-ico{width:44px;height:44px;border-radius:13px}
+.tud .prompt-new-body{display:flex;flex-direction:column;align-items:flex-start;gap:9px;flex:1;min-width:0}
+.tud .prompt-new-card:hover .prompt-new-go svg{transform:translateX(3px)}
+.tud .prompt-new-go svg{transition:.18s ease}
+
+/* Thanh phân trang */
+.tud .prompt-pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:22px}
+.tud .prompt-pager button{
+  display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-em);
+  background:var(--panel);border-radius:999px;padding:9px 16px;
+  font:inherit;font-size:13.5px;font-weight:800;color:var(--dark);cursor:pointer;transition:.18s ease
+}
+.tud .prompt-pager button:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+.tud .prompt-pager button:disabled{opacity:.45;cursor:default}
+.tud .prompt-pager .pg-so{min-width:40px;justify-content:center;padding:9px 12px}
+.tud .prompt-pager .pg-so.on{
+  background:var(--blue);border-color:var(--blue);color:#fff
+}
+@media(max-width:980px){
+  .tud .prompt-new{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .tud .prompt-new{grid-template-columns:1fr}
+  /* Màn hẹp: bỏ chữ ở hai nút lùi/tiến, chỉ còn mũi tên cho đỡ chật */
+  .tud .prompt-pager{gap:7px}
+  .tud .prompt-pager .pg-nav{padding:9px 12px;font-size:0;gap:0}
+  .tud .prompt-pager .pg-nav svg{width:16px;height:16px}
+}
+
+.tud .prompt-share{
+  margin-top:34px;border:1px solid rgba(0,111,230,.14);border-radius:16px;
+  background:linear-gradient(120deg,rgba(0,111,230,.055),rgba(255,255,255,.9) 55%);
+  padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px
+}
+.tud .prompt-share > div > b{color:var(--blue-mkt)}
+/* Ô biểu tượng bên trái khối kêu gọi gửi prompt */
+.tud .prompt-share-ico{
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(150deg,rgba(0,111,230,.15),rgba(0,111,230,.05))
+}
+.tud .prompt-share > div{flex:1}
+@media(max-width:640px){
+  .tud .prompt-share{flex-wrap:wrap}
+  .tud .prompt-share > div{flex:1 1 100%;order:2}
+  .tud .prompt-share .btn{order:3;width:100%;justify-content:center}
+}
+.tud .prompt-share > div{display:flex;flex-direction:column;gap:3px}
+.tud .prompt-share b{font-size:15.5px;letter-spacing:-.3px}
+.tud .prompt-share span{color:var(--muted);font-size:13.5px}
+.tud .prompt-share.open{flex-direction:column;align-items:stretch;gap:14px}
+.tud .prompt-share-head{display:flex;align-items:center;justify-content:space-between}
+.tud .prompt-share-close{
+  background:none;border:0;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer
+}
+.tud .prompt-share label{display:flex;flex-direction:column;gap:6px}
+.tud .prompt-share label > span{font-size:13px;font-weight:700;color:var(--dark)}
+.tud .prompt-share input,.tud .prompt-share select,.tud .prompt-share textarea{
+  width:100%;border:1px solid var(--line-em);border-radius:10px;padding:10px 12px;
+  font:inherit;font-size:14px;background:#fff;color:inherit
+}
+.tud .prompt-share textarea{resize:vertical;line-height:1.6}
+.tud .prompt-share input:focus,.tud .prompt-share select:focus,.tud .prompt-share textarea:focus{
+  outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,111,230,.12)
+}
+.tud .prompt-share-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tud .prompt-share-actions small{color:var(--faint);font-size:12.5px}
+.tud .prompt-share .btn:disabled{opacity:.55;cursor:not-allowed}
+.tud .prompt-share-err{margin:0;color:#D92D20;font-size:13.5px;font-weight:600}
+.tud .prompt-share-done{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+
+/* ── TRANG CHI TIẾT PROMPT ────────────────────────────────────────────────
+   Hai cột: bên trái là thứ người đọc chép về dùng (dải "Dùng để", khối prompt,
+   mẹo tinh chỉnh), bên phải là hướng dẫn ngắn và công cụ phù hợp. Cột phải
+   dính theo khi cuộn vì cột trái luôn dài hơn — bài gom nhóm có tới mười khối
+   prompt, cuộn tới cuối thì phần hướng dẫn đã trôi mất từ lâu. */
+.tud .pr-wrap{display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:22px;align-items:start}
+.tud .pr-main{min-width:0;display:flex;flex-direction:column;gap:16px}
+
+/* Viên tên nhóm ở đầu trang, đồng thời là lối quay lại danh sách nhóm */
+.tud .pr-eyebrow{text-decoration:none;transition:.16s ease;letter-spacing:.3px}
+.tud .pr-eyebrow:hover,.tud .pr-eyebrow:focus-visible{border-color:var(--blue);color:var(--blue-mkt)}
+.tud .pr-eyebrow svg{color:var(--blue)}
+/* Tiêu đề prompt dài hơn tiêu đề nhóm nên hạ một bậc so với .cat-hero h1 */
+.tud .cat-hero h1.pr-title{font-size:clamp(32px,4.1vw,56px);letter-spacing:-2.2px}
+
+/* Dòng chữ nghiêng cạnh ô biểu tượng, thuần trang trí. Dùng bộ chữ có chân
+   sẵn trong mọi máy thay cho phông viết tay: phông viết tay hỗ trợ dấu tiếng
+   Việt rất thất thường, thiếu dấu một chữ là hỏng cả dòng. */
+.tud .pr-hero-art{display:flex;align-items:center;gap:14px}
+.tud .pr-hero-note{
+  display:flex;flex-direction:column;gap:3px;text-align:right;
+  font-family:Georgia,'Times New Roman',serif;font-style:italic;
+  font-size:17px;line-height:1.3;color:var(--blue-mkt);
+  transform:rotate(-6deg);padding-right:4px
+}
+.tud .pr-hero-note i{color:var(--orange);font-size:16px}
+
+/* Dải "Dùng để": câu trả lời thẳng cho việc prompt này giải quyết */
+.tud .pr-use{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--soft);border:1px solid rgba(0,111,230,.18);border-radius:16px;padding:15px 18px
+}
+.tud .pr-use > svg{color:var(--blue);flex:none;margin-top:1px}
+.tud .pr-use p{margin:0;font-size:15.5px;line-height:1.65;color:#25334D}
+.tud .pr-use b{color:var(--ink)}
+
+/* Khối prompt — phần chính của trang */
+.tud .pr-code{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px 14px}
+.tud .pr-code-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.tud .pr-code-label{
+  display:inline-flex;align-items:center;gap:9px;margin:0;
+  font-size:16.5px;font-weight:800;letter-spacing:-.3px;color:var(--ink)
+}
+.tud .pr-code-label svg{color:var(--blue);flex:none}
+/* Nút chép tô cam: đây là hành động duy nhất người đọc cần làm trên trang */
+.tud .pr-copy{
+  display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;
+  background:linear-gradient(135deg,var(--orange),var(--orange-mid));color:#3A2300;
+  border-radius:11px;padding:10px 16px;font-size:13.5px;font-weight:800;white-space:nowrap;
+  box-shadow:0 6px 16px rgba(255,151,0,.30);transition:.16s ease
+}
+.tud .pr-copy:hover{transform:translateY(-1px);box-shadow:0 9px 22px rgba(255,151,0,.38)}
+.tud .pr-copy.ok{background:#0F7A55;color:#FFFFFF;box-shadow:0 6px 16px rgba(15,122,85,.30)}
+.tud .pr-code .prompt-box{margin:0;border-color:var(--line)}
+/* Ô cần thay được tô sẵn để mắt bắt ngay; chuỗi chép ra vẫn nguyên văn */
+.tud .pr-cho{background:rgba(255,151,0,.20);color:#A8560B;border-radius:5px;padding:1px 4px;font-weight:700}
+.tud .pr-code-note{display:flex;align-items:center;gap:8px;margin:11px 0 0;color:var(--faint);font-size:13px}
+.tud .pr-code-note svg{color:var(--blue);flex:none}
+
+/* Mẹo tinh chỉnh */
+.tud .pr-tip{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:17px 19px
+}
+.tud .pr-tip > svg{color:var(--orange);flex:none;margin-top:2px}
+.tud .pr-tip b{display:block;color:var(--blue-mkt);font-size:16px;margin-bottom:5px}
+.tud .pr-tip p{margin:0;font-size:14.8px;line-height:1.7;color:var(--muted)}
+
+/* Thân bài — chỉ bài gom nhóm mới có phần diễn giải dài này */
+.tud .pr-doc{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 24px}
+
+/* ── Cột phải ─────────────────────────────────────────────────────────── */
+.tud .pr-side{
+  position:sticky;top:88px;background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;padding:2px 22px
+}
+.tud .pr-side-sec{padding:20px 0;border-top:1px solid var(--line)}
+.tud .pr-side-sec:first-child{border-top:0}
+.tud .pr-side-sec h2{
+  display:flex;align-items:center;gap:9px;margin:0 0 14px;
+  font-size:20px;font-weight:900;letter-spacing:-.6px;color:var(--ink)
+}
+.tud .pr-side-sec h2 svg{color:var(--blue);flex:none}
+.tud .pr-side-sec small{display:block;margin-top:12px;color:var(--faint);font-size:12.5px;line-height:1.5}
+
+.tud .pr-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
+.tud .pr-steps li{display:flex;align-items:flex-start;gap:11px;font-size:14.5px;line-height:1.6;color:var(--muted)}
+.tud .pr-step-no{
+  flex:none;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;
+  background:var(--blue);color:#FFFFFF;font-size:13px;font-weight:800
+}
+
+.tud .pr-toc{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px}
+.tud .pr-toc li::marker{color:var(--blue);font-weight:800}
+.tud .pr-toc a{color:var(--muted);font-size:14.2px;line-height:1.5}
+.tud .pr-toc a:hover{color:var(--blue-mkt)}
+
+.tud .pr-tools{display:flex;flex-wrap:wrap;gap:9px}
+.tud .pr-tool{
+  display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;
+  border:1px solid rgba(0,111,230,.22);background:rgba(0,111,230,.05);
+  color:var(--blue-mkt);font-size:13.5px;font-weight:700
+}
+.tud .pr-tool svg{color:var(--blue);flex:none}
+/* Viên nào tra được bài ứng dụng thì thành liên kết: đổi con trỏ và nhấn viền
+   khi rê chuột để phân biệt với viên chỉ là chữ. */
+.tud a.pr-tool.co-link{transition:.16s ease}
+.tud a.pr-tool.co-link:hover,.tud a.pr-tool.co-link:focus-visible{
+  border-color:var(--blue);background:rgba(0,111,230,.10);
+  color:var(--blue-deep);transform:translateY(-1px)
+}
+
+/* ── Dải prompt cùng nhóm ─────────────────────────────────────────────── */
+.tud .pr-rel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:34px 0 16px}
+.tud .pr-rel-head h2{margin:0;font-size:clamp(28px,3.2vw,42px);letter-spacing:-1.8px;font-weight:950;line-height:1.1}
+.tud .pr-rel-nav{display:flex;gap:10px;flex:none}
+.tud .pr-rel-nav button{
+  width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;
+  background:var(--blue);color:#FFFFFF;box-shadow:0 6px 16px rgba(0,111,230,.28);transition:.16s ease
+}
+.tud .pr-rel-nav button:hover:not(:disabled){transform:translateY(-2px)}
+.tud .pr-rel-nav button:disabled{
+  background:rgba(0,111,230,.10);color:rgba(0,111,230,.45);box-shadow:none;cursor:default
+}
+/* Cuộn thật bằng overflow chứ không dịch chuyển hình học: không có JavaScript
+   thì người dùng vẫn vuốt ngang xem hết thẻ. */
+.tud .pr-rel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;scrollbar-width:none}
+.tud .pr-rel::-webkit-scrollbar{display:none}
+.tud .pr-rel > .prompt-new-card{scroll-snap-align:start;flex:0 0 calc((100% - 32px) / 3);min-width:0}
+
+@media (max-width:1080px){
+  .tud .pr-wrap{grid-template-columns:1fr}
+  .tud .pr-side{position:static}
+  .tud .pr-rel > .prompt-new-card{flex-basis:calc((100% - 16px) / 2)}
+}
+@media (max-width:760px){
+  .tud .pr-hero-note{display:none}
+  .tud .pr-rel > .prompt-new-card{flex-basis:86%}
+  .tud .pr-doc{padding:16px 17px}
+  .tud .pr-side{padding:2px 18px}
+  .tud .pr-code-head{flex-wrap:wrap}
+  .tud .pr-copy{width:100%;justify-content:center}
+}
+/* Thân bài trang prompt. Lấy cùng thang cỡ chữ với `.art-body` của bài ứng dụng
+   nhưng bỏ luật nhấn đoạn đầu: một bài gom nhóm có nhiều khối, đoạn đầu của
+   khối nào cũng to lên thì trang loang lổ. */
+.tud .post-body{font-size:17px;line-height:1.75;color:#33415C}
+.tud .post-body > *:first-child{margin-top:0}
+.tud .post-body > *:last-child{margin-bottom:0}
+.tud .post-body h2{
+  font-size:26px;letter-spacing:-1.1px;margin:30px 0 12px;line-height:1.22;
+  color:var(--dark);font-weight:900
+}
+.tud .post-body h3{
+  font-size:19px;letter-spacing:-.5px;margin:24px 0 8px;line-height:1.3;
+  color:var(--dark);font-weight:800
+}
+.tud .post-body p{margin:0 0 16px}
+.tud .post-body ul,.tud .post-body ol{margin:0 0 18px;padding-left:24px}
+.tud .post-body ul{list-style:disc}
+.tud .post-body ol{list-style:decimal}
+.tud .post-body li{margin:8px 0}
+.tud .post-body li::marker{color:var(--blue)}
+.tud .post-body a{color:var(--blue);font-weight:600}
+.tud .post-body .note{
+  background:rgba(0,111,230,.06);border-left:3px solid var(--blue);
+  border-radius:0 12px 12px 0;padding:16px 18px;margin:22px 0
+}
+
+/* ── DẢI PROMPT NỔI BẬT (cuối trang chủ) ──────────────────────────────────
+   Thẻ cuộn ngang, mỗi thẻ mang màu của nhóm prompt tương ứng. */
+.tud .prail{position:relative}
+/* Hai nút chuyển trang kèm số trang, đặt cạnh dòng mô tả ở mép phải tiêu đề */
+/* Dòng mô tả hẹp lại để ngắt sau "công việc." thay vì ngắt giữa một từ */
+.tud .prail-aside p{max-width:300px}
+.tud .prail-nav{display:flex;align-items:center;gap:12px;flex:none}
+.tud .prail-nav button{
+  width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(0,111,230,.30);
+  background:#FFFFFF;color:var(--blue);cursor:pointer;display:grid;place-items:center;
+  transition:.16s ease
+}
+/* Nút tiến là nút chính nên tô đặc, nút lùi để nhẹ hơn */
+.tud .prail-nav button.on{
+  background:var(--blue);color:#FFFFFF;border-color:transparent;
+  box-shadow:0 4px 14px rgba(0,111,230,.32)
+}
+.tud .prail-nav button:hover,
+.tud .prail-nav button:focus-visible{
+  background:var(--blue);color:#FFFFFF;border-color:transparent;transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(0,111,230,.30)
+}
+.tud .prail-nav button:active{transform:translateY(0)}
+.tud .prail-count{font-size:14px;font-weight:800;color:var(--faint);white-space:nowrap}
+.tud .prail-count b{color:var(--ink);font-weight:900}
+
+/* Bốn thẻ vừa đúng một trang; vẫn để cuộn ngang cho ai vuốt bằng ngón tay. */
+.tud .prail-track{
+  display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:2px 2px 6px;scrollbar-width:none
+}
+.tud .prail-track::-webkit-scrollbar{display:none}
+.tud .prail-card{
+  scroll-snap-align:start;flex:0 0 calc((100% - 48px) / 4);min-width:calc((100% - 48px) / 4);
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:20px;display:flex;flex-direction:column;gap:10px;
+  transition:.18s ease;position:relative;text-decoration:none;color:inherit
+}
+.tud .prail-card:hover,.tud .prail-card:focus-visible{
+  border-color:var(--blue);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,111,230,.13)
+}
+.tud .prail-top{display:flex;align-items:center;gap:12px}
+.tud .prail-ico{
+  width:52px;height:52px;border-radius:15px;display:grid;place-items:center;flex:none;
+  color:var(--blue);background:linear-gradient(150deg,rgba(0,111,230,.15),rgba(0,111,230,.05));
+  transition:.18s ease
+}
+.tud .prail-card:hover .prail-ico{background:linear-gradient(150deg,var(--blue),var(--blue-mkt));color:#FFFFFF}
+/* Tên nhóm là viên xanh nhạt, đồng bộ với cột Nhóm ở bảng xếp hạng */
+.tud .prail-cat{
+  padding:6px 13px;border-radius:999px;background:rgba(0,111,230,.09);color:var(--blue-mkt);
+  font-size:12.5px;font-weight:800;line-height:1.35
+}
+.tud .prail-card b{
+  margin-top:6px;font-size:19px;line-height:1.32;letter-spacing:-.5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  transition:color .18s ease
+}
+.tud .prail-card:hover b{color:var(--blue-mkt)}
+.tud .prail-card p{
+  margin:0;font-size:14px;line-height:1.6;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+/* Chân thẻ có đường kẻ mảnh phía trên, dồn xuống đáy để các thẻ cao bằng nhau */
+.tud .prail-foot{
+  margin-top:auto;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:10px
+}
+.tud .prail-views{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);font-weight:700
+}
+.tud .prail-go{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13.5px;font-weight:850;color:var(--blue-mkt);white-space:nowrap
+}
+.tud .prail-go svg{transition:transform .18s ease}
+.tud .prail-card:hover .prail-go svg{transform:translateX(3px)}
+
+@media (max-width:1180px){
+  .tud .prail-card{flex-basis:calc((100% - 32px) / 3);min-width:calc((100% - 32px) / 3)}
+}
+@media (max-width:900px){
+  .tud .prail-card{flex-basis:calc((100% - 16px) / 2);min-width:calc((100% - 16px) / 2)}
+}
+@media (max-width:600px){
+  .tud .prail-card{flex-basis:84%;min-width:84%}
+  .tud .prail-nav{width:100%;justify-content:flex-start}
+}
+
+/* ── MENU CHO MÁY TÍNH BẢNG VÀ ĐIỆN THOẠI ────────────────────────────────
+   Dưới 980px hàng liên kết ngang bị ẩn. Trước đây không có gì thay thế nên
+   người dùng máy tính bảng và điện thoại mất hết đường điều hướng. */
+.tud .nav-burger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:44px;height:44px;padding:0 11px;border-radius:11px;
+  border:1px solid var(--line-em);background:var(--panel);cursor:pointer;flex:none
+}
+.tud .nav-burger span{display:block;height:2px;border-radius:2px;background:var(--dark)}
+.tud .nav-burger[aria-expanded="true"]{border-color:var(--blue);background:rgba(0,111,230,.06)}
+.tud .nav-burger[aria-expanded="true"] span{background:var(--blue)}
+
+.tud .nav-drawer{
+  border-top:1px solid rgba(11,18,32,.08);
+  background:rgba(245,248,252,.98);backdrop-filter:blur(14px)
+}
+.tud .nav-drawer .wrap{display:flex;flex-direction:column;padding-top:8px;padding-bottom:12px}
+.tud .nav-drawer a,.tud .nav-drawer button{
+  padding:13px 2px;font-size:16px;font-weight:700;color:var(--dark);
+  border:0;background:none;text-align:left;cursor:pointer;
+  border-bottom:1px solid rgba(11,18,32,.07)
+}
+.tud .nav-drawer a:last-of-type{border-bottom:1px solid rgba(11,18,32,.07)}
+.tud .nav-drawer button{border-bottom:0;color:var(--blue)}
+.tud .nav-drawer a:hover,.tud .nav-drawer button:hover{color:var(--blue)}
+
+@media(max-width:980px){
+  /* Nút menu chỉ xuất hiện đúng lúc hàng liên kết ngang biến mất */
+  .tud .nav-burger{display:flex}
+  .tud .nav{height:72px}
+  .tud .brand img{height:56px}
+  /* Nút "Đề xuất ứng dụng" quá dài trên máy tính bảng, thu gọn chữ lại */
+  .tud .nav-actions .btn{padding-left:14px;padding-right:14px;font-size:14px}
+}
+@media(max-width:640px){
+  /* Điện thoại: chỉ giữ nút menu và một nút hành động, tránh vỡ hàng */
+  .tud .nav-actions .btn.dark{display:none}
+  .tud .nav-actions .btn:first-child{display:inline-flex}
+  .tud .nav-drawer a,.tud .nav-drawer button{font-size:15.5px;padding:12px 2px}
+  /* Khai lại chiều cao thanh và cỡ logo ở ĐÂY: khối 980px phía trên nằm sau
+     khối 640px cũ trong tệp nên nếu không khai lại sẽ đè nhầm lên điện thoại. */
+  .tud .nav{height:64px}
+  .tud .brand img{height:48px}
+  /* Khai lại logo chân trang ở đây vì dòng .brand img phía trên nằm sau quy
+     tắc .brand-footer img trong tệp, không khai lại là logo chân trang bị
+     rút xuống bằng logo trên thanh điều hướng. */
+  .tud .brand-footer img{height:88px}
+}
+
+/* Nút tìm kiếm trên thanh điều hướng: ô tròn chỉ có biểu tượng, gọn hơn nút
+   chữ và cân với nút "Đề xuất ứng dụng" bên cạnh. */
+.tud .nav-search{
+  width:44px;height:44px;border-radius:50%;flex:none;
+  display:grid;place-items:center;cursor:pointer;transition:.16s ease;
+  border:1px solid var(--line-em);background:var(--panel);color:var(--dark)
+}
+.tud .nav-search:hover,.tud .nav-search:focus-visible{
+  border-color:var(--blue);color:var(--blue);background:rgba(0,111,230,.06)
+}
+@media(max-width:640px){
+  /* Điện thoại: giữ nút tìm kiếm dạng biểu tượng, nó không chiếm chỗ */
+  .tud .nav-search{display:grid}
+}
+
+/* ── HOẠ TIẾT NỔI QUANH HERO ─────────────────────────────────────────────
+   Bốn ô bo góc màu pastel, nghiêng nhẹ và trôi lên xuống rất chậm.
+   Thuần trang trí nên ẩn hẳn ở khổ hẹp, không co lại — co nhỏ vẫn chen vào
+   chữ trên điện thoại. */
+.tud .hero-deco{position:absolute;inset:0;z-index:0;pointer-events:none}
+.tud .deco{
+  position:absolute;width:56px;height:56px;border-radius:17px;
+  display:grid;place-items:center;
+  box-shadow:0 10px 26px rgba(11,18,32,.08);
+  animation:deco-float 7s ease-in-out infinite
+}
+.tud .deco-1{left:5.5%;top:20%;transform:rotate(-8deg);animation-delay:0s}
+.tud .deco-2{left:10%;top:56%;width:48px;height:48px;border-radius:15px;transform:rotate(6deg);animation-delay:1.4s}
+.tud .deco-3{right:7.5%;top:32%;transform:rotate(9deg);animation-delay:.7s}
+.tud .deco-4{right:5%;top:62%;width:50px;height:50px;border-radius:15px;transform:rotate(-6deg);animation-delay:2.1s}
+
+@keyframes deco-float{
+  0%,100%{translate:0 0}
+  50%{translate:0 -12px}
+}
+
+/* Người bật chế độ giảm chuyển động thì giữ nguyên vị trí, không trôi */
+@media (prefers-reduced-motion:reduce){
+  .tud .deco{animation:none}
+}
+
+@media(max-width:1240px){
+  .tud .deco-2,.tud .deco-4{display:none}
+}
+@media(max-width:1080px){
+  .tud .hero-deco{display:none}
+}

@@ -1,9 +1,10 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Manrope } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-NQRC98T7KK'
+// Không đặt mã mặc định: chưa khai NEXT_PUBLIC_GA_ID thì không nhúng script theo dõi.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 
 const manrope = Manrope({
   subsets: ['latin', 'vietnamese'],
@@ -12,18 +13,33 @@ const manrope = Manrope({
   display: 'swap',
 })
 
-const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Vsoftware'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'TopỨngDụng'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://topungdung.net'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: 'Vsoftware — Phần mềm theo yêu cầu cho SMEs', template: `%s | ${siteName}` },
-  description: 'Vsoftware xây dựng phần mềm quản lý theo yêu cầu cho doanh nghiệp vừa và nhỏ: spa, nhà hàng, phòng khám, bán lẻ, logistics. AI Agent tự động hóa vận hành.',
+  title: {
+    default: 'TopỨngDụng — Tìm đúng ứng dụng. Làm việc tốt hơn.',
+    template: `%s | ${siteName}`,
+  },
+  description:
+    'Đánh giá và so sánh ứng dụng, phần mềm và công cụ AI theo từng nhu cầu công việc — ' +
+    'kèm điểm mạnh, điểm yếu và mức giá thực tế cho người dùng Việt Nam.',
   openGraph: {
     siteName,
     type: 'website',
-    images: ['/logo-ngang.png'],
+    locale: 'vi_VN',
+    // Không khai images ở đây: Next tự lấy từ src/app/opengraph-image.tsx.
+    // Trước đây trỏ /logo-ngang.png — file đó là logo Vsoftware, nên mọi link
+    // chia sẻ ra Facebook/Zalo đều hiện thương hiệu của công ty khác.
   },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
+}
+
+/** Màu thanh trình duyệt trên điện thoại — khớp theme_color trong manifest. */
+export const viewport: Viewport = {
+  themeColor: '#006FE6',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

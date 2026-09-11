@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import useSWR from 'swr'
-import { adminGetCategories, adminGetPosts, adminDeletePost, adminPublishPost, adminDraftPost } from '@/lib/api/admin'
+import { adminGetPosts, adminDeletePost, adminPublishPost, adminDraftPost } from '@/lib/api/admin'
 import { formatDate } from '@/lib/utils'
 import { getErrorMessage } from '@/lib/error'
 import type { Post } from '@/types'
@@ -31,8 +31,6 @@ export default function AdminPostsPage() {
   const [actionLoading, setActionLoading] = useState<number | null>(null)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
-  const { data: catsData } = useSWR('admin-categories', adminGetCategories, { revalidateOnFocus: false })
-  const excludedCatIds = (catsData?.data ?? []).filter((c) => c.slug === 'ai-agent' || c.slug === 'services').map((c) => c.id)
 
   const { data, isLoading, mutate } = useSWR(
     ['admin-posts', page, search, statusFilter],
@@ -40,8 +38,9 @@ export default function AdminPostsPage() {
     { keepPreviousData: true }
   )
 
-  // Lọc bài AI Agent + Dịch vụ ra khỏi list (chúng được quản tại /admin/ai-agents và /admin/services)
-  const posts: Post[] = (data?.data ?? []).filter((p) => !excludedCatIds.includes(p.categoryId ?? -1))
+  // Trước đây bài AI Agent và Dịch vụ bị lọc khỏi đây vì có trình sửa riêng.
+  // Hai trang đó đã gỡ nên phải hiện đủ, nếu không sẽ không còn chỗ nào quản lý.
+  const posts: Post[] = data?.data ?? []
   const total = data?.total ?? 0
   const totalPages = data?.totalPages ?? 1
 

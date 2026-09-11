@@ -1,5 +1,3 @@
-import { NEWS_SLUGS } from './app.constants'
-
 export interface MegaMenuItem {
   icon: string
   name: string
@@ -16,23 +14,19 @@ export interface MegaMenuColumn {
 
 export const FOOTER_LINKS = {
   services: [
-    { label: 'Phần mềm theo yêu cầu', href: '/dich-vu/phan-mem-ban-hang', icon: '⚙️' },
-    { label: 'CRM & Bán hàng', href: '/dich-vu/crm-cho-sme', icon: '👥' },
-    { label: 'App Mobile', href: '/dich-vu/app-ban-hang', icon: '📱' },
-    { label: 'AI & Automation', href: '/dich-vu/ai-automation', icon: '🤖' },
-    { label: 'Website & Landing', href: '/dich-vu/website-landing', icon: '🌐' },
-    { label: 'Thiết kế Website', href: '/dich-vu/thiet-ke-website', icon: '🎨' },
+    { label: 'Duyệt theo nhu cầu', href: '/ungdung', icon: '🔎' },
+    { label: 'Bảng xếp hạng', href: '/ranking', icon: '🏆' },
+    { label: 'Bộ công cụ', href: '/topapp', icon: '🧰' },
+    { label: 'Tin tức & review', href: '/tin-tuc', icon: '📰' },
   ],
   company: [
-    { label: 'Về Vsoftware', href: '/introduction', icon: '🏢' },
-    { label: 'Quy trình làm việc', href: '/#how-it-works', icon: '🔄' },
-    { label: 'Blog công nghệ', href: `/category/${NEWS_SLUGS}`, icon: '📝' },
-    { label: 'Liên hệ hợp tác', href: '/lien-he', icon: '💼' },
+    { label: 'Về TopỨngDụng', href: '/introduction', icon: '🏢' },
+    { label: 'Cách chúng tôi đánh giá', href: '/introduction', icon: '⚖️' },
+    { label: 'Tin tức & review', href: '/tin-tuc', icon: '📝' },
+    { label: 'Liên hệ', href: '/lien-he', icon: '💼' },
   ],
   contact: [
-    { label: 'hello@vsoftware.vn', href: 'mailto:hello@vsoftware.vn', icon: '✉️' },
-    { label: 'vsoftware.vn', href: '/', icon: '🌍' },
-    { label: 'Facebook', href: '#', icon: '📘' },
-    { label: 'Zalo OA', href: 'https://zalo.me/vsoftware', icon: '💬' },
+    { label: 'topungdung.net@gmail.com', href: 'mailto:topungdung.net@gmail.com', icon: '✉️' },
+    { label: 'topungdung.net', href: '/', icon: '🌍' },
   ],
 }

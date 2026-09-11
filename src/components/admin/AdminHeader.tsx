@@ -6,15 +6,19 @@ import { usePathname } from 'next/navigation'
 // Map pathname → breadcrumb label
 const labelMap: Record<string, string> = {
   '/admin': 'Dashboard',
+  '/admin/de-xuat': 'Đề xuất ứng dụng',
   '/admin/posts': 'Bài viết',
   '/admin/posts/create': 'Viết bài mới',
   '/admin/categories': 'Danh mục',
   '/admin/categories/create': 'Thêm danh mục',
   '/admin/media': 'Media',
-  '/admin/menus': 'Menu',
-  '/admin/menus/create': 'Tạo menu',
   '/admin/users': 'Người dùng',
   '/admin/users/create': 'Thêm người dùng',
+  '/admin/ung-dung': 'Ứng dụng (review)',
+  '/admin/binh-chon': 'Bình chọn ứng dụng',
+  '/admin/contacts': 'Đăng ký nhận form',
+  '/admin/contact-info': 'Thông tin liên hệ',
+  '/admin/trang-chu': 'Trang chủ TopỨngDụng',
 }
 
 export default function AdminHeader() {

@@ -10,9 +10,12 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # NEXT_PUBLIC_* phải có lúc BUILD (Next.js bake vào bundle)
-ARG NEXT_PUBLIC_API_URL=http://localhost:3001
-ARG NEXT_PUBLIC_SITE_URL=http://localhost:3000
-ARG NEXT_PUBLIC_SITE_NAME=Vsoftware
+# Mặc định để trống: next.config.mjs chặn build production khi hai biến URL
+# chưa đặt hoặc còn trỏ localhost. Thà dừng ở đây còn hơn ra một bản dựng nướng
+# cứng localhost vào canonical, og:image và sitemap.
+ARG NEXT_PUBLIC_API_URL=
+ARG NEXT_PUBLIC_SITE_URL=
+ARG NEXT_PUBLIC_SITE_NAME=TopỨngDụng
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME

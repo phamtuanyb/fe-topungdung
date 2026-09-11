@@ -10,12 +10,12 @@ interface CTASectionProps {
 }
 
 export default function CTASection({
-  title = 'Sẵn sàng số hóa doanh nghiệp?',
-  description = 'Tư vấn miễn phí 30 phút — Vsoftware phân tích bài toán và đề xuất giải pháp phù hợp nhất.',
-  primaryLabel = 'Đặt lịch tư vấn miễn phí',
-  primaryHref = '/lien-he',
-  secondaryLabel = 'Xem dịch vụ',
-  secondaryHref = '/#services',
+  title = 'Chọn được công cụ phù hợp chưa?',
+  description = 'Duyệt theo đúng việc bạn cần làm, đọc cả điểm mạnh lẫn điểm yếu trước khi quyết định.',
+  primaryLabel = 'Duyệt ứng dụng',
+  primaryHref = '/ungdung',
+  secondaryLabel = 'Góp ý cho chúng tôi',
+  secondaryHref = '/lien-he',
 }: CTASectionProps) {
   return (
     <section className="bg-vs-gradient py-16 text-center">
