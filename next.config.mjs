@@ -94,11 +94,17 @@ const nextConfig = {
       "object-src 'none'",
       "frame-ancestors 'self'",
       "form-action 'self'",
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://www.google-analytics.com`,
+      // Các tên miền Google lấy theo hướng dẫn CSP chính thức cho GA4 + GTM.
+      // GA4 gửi hit về máy chủ theo vùng (region1, region2...) và cả
+      // *.analytics.google.com; liệt kê cứng hai tên như trước là có hit bị
+      // trình duyệt chặn âm thầm — trang vẫn chạy, chỉ số liệu thiếu.
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://*.googletagmanager.com https://*.google-analytics.com`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       `img-src 'self' data: blob: https: ${apiOrigin}`,
-      `connect-src 'self' ${apiOrigin} https://www.google-analytics.com https://region1.google-analytics.com${isDev ? ' ws: wss:' : ''}`,
+      `connect-src 'self' ${apiOrigin} https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net${isDev ? ' ws: wss:' : ''}`,
+      // Khung <noscript> của Tag Manager, chỉ dùng khi trình duyệt tắt JavaScript
+      "frame-src 'self' https://www.googletagmanager.com",
       "manifest-src 'self'",
       'upgrade-insecure-requests',
     ].join('; ')
