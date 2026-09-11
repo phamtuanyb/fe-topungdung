@@ -19,6 +19,7 @@ const labelMap: Record<string, string> = {
   '/admin/contacts': 'Đăng ký nhận form',
   '/admin/contact-info': 'Thông tin liên hệ',
   '/admin/trang-chu': 'Trang chủ TopỨngDụng',
+  '/admin/theo-doi': 'Theo dõi & đo lường',
 }
 
 export default function AdminHeader() {

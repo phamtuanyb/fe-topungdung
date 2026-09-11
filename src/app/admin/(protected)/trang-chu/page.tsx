@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { adminGetTudHomeConfig, adminUpdateTudHomeConfig } from '@/lib/api/admin'
+import { adminGetTudHomeConfig, adminUpdateTudHomeConfig, adminRevalidate } from '@/lib/api/admin'
 import { getCategories, getTudApps } from '@/lib/api/public'
 import { DEFAULT_TUD_HOME, mergeTudConfig } from '@/app/(home)/default-config'
 import type { Category, Post } from '@/types'
@@ -165,9 +165,7 @@ export default function TudHomeEditorPage() {
       await adminUpdateTudHomeConfig(config)
       // Xoá cache ISR để trang chủ đổi ngay, không phải chờ hết 60 giây.
       // Cấu hình này điều khiển nhiều trang, không riêng trang chủ.
-      await fetch('/api/revalidate?path=/,/topapp,/ranking,/tin-tuc,/ungdung', {
-        method: 'POST',
-      }).catch(() => null)
+      await adminRevalidate(['/', '/topapp', '/ranking', '/tin-tuc', '/ungdung'])
       setToast({ message: 'Đã lưu. Mở lại trang chủ để xem thay đổi.', type: 'success' })
     } catch (e) {
       setToast({ message: (e as Error).message || 'Lưu thất bại', type: 'error' })

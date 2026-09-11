@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google'
 import { getTudHomeConfig } from '@/lib/api/public'
 import { mergeTudConfig } from '@/app/(home)/default-config'
 import { TudFooter, TudHeader } from '@/app/(home)/_components/TudChrome'
+import TrackingScripts from '@/app/(home)/_components/TrackingScripts'
 import '@/app/(home)/home.css'
 
 const inter = Inter({
@@ -27,6 +28,7 @@ export default async function PublicLayout({ children }: { children: React.React
       <TudHeader config={config.header} />
       <main className="flex-1">{children}</main>
       <TudFooter header={config.header} footer={config.footer} />
+      <TrackingScripts />
     </div>
   )
 }

@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Manrope } from 'next/font/google'
-import Script from 'next/script'
+import { layMaXacMinhGoogle } from './(home)/_components/TrackingScripts'
 import './globals.css'
 
-// Không đặt mã mặc định: chưa khai NEXT_PUBLIC_GA_ID thì không nhúng script theo dõi.
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+// Script Google Analytics / Tag Manager không còn ở đây: chúng nằm trong
+// TrackingScripts, gắn ở layout của (home) và (public) để trang quản trị không
+// bị đếm lượt xem. Mã đọc từ admin (/admin/theo-doi), không phải biến build.
 
 const manrope = Manrope({
   subsets: ['latin', 'vietnamese'],
@@ -16,7 +17,7 @@ const manrope = Manrope({
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'TopỨngDụng'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://topungdung.net'
 
-export const metadata: Metadata = {
+const metadataGoc: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: 'TopỨngDụng — Tìm đúng ứng dụng. Làm việc tốt hơn.',
@@ -37,6 +38,16 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+/**
+ * Thẻ meta google-site-verification phải nằm trong <head> của MỌI trang, kể
+ * cả trang chủ, nên phải sinh ở layout gốc. Mã lấy từ admin; chưa dán thì
+ * không in thẻ.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const google = await layMaXacMinhGoogle()
+  return google ? { ...metadataGoc, verification: { google } } : metadataGoc
+}
+
 /** Màu thanh trình duyệt trên điện thoại — khớp theme_color trong manifest. */
 export const viewport: Viewport = {
   themeColor: '#006FE6',
@@ -47,22 +58,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi" className={manrope.variable}>
       <body className={`${manrope.className} bg-white text-vs-dark antialiased overflow-x-hidden`}>
         {children}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-              `}
-            </Script>
-          </>
-        )}
       </body>
     </html>
   )

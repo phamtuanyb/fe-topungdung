@@ -1,4 +1,5 @@
 import { apiClient } from './client'
+import { getToken } from '@/lib/auth'
 import type {
   Post,
   Category,
@@ -19,7 +20,7 @@ import type {
   SeoAnalyzePayload,
   ContactConfig,
 } from '@/types'
-import type { TudHomeConfig } from '@/types/tud'
+import type { TudHomeConfig, TudTrackingConfig } from '@/types/tud'
 
 // Auth
 export interface AuthTokenResponse {
@@ -297,6 +298,30 @@ export function adminDeleteContact(id: number): Promise<void> {
   return apiClient.delete(`/api/admin/contacts/${id}`, true)
 }
 
+// ─── Làm mới cache ISR ───────────────────────────────────────────────────────
+
+/**
+ * Xoá cache ISR của các đường dẫn sau khi lưu trong admin, để thay đổi hiện
+ * ngay thay vì chờ hết vòng 60 giây.
+ *
+ * Gửi kèm token đăng nhập: route /api/revalidate hỏi lại backend xem token có
+ * thật không. Trước đây các trang admin gọi tay không kèm gì, bị 401 và nuốt
+ * lỗi — nên bấm Lưu xong mở trang vẫn thấy bản cũ.
+ */
+export async function adminRevalidate(paths: string[]): Promise<boolean> {
+  const token = getToken()
+  if (!token || paths.length === 0) return false
+  try {
+    const res = await fetch(`/api/revalidate?path=${encodeURIComponent(paths.join(','))}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
 // ─── Site Settings ────────────────────────────────────────────────────────────
 
 export function adminGetContactConfig(): Promise<{ data: ContactConfig }> {
@@ -313,6 +338,16 @@ export function adminGetTudHomeConfig(): Promise<{ data: TudHomeConfig }> {
 
 export function adminUpdateTudHomeConfig(config: TudHomeConfig): Promise<{ data: TudHomeConfig }> {
   return apiClient.put('/api/settings/tud-home', config, true)
+}
+
+export function adminGetTrackingConfig(): Promise<{ data: TudTrackingConfig | null }> {
+  return apiClient.get('/api/settings/tracking', true)
+}
+
+export function adminUpdateTrackingConfig(
+  config: TudTrackingConfig,
+): Promise<{ data: TudTrackingConfig }> {
+  return apiClient.put('/api/settings/tracking', config, true)
 }
 
 // ─── Bình chọn ────────────────────────────────────────────────────────────────

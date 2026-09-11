@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { getCategories, getTudApps } from '@/lib/api/public'
-import { adminUpdatePost } from '@/lib/api/admin'
+import { adminUpdatePost, adminRevalidate } from '@/lib/api/admin'
 import type { Category, Post } from '@/types'
 import type { TudAppMeta } from '@/types/tud'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -54,7 +54,7 @@ export default function AppListPage() {
       )
       // Làm mới cache các trang bị ảnh hưởng
       for (const path of ['/', '/ungdung', '/ranking']) {
-        await fetch(`/api/revalidate?path=${path}`, { method: 'POST' }).catch(() => null)
+        await adminRevalidate([path])
       }
       setToast({ message: `Đã chuyển ${post.title} sang ${cat?.name ?? 'danh mục mới'}`, type: 'success' })
     } catch (e) {

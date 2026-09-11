@@ -325,3 +325,16 @@ export interface TudRelatedBlock {
 
 /** Khoá là slug danh mục cần hiển thị khối liên quan. */
 export type TudRelatedConfig = Record<string, TudRelatedBlock>
+
+// ─── Mã theo dõi và xác minh của Google ──────────────────────────────────────
+// Nằm trong site_settings key `tracking`, sửa ở /admin/theo-doi. Để trong CSDL
+// thay vì biến môi trường vì NEXT_PUBLIC_* chỉ đọc lúc build — đổi mã là phải
+// build lại, không hợp với thứ chủ site tự dán vào.
+export interface TudTrackingConfig {
+  /** Mã đo lường GA4, dạng G-XXXXXXXX. */
+  gaId?: string
+  /** Mã vùng chứa Google Tag Manager, dạng GTM-XXXXXXX. */
+  gtmId?: string
+  /** Chuỗi trong thẻ meta google-site-verification của Search Console. */
+  googleSiteVerification?: string
+}

@@ -8,7 +8,12 @@ import { NextRequest, NextResponse } from 'next/server'
  *   POST /api/revalidate?path=/
  *   POST /api/revalidate?path=/,/topapp,/ranking   (nhiều đường, ngăn bằng dấu phẩy)
  *
- * Khoá bằng REVALIDATE_SECRET, gửi qua header `x-revalidate-secret`.
+ * Hai cách xác thực, cách nào đúng cũng được:
+ *   - header `x-revalidate-secret` khớp REVALIDATE_SECRET (cho script, CI)
+ *   - header `Authorization: Bearer <token admin>` — token được hỏi lại backend
+ *     qua /api/admin/auth/me. Trang admin chạy ở trình duyệt nên không thể giữ
+ *     REVALIDATE_SECRET; trước đây nó gọi mà không có gì, bị 401, nuốt lỗi, và
+ *     mọi thay đổi trong admin đều phải chờ hết vòng cache mới hiện.
  *
  * Trước đây điều kiện là `if (secret && ...)` — nghĩa là KHÔNG khai biến thì bỏ
  * qua kiểm tra và ai cũng gọi được. Mà biến đó chưa từng được khai, nên endpoint
@@ -27,21 +32,43 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(ba, bb)
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+
+/** Token admin có thật không — hỏi backend, vì Next không giữ JWT_SECRET. */
+async function laAdmin(token: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
 export async function POST(req: NextRequest) {
   const secret = process.env.REVALIDATE_SECRET
 
-  if (!secret) {
-    return NextResponse.json(
-      { ok: false, message: 'Chưa cấu hình REVALIDATE_SECRET nên endpoint bị khoá.' },
-      { status: 503 },
-    )
-  }
-
   // Ưu tiên header: tham số trên URL bị ghi vào nhật ký máy chủ và lịch sử trình duyệt.
   const sent = req.headers.get('x-revalidate-secret') ?? req.nextUrl.searchParams.get('secret') ?? ''
+  const bearer = (req.headers.get('authorization') ?? '').replace(/^Bearer\s+/i, '')
 
-  if (!safeEqual(sent, secret)) {
-    return NextResponse.json({ ok: false, message: 'Sai secret' }, { status: 401 })
+  let hopLe = false
+  if (sent) {
+    if (!secret) {
+      return NextResponse.json(
+        { ok: false, message: 'Chưa cấu hình REVALIDATE_SECRET nên không nhận secret.' },
+        { status: 503 },
+      )
+    }
+    hopLe = safeEqual(sent, secret)
+  } else if (bearer) {
+    hopLe = await laAdmin(bearer)
+  }
+
+  if (!hopLe) {
+    return NextResponse.json({ ok: false, message: 'Không có quyền' }, { status: 401 })
   }
 
   // Nhận nhiều đường cùng lúc: một lần lưu cấu hình có thể ảnh hưởng vài trang.

@@ -1,6 +1,6 @@
 import { apiClient } from './client'
 import type { Post, Category, PaginatedResponse, ApiResponse, Menu, ContactConfig } from '@/types'
-import type { TudHomeConfig, TudRelatedConfig, TudVoteSummary } from '@/types/tud'
+import type { TudHomeConfig, TudRelatedConfig, TudTrackingConfig, TudVoteSummary } from '@/types/tud'
 
 export interface GetPostsParams {
   page?: number
@@ -104,6 +104,14 @@ export function getContactConfig(): Promise<{ data: ContactConfig }> {
 
 export function getTudHomeConfig(): Promise<{ data: TudHomeConfig }> {
   return apiClient.get('/api/settings/tud-home')
+}
+
+/**
+ * Mã theo dõi của Google. Cache 5 phút: mã này hiếm khi đổi, và nó được đọc
+ * ở layout nên mọi trang đều gọi — không nên đập backend mỗi phút.
+ */
+export function getTrackingConfig(): Promise<{ data: TudTrackingConfig | null }> {
+  return apiClient.get('/api/settings/tracking', false, { revalidate: 300 })
 }
 
 /** Danh sách app (posts trong danh mục "ung-dung"), sắp theo điểm giảm dần. */

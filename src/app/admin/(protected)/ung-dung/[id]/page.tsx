@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { adminGetPost, adminUpdatePost } from '@/lib/api/admin'
+import { adminGetPost, adminUpdatePost, adminRevalidate } from '@/lib/api/admin'
 import type { Post } from '@/types'
 import type { TudAppFaq, TudAppMeta, TudAppPlan, TudAppScoreItem, TudAppShot } from '@/types/tud'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -103,8 +103,7 @@ export default function AppReviewEditorPage() {
         logoUrl: logoUrl || null,
         productPageConfig: { ...existing, app: m },
       } as never)
-      await fetch(`/api/revalidate?path=/app/${post.slug}`, { method: 'POST' }).catch(() => null)
-      await fetch('/api/revalidate?path=/', { method: 'POST' }).catch(() => null)
+      await adminRevalidate([`/app/${post.slug}`, '/'])
       setToast({ message: 'Đã lưu. Mở /app/' + post.slug + ' để xem.', type: 'success' })
     } catch (e) {
       setToast({ message: (e as Error).message || 'Lưu thất bại', type: 'error' })

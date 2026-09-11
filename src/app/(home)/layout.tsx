@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './home.css'
+import TrackingScripts from './_components/TrackingScripts'
 
 // Inter variable — thiết kế dùng các nấc 650 / 750 / 850 / 950 nên phải
 // nạp bản variable (không khai báo `weight`) thay vì các weight rời rạc.
@@ -20,5 +21,10 @@ export const metadata: Metadata = {
 }
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`tud ${inter.className}`}>{children}</div>
+  return (
+    <div className={`tud ${inter.className}`}>
+      {children}
+      <TrackingScripts />
+    </div>
+  )
 }
