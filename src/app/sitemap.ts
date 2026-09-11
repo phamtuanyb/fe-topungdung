@@ -5,24 +5,29 @@ import { collectCategoryIds, pathToCategory } from '@/lib/category-tree'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://topungdung.net'
   
-  // 1. Static routes
-  const staticRoutes = [
-    '',
-    '/ungdung',
-    '/ranking',
-    '/topapp',
-    '/prompt',
-    '/introduction',
-    '/lien-he',
-    '/tin-tuc',
-    '/chinh-sach-bao-mat',
-    '/dieu-khoan-su-dung',
-  ].map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }))
+  // 1. Trang cố định.
+  //
+  // Trước đây mọi trang ở đây khai lastmod = "lúc sinh sitemap", tức là ngày
+  // nào cũng "vừa sửa" — Google nhận ra lastmod không đáng tin và bỏ qua nó
+  // cho cả site. Giờ: trang tổng hợp (chủ, ứng dụng, xếp hạng, prompt, tin)
+  // lấy ngày của bài mới nhất vì nội dung chúng là tập hợp bài; trang thông
+  // tin (giới thiệu, liên hệ, pháp lý) không khai lastmod — không biết thì
+  // để trống còn hơn nói bừa.
+  const TRANG_TONG_HOP = ['', '/ungdung', '/ranking', '/topapp', '/prompt', '/tin-tuc']
+  const TRANG_THONG_TIN = ['/introduction', '/lien-he', '/chinh-sach-bao-mat', '/dieu-khoan-su-dung']
+  const staticRoutes = (moiNhat?: Date): MetadataRoute.Sitemap => [
+    ...TRANG_TONG_HOP.map((route) => ({
+      url: `${siteUrl}${route}`,
+      ...(moiNhat ? { lastModified: moiNhat } : {}),
+      changeFrequency: 'daily' as const,
+      priority: route === '' ? 1.0 : 0.8,
+    })),
+    ...TRANG_THONG_TIN.map((route) => ({
+      url: `${siteUrl}${route}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    })),
+  ]
 
   try {
     const [categoriesRes, postsRes] = await Promise.all([
@@ -33,6 +38,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categories = categoriesRes?.data ?? []
     const posts = postsRes?.data ?? []
 
+    // Thống kê theo danh mục — dùng cho cả ba nhóm trang danh sách bên dưới,
+    // nên phải tính trước khi nhóm đầu tiên dùng tới.
+    const postsPerCat = new Map<number, number>()
+    // Ngày bài mới nhất trong từng danh mục: đây mới là "lần sửa cuối" thật của
+    // một trang danh sách — dòng categories.updatedAt chỉ đổi khi ai đó sửa tên
+    // hay mô tả danh mục, không liên quan tới việc có bài mới.
+    const moiNhatCat = new Map<number, Date>()
+    let moiNhatToanSite: Date | undefined
+    for (const post of posts) {
+      const id = post.category?.id ?? post.categoryId
+      if (id != null) postsPerCat.set(id, (postsPerCat.get(id) ?? 0) + 1)
+      const d = new Date(post.updatedAt || post.createdAt)
+      if (Number.isNaN(d.getTime())) continue
+      if (id != null && (!moiNhatCat.has(id) || d > moiNhatCat.get(id)!)) moiNhatCat.set(id, d)
+      if (!moiNhatToanSite || d > moiNhatToanSite) moiNhatToanSite = d
+    }
+    const moiNhatTrong = (slug: string): Date | undefined => {
+      let m: Date | undefined
+      // forEach thay cho for...of: duyệt Set trực tiếp đòi downlevelIteration.
+      collectCategoryIds(categories, slug).forEach((id) => {
+        const d = moiNhatCat.get(id)
+        if (d && (!m || d > m)) m = d
+      })
+      return m
+    }
+    const lastModCua = (c: { slug: string }) => {
+      const d = moiNhatTrong(c.slug)
+      return d ? { lastModified: d } : {}
+    }
+
     // 2. Chuyên mục tin tức — /chuyen-muc/<slug>.
     // Chỉ lấy con của "tin-tuc": nhóm ứng dụng đã có /ungdung/<slug> ở dưới,
     // còn /category/<slug> là đường cũ nên không đưa vào sitemap nữa.
@@ -42,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           .filter((c) => c.parentId === newsRoot.id)
           .map((cat) => ({
             url: `${siteUrl}/chuyen-muc/${cat.slug}`,
-            lastModified: new Date(cat.updatedAt || new Date().toISOString()),
+            ...lastModCua(cat),
             changeFrequency: 'weekly' as const,
             priority: 0.6,
           }))
@@ -52,11 +87,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Mọi nhóm trong nhánh ứng dụng, kể cả nhóm con nhiều cấp
     // Nhóm chưa có bài nào thì không khai vào sitemap: trang rỗng bị công cụ
     // tìm kiếm xếp là nội dung mỏng, khai lên chỉ hại phần còn lại của site.
-    const postsPerCat = new Map<number, number>()
-    for (const post of posts) {
-      const id = post.category?.id ?? post.categoryId
-      if (id != null) postsPerCat.set(id, (postsPerCat.get(id) ?? 0) + 1)
-    }
     const hasPosts = (c: { slug: string }) =>
       Array.from(collectCategoryIds(categories, c.slug)).some((id) => postsPerCat.get(id))
 
@@ -67,7 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           .filter(hasPosts)
           .map((c) => ({
             url: `${siteUrl}/ungdung/${pathToCategory(categories, c).map((x) => x.slug).join('/')}`,
-            lastModified: new Date(c.updatedAt || new Date().toISOString()),
+            ...lastModCua(c),
             changeFrequency: 'weekly' as const,
             priority: 0.8,
           }))
@@ -80,7 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []
     const promptGroupRoutes = promptGroups.map((c) => ({
       url: `${siteUrl}/prompt/${c.slug.replace(/^prompt-/, '')}`,
-      lastModified: new Date(c.updatedAt || new Date().toISOString()),
+      ...lastModCua(c),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     }))
@@ -117,7 +147,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
 
     return [
-      ...staticRoutes,
+      ...staticRoutes(moiNhatToanSite),
       ...appGroupRoutes,
       ...categoryRoutes,
       ...promptGroupRoutes,
@@ -125,6 +155,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]
   } catch (error) {
     console.error('Failed to generate sitemap:', error)
-    return staticRoutes
+    return staticRoutes()
   }
 }

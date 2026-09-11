@@ -23,10 +23,13 @@ interface Props {
 function fmtDate(v?: string | null) {
   if (!v) return null
   try {
+    // Ghim múi giờ Việt Nam: máy chủ production chạy UTC, không ghim thì bài
+    // đăng lúc 1 giờ sáng hiện thành ngày hôm trước.
     return new Date(v).toLocaleDateString('vi-VN', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
+      timeZone: 'Asia/Ho_Chi_Minh',
     })
   } catch {
     return null
