@@ -1,6 +1,22 @@
 import { getToken, getRefreshToken, setToken, setRefreshToken } from '@/lib/auth'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+/**
+ * Địa chỉ backend.
+ *
+ * Phía máy chủ (SSR, route handler) ưu tiên API_INTERNAL_URL — địa chỉ nội bộ
+ * trong mạng Docker (http://backend:3001). Đi đường đó thì SSR không phụ thuộc
+ * DNS công khai, Cloudflare hay chứng chỉ SSL của api.<tên miền>: một lần
+ * chứng chỉ lỗi từng làm trang chủ production dựng ra rỗng vì Node từ chối
+ * kết nối tới chính API của mình. Trình duyệt vẫn dùng NEXT_PUBLIC_API_URL vì
+ * nó không nhìn thấy mạng Docker.
+ *
+ * Cắt dấu "/" cuối để "https://api.x.net/" không sinh ra "https://api.x.net//api".
+ */
+function chonBaseUrl(): string {
+  const noiBo = typeof window === 'undefined' ? process.env.API_INTERNAL_URL : undefined
+  return (noiBo || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/+$/, '')
+}
+const BASE_URL = chonBaseUrl()
 
 type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: unknown

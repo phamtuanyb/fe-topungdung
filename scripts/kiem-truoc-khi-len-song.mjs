@@ -14,8 +14,11 @@
  */
 
 const goc = (process.argv[2] || process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/+$/, '')
+// Địa chỉ API công khai — thứ trình duyệt của khách sẽ gọi. Truyền tham số thứ
+// hai hoặc đặt NEXT_PUBLIC_API_URL; không có thì bỏ qua phần kiểm API.
+const api = (process.argv[3] || process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '')
 if (!goc) {
-  console.error('Thiếu địa chỉ. Dùng: node scripts/kiem-truoc-khi-len-song.mjs https://topungdung.net')
+  console.error('Thiếu địa chỉ. Dùng: node scripts/kiem-truoc-khi-len-song.mjs https://topungdung.net https://api.topungdung.net')
   process.exit(1)
 }
 
@@ -135,6 +138,39 @@ async function main() {
   const lac = urls.filter((u) => !u.startsWith(goc))
   batTenMien(lac.length === 0, `sitemap có ${lac.length} URL sai tên miền, ví dụ: ${lac[0]}`)
   console.log(`  ok  sitemap.xml — ${urls.length} URL`)
+
+  // ── 3b. API công khai: chứng chỉ SSL phải được tin cậy ───────────────────
+  // Đây là lỗi từng làm production dựng trang rỗng: api.<tên miền> chạy chứng
+  // chỉ tự ký, cả Node lẫn trình duyệt đều từ chối kết nối. Node kiểm chứng
+  // chỉ y hệt trình duyệt, nên fetch ở đây hỏng nghĩa là khách cũng hỏng.
+  if (api) {
+    console.log('')
+    try {
+      const res = await fetch(api + '/api/categories')
+      const dl = await res.json().catch(() => null)
+      const so = Array.isArray(dl?.data) ? dl.data.length : Array.isArray(dl) ? dl.length : -1
+      bat(res.status === 200, `${api}/api/categories — trả mã ${res.status}`)
+      bat(so > 0, `${api}/api/categories — trả về ${so} danh mục, nghi backend chưa nạp dữ liệu`)
+      if (res.status === 200 && so > 0) console.log(`  ok  ${api}/api/categories — ${so} danh mục`)
+    } catch (e) {
+      const ly = String(e?.cause?.code || e?.cause?.message || e.message)
+      const tls = /CERT|certificate|SSL|TLS|self.signed|UNABLE_TO_VERIFY/i.test(ly)
+      const goiY = tls
+        ? ' → chứng chỉ SSL của API không được tin cậy; trình duyệt của khách cũng sẽ từ chối. Kiểm Caddy/Nginx/certbot cho tên miền API.'
+        : ''
+      loi.push(`${api} — không kết nối được: ${ly}${goiY}`)
+    }
+  } else {
+    nhac.push('Không có địa chỉ API để kiểm (truyền tham số thứ 2 hoặc đặt NEXT_PUBLIC_API_URL).')
+  }
+
+  // ── 3c. Trang chủ phải có dữ liệu từ API, không phải khung rỗng ───────────
+  {
+    const t = await lay('/')
+    const soApp = new Set([...t.than.matchAll(/href="\/app\/[^"]+"/g)].map((m) => m[0])).size
+    bat(soApp > 0, 'Trang chủ không có liên kết /app/ nào — SSR không lấy được dữ liệu từ backend (kiểm API_INTERNAL_URL hoặc chứng chỉ API)')
+    if (soApp > 0) console.log(`  ok  trang chủ có ${soApp} liên kết /app/ — SSR lấy được dữ liệu`)
+  }
 
   // ── 4. Ảnh tải lên: phải phục vụ được qua đường dẫn tương đối ────────────
   const anh = tim((await lay('/app/canva')).than, /(\/uploads\/[0-9a-f-]+\.webp)/)

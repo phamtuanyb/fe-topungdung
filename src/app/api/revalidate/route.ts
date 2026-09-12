@@ -32,7 +32,8 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(ba, bb)
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+// Route này chạy ở máy chủ nên đi đường nội bộ nếu có, giống lib/api/client.ts.
+const API_URL = (process.env.API_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/+$/, '')
 
 /** Token admin có thật không — hỏi backend, vì Next không giữ JWT_SECRET. */
 async function laAdmin(token: string): Promise<boolean> {
