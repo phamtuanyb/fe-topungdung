@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
 import CTASection from '@/components/common/CTASection'
+import { getCategories, getCategoryPosts } from '@/lib/api/public'
+import { collectCategoryIds } from '@/lib/category-tree'
+import type { Category, Post } from '@/types'
 
 export const revalidate = 300 // ISR: rebuild mỗi 5 phút
 
@@ -32,43 +35,83 @@ export const metadata: Metadata = {
   },
 }
 
-/** Số liệu lấy tại thời điểm cập nhật trang. */
-const CAP_NHAT = '08/09/2026'
+/**
+ * Số liệu lấy thẳng từ CSDL lúc dựng trang, làm mới mỗi 5 phút theo ISR.
+ *
+ * Trước đây là hằng số gõ tay (269 bài, 44 danh mục, "tính đến 08/09/2026") —
+ * cứ thêm bài là trang giới thiệu nói dối. Không gọi được API thì trả về null
+ * và khối số liệu ẩn đi, còn hơn hiện số cũ.
+ */
+async function laySoLieu() {
+  const [cats, apps] = await Promise.all([
+    getCategories().then((r) => r.data).catch(() => [] as Category[]),
+    getCategoryPosts('ung-dung', { limit: 1000 }).then((r) => r.data ?? []).catch(() => [] as Post[]),
+  ])
+  if (!apps.length) return null
 
-const SO_LIEU = [
-  {
-    num: '269',
-    icon: '📝',
-    label: 'Bài đánh giá',
-    desc: 'Mỗi bài viết riêng, không sao chép nội dung nhà cung cấp',
-    gradient: 'from-vs-orange to-vs-orange-dark',
-    glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
-  },
-  {
-    num: '44',
-    icon: '🗂️',
-    label: 'Danh mục',
-    desc: 'Phân nhóm theo việc bạn cần làm, không theo tên hãng',
-    gradient: 'from-vs-blue to-[#21428A]',
-    glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
-  },
-  {
-    num: '6',
-    icon: '🎯',
-    label: 'Lĩnh vực',
-    desc: 'AI, Marketing, Bán hàng, Thiết kế, Video, Xây kênh',
-    gradient: 'from-vs-orange to-vs-orange-dark',
-    glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
-  },
-  {
-    num: '0đ',
-    icon: '🤝',
-    label: 'Hoa hồng nhận từ hãng',
-    desc: 'Liên kết trong bài trỏ thẳng trang chủ, không gắn mã tiếp thị',
-    gradient: 'from-vs-blue to-[#21428A]',
-    glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
-  },
-]
+  const goc = cats.find((c) => c.slug === 'ung-dung')
+  const nhanh = collectCategoryIds(cats, 'ung-dung')
+  // Lĩnh vực = nhóm cấp một ngay dưới "ung-dung" (AI, Marketing, Video...)
+  const linhVuc = goc ? cats.filter((c) => c.parentId === goc.id) : []
+  // Danh mục = mọi nhóm trong nhánh ứng dụng đang có ít nhất một bài
+  const coBai = new Set<number>()
+  let moiNhat: Date | undefined
+  for (const p of apps) {
+    const id = p.category?.id ?? p.categoryId
+    if (id != null) coBai.add(id)
+    const d = new Date(p.updatedAt || p.createdAt)
+    if (!Number.isNaN(d.getTime()) && (!moiNhat || d > moiNhat)) moiNhat = d
+  }
+  let soDanhMuc = 0
+  nhanh.forEach((id) => {
+    if (id !== goc?.id && coBai.has(id)) soDanhMuc++
+  })
+
+  const capNhat = (moiNhat ?? new Date()).toLocaleDateString('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Asia/Ho_Chi_Minh',
+  })
+
+  return {
+    capNhat,
+    soLieu: [
+      {
+        num: String(apps.length),
+        icon: '📝',
+        label: 'Bài đánh giá',
+        desc: 'Mỗi bài viết riêng, không sao chép nội dung nhà cung cấp',
+        gradient: 'from-vs-orange to-vs-orange-dark',
+        glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
+      },
+      {
+        num: String(soDanhMuc),
+        icon: '🗂️',
+        label: 'Danh mục',
+        desc: 'Phân nhóm theo việc bạn cần làm, không theo tên hãng',
+        gradient: 'from-vs-blue to-[#21428A]',
+        glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
+      },
+      {
+        num: String(linhVuc.length),
+        icon: '🎯',
+        label: 'Lĩnh vực',
+        desc: linhVuc.map((c) => c.name).join(', '),
+        gradient: 'from-vs-orange to-vs-orange-dark',
+        glow: 'shadow-[0_20px_50px_-15px_rgba(255,107,0,0.5)]',
+      },
+      {
+        num: '0đ',
+        icon: '🤝',
+        label: 'Hoa hồng nhận từ hãng',
+        desc: 'Liên kết trong bài trỏ thẳng trang chủ, không gắn mã tiếp thị',
+        gradient: 'from-vs-blue to-[#21428A]',
+        glow: 'shadow-[0_20px_50px_-15px_rgba(20,80,180,0.5)]',
+      },
+    ],
+  }
+}
 
 const VAN_DE = [
   'Trang chủ phần mềm nào cũng nói mình tốt nhất',
@@ -124,7 +167,9 @@ const KHONG_LAM = [
   'Không yêu cầu bạn đăng ký tài khoản để đọc',
 ]
 
-export default function GioiThieuPage() {
+export default async function GioiThieuPage() {
+  const du = await laySoLieu()
+  const CAP_NHAT = du?.capNhat ?? null
   return (
     <>
       <PageHero
@@ -160,12 +205,14 @@ export default function GioiThieuPage() {
                   <strong className="text-vs-blue">nói rõ cả những gì công cụ đó làm chưa tốt</strong>.
                 </p>
               </div>
-              <div className="mt-7 pt-6 border-t border-vs-gray-200">
-                <div className="text-[13px] text-vs-gray-500 mb-1">Cập nhật</div>
-                <div className="text-[15px] font-extrabold text-vs-dark tracking-[0.05em]">
-                  {CAP_NHAT}
+              {CAP_NHAT && (
+                <div className="mt-7 pt-6 border-t border-vs-gray-200">
+                  <div className="text-[13px] text-vs-gray-500 mb-1">Cập nhật</div>
+                  <div className="text-[15px] font-extrabold text-vs-dark tracking-[0.05em]">
+                    {CAP_NHAT}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex gap-3 mt-7">
                 <Link
                   href="/ungdung"
@@ -205,7 +252,8 @@ export default function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 2. SỐ LIỆU */}
+      {/* 2. SỐ LIỆU — chỉ hiện khi lấy được số thật; không hiện số cũ. */}
+      {du && (
       <section className="py-16 bg-vs-bg relative overflow-hidden">
         <div className="container mx-auto px-6 relative">
           <div className="text-center mb-12">
@@ -217,7 +265,7 @@ export default function GioiThieuPage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SO_LIEU.map((k) => (
+            {du.soLieu.map((k) => (
               <div
                 key={k.label}
                 className={`relative bg-gradient-to-br ${k.gradient} ${k.glow} rounded-[20px] p-7 text-white overflow-hidden`}
@@ -231,6 +279,7 @@ export default function GioiThieuPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* 3. CÁCH CHÚNG TÔI ĐÁNH GIÁ */}
       <section className="py-16 bg-white">
