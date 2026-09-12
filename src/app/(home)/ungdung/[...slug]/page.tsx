@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import type { Category, Post } from '@/types'
 import type { TudAppMeta, TudRelatedConfig } from '@/types/tud'
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/lib/api/public'
 import { mergeTudConfig } from '../../default-config'
 import { TudFooter, TudHeader } from '../../_components/TudChrome'
+import { collectCategoryIds, pathToCategory } from '@/lib/category-tree'
 import { categoryIcon } from '../../_components/intent-icons'
 import CategoryApps, { type CategoryAppItem } from '../../_components/CategoryApps'
 
@@ -52,6 +53,24 @@ async function resolvePath(segments: string[]) {
 const hrefOf = (chain: Category[], i: number) =>
   `/ungdung/${chain.slice(0, i + 1).map((c) => c.slug).join('/')}`
 
+/**
+ * Đường dẫn thiếu tầng → đường đầy đủ, hoặc null.
+ *
+ * Slug danh mục là duy nhất toàn hệ thống, nên "/ungdung/lap-trinh" chỉ có
+ * thể là "/ungdung/ai/lap-trinh". Nhiều chỗ từng dựng liên kết bằng đúng một
+ * slug (vụn đường dẫn trang app, thẻ trang chủ do admin nhập), và liên kết
+ * cũ ngoài site cũng vậy — thay vì 404, chuyển hướng 301 về đường đúng để
+ * người đọc lẫn Google cùng đi tới một nơi.
+ */
+async function duongDayDu(segments: string[]): Promise<string | null> {
+  const res = await getCategories().catch(() => ({ data: [] as Category[] }))
+  const all = res.data ?? []
+  const cuoi = all.find((c) => c.slug === segments[segments.length - 1])
+  if (!cuoi || !collectCategoryIds(all, 'ung-dung').has(cuoi.id)) return null
+  const day = pathToCategory(all, cuoi).map((c) => c.slug).join('/')
+  return day === segments.join('/') ? null : `/ungdung/${day}`
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const found = await resolvePath(params.slug)
   if (!found) return { title: { absolute: 'Không tìm thấy danh mục' } }
@@ -69,7 +88,11 @@ export default async function CategoryPage({ params }: Props) {
   if (params.slug.length > 3) notFound()
 
   const found = await resolvePath(params.slug)
-  if (!found) notFound()
+  if (!found) {
+    const day = await duongDayDu(params.slug)
+    if (day) permanentRedirect(day)
+    notFound()
+  }
 
   const { chain, cat, children } = found
 

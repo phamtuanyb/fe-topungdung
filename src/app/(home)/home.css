@@ -2020,3 +2020,19 @@ html { scroll-behavior: smooth; }
 @media(max-width:1080px){
   .tud .hero-deco{display:none}
 }
+
+/* ── TRANG 404 ────────────────────────────────────────────────────────────
+   Một khung giữa trang, đủ ba lối đi: lên thư mục cha, về trang chủ, tìm. */
+.tud .ktt-box{
+  max-width:640px;margin:24px auto 40px;text-align:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:48px 36px
+}
+.tud .ktt-ma{font-size:clamp(64px,9vw,104px);font-weight:950;letter-spacing:-5px;line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tud .ktt-tieu-de{font-size:clamp(24px,3vw,34px);letter-spacing:-1.2px;margin:14px 0 10px;color:var(--ink)}
+.tud .ktt-mo-ta{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 24px;overflow-wrap:anywhere}
+.tud .ktt-mo-ta code{background:#F5F8FC;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:14px;color:var(--blue-mkt)}
+.tud .ktt-nut{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.tud .ktt-dem{margin:22px 0 0;font-size:13.5px;color:var(--faint)}
+.tud .ktt-dem b{color:var(--ink)}
+@media(max-width:640px){.tud .ktt-box{padding:36px 20px;border-radius:20px}}

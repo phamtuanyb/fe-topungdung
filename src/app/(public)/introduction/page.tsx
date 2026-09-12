@@ -74,8 +74,32 @@ async function laySoLieu() {
     timeZone: 'Asia/Ho_Chi_Minh',
   })
 
+  // Thẻ từng lĩnh vực: tên, số bài trong cả nhánh, mô tả = tên các nhóm con.
+  // Mô tả lấy từ dữ liệu thật thay cho câu gõ tay, để thêm nhóm con là tự cập nhật.
+  const soTrongNhanh = (slug: string) => {
+    let n = 0
+    collectCategoryIds(cats, slug).forEach((id) => {
+      n += apps.filter((p) => (p.category?.id ?? p.categoryId) === id).length
+    })
+    return n
+  }
+  const nhom = linhVuc
+    .map((c) => ({
+      slug: c.slug,
+      ten: c.name,
+      so: soTrongNhanh(c.slug),
+      mo: cats
+        .filter((x) => x.parentId === c.id)
+        .map((x) => x.name)
+        .slice(0, 6)
+        .join(', '),
+    }))
+    .filter((n) => n.so > 0)
+    .sort((a, b) => b.so - a.so)
+
   return {
     capNhat,
+    nhom,
     soLieu: [
       {
         num: String(apps.length),
@@ -148,15 +172,6 @@ const CACH_LAM = [
     title: 'Gỡ bài khi phần mềm ngừng hoạt động',
     desc: 'Chúng tôi rà định kỳ. Phần mềm đã đóng cửa thì bài viết bị gỡ chứ không để lại cho có số lượng.',
   },
-]
-
-const NHOM = [
-  { slug: 'ai', ten: 'AI', so: '67 ứng dụng', mo: 'Chatbot, tạo ảnh, tạo video, giọng nói, viết lách' },
-  { slug: 'marketing', ten: 'Marketing', so: '64 ứng dụng', mo: 'SEO, email, mạng xã hội, landing page, phân tích' },
-  { slug: 'sales', ten: 'Bán hàng', so: '42 ứng dụng', mo: 'CRM, POS, thương mại điện tử, chăm sóc khách hàng' },
-  { slug: 'design', ten: 'Thiết kế', so: '37 ứng dụng', mo: 'Vector, giao diện, website, 3D, thuyết trình' },
-  { slug: 'video', ten: 'Video', so: '37 ứng dụng', mo: 'Dựng phim, quay màn hình, xử lý, phụ đề' },
-  { slug: 'creator', ten: 'Xây kênh', so: '22 ứng dụng', mo: 'YouTube, podcast, phát trực tiếp, kiếm tiền' },
 ]
 
 const KHONG_LAM = [
@@ -310,19 +325,20 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* 4. NHÓM NỘI DUNG */}
+      {/* 4. NHÓM NỘI DUNG — lấy từ danh mục thật, không gõ tay */}
+      {du && du.nhom.length > 0 && (
       <section className="py-16 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark mb-4">
-              Sáu lĩnh vực đang có
+              {du.nhom.length} lĩnh vực đang có
             </h2>
             <p className="text-[16px] text-vs-gray-700">
               Phân nhóm theo việc bạn cần làm, không theo tên hãng.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {NHOM.map((n) => (
+            {du.nhom.map((n) => (
               <Link
                 key={n.slug}
                 href={`/ungdung/${n.slug}`}
@@ -330,7 +346,7 @@ export default async function GioiThieuPage() {
               >
                 <div className="flex items-baseline justify-between mb-3">
                   <h3 className="text-[19px] font-extrabold text-vs-dark m-0">{n.ten}</h3>
-                  <span className="text-[13px] font-bold text-vs-orange">{n.so}</span>
+                  <span className="text-[13px] font-bold text-vs-orange">{n.so} ứng dụng</span>
                 </div>
                 <p className="text-[14px] text-vs-gray-700 leading-[1.7] m-0">{n.mo}</p>
               </Link>
@@ -338,6 +354,7 @@ export default async function GioiThieuPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* 5. NHỮNG GÌ CHÚNG TÔI KHÔNG LÀM */}
       <section className="py-16 bg-white">

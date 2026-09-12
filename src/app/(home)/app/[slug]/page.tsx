@@ -12,7 +12,7 @@ import {
 import { mergeTudConfig } from '../../default-config'
 import { TudFooter, TudHeader } from '../../_components/TudChrome'
 import VoteWidget from '../../_components/VoteWidget'
-import { collectCategoryIds } from '@/lib/category-tree'
+import { collectCategoryIds, pathToCategory } from '@/lib/category-tree'
 
 export const revalidate = 60
 
@@ -82,8 +82,17 @@ export default async function AppDetailPage({ params }: Props) {
   const found = await loadApp(params.slug)
   if (!found) notFound()
 
-  const { post } = found
+  const { post, cats } = found
   const m = meta(post)
+
+  // Chuỗi danh mục đầy đủ từ nhóm lớn tới nhóm con: [AI, AI lập trình].
+  // Trang danh mục nằm ở /ungdung/<nhóm>/<nhóm con>; trước đây vụn đường dẫn
+  // chỉ ghép slug của nhóm con nên "/ungdung/lap-trinh" trả 404.
+  const chuoiDanhMuc = post.category
+    ? pathToCategory(cats, cats.find((c) => c.id === post.category!.id) ?? post.category)
+    : []
+  const duongDanhMuc = (i: number) =>
+    `/ungdung/${chuoiDanhMuc.slice(0, i + 1).map((c) => c.slug).join('/')}`
 
   const cfgRes = await getTudHomeConfig().catch(() => ({ data: null }))
   const config = mergeTudConfig(cfgRes.data)
@@ -153,19 +162,16 @@ export default async function AppDetailPage({ params }: Props) {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: siteUrl },
-        ...(post.category?.slug
-          ? [
-              {
-                '@type': 'ListItem',
-                position: 2,
-                name: post.category.name,
-                item: `${siteUrl}/ungdung/${post.category.slug}`,
-              },
-            ]
-          : []),
+        { '@type': 'ListItem', position: 2, name: 'Ứng dụng', item: `${siteUrl}/ungdung` },
+        ...chuoiDanhMuc.map((c, i) => ({
+          '@type': 'ListItem',
+          position: 3 + i,
+          name: c.name,
+          item: `${siteUrl}${duongDanhMuc(i)}`,
+        })),
         {
           '@type': 'ListItem',
-          position: post.category?.slug ? 3 : 2,
+          position: 3 + chuoiDanhMuc.length,
           name: post.title,
           item: `${siteUrl}/app/${post.slug}`,
         },
@@ -198,12 +204,12 @@ export default async function AppDetailPage({ params }: Props) {
           <div className="wrap">
             <div className="crumb">
               <a href="/">Trang chủ</a> <span>/</span> <a href="/ungdung">Ứng dụng</a>
-              {post.category && (
-                <>
+              {chuoiDanhMuc.map((c, i) => (
+                <span key={c.id}>
                   {' '}
-                  <span>/</span> <a href={`/ungdung/${post.category.slug}`}>{post.category.name}</a>
-                </>
-              )}{' '}
+                  <span>/</span> <a href={duongDanhMuc(i)}>{c.name}</a>
+                </span>
+              ))}{' '}
               <span>/</span> <span>{post.title}</span>
             </div>
           </div>
@@ -260,9 +266,9 @@ export default async function AppDetailPage({ params }: Props) {
                       {m.ctaText || 'Truy cập trang chủ'} ↗
                     </a>
                   )}
-                  {post.category && (
-                    <a className="btn dark" href={`/ungdung/${post.category.slug}`}>
-                      Xem nhóm {post.category.name} →
+                  {chuoiDanhMuc.length > 0 && (
+                    <a className="btn dark" href={duongDanhMuc(chuoiDanhMuc.length - 1)}>
+                      Xem nhóm {chuoiDanhMuc[chuoiDanhMuc.length - 1].name} →
                     </a>
                   )}
                 </div>
