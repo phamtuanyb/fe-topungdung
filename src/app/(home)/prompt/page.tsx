@@ -1,3 +1,4 @@
+import { ANH_CHIA_SE_MAC_DINH } from '@/lib/anh-chia-se'
 import type { Metadata } from 'next'
 import type { Category, Post } from '@/types'
 import { getCategories, getCategoryPosts, getTudHomeConfig } from '@/lib/api/public'
@@ -19,9 +20,9 @@ export const metadata: Metadata = {
   alternates: { canonical: '/prompt' },
   openGraph: {
     // Khai openGraph ở đây thì Next thay hẳn khối của layout gốc, kéo theo
-    // mất luôn ảnh sinh từ opengraph-image.tsx — chia sẻ ra Facebook/Zalo
+    // mất luôn ảnh chia sẻ mặc định, chia sẻ ra Facebook/Zalo
     // chỉ còn thẻ chữ. Trỏ lại đúng ảnh đó.
-    images: ['/opengraph-image'],
+    images: [ANH_CHIA_SE_MAC_DINH],
     title: 'Thư viện Prompt',
     description: 'Kho prompt tiếng Việt chia theo mục đích công việc.',
     type: 'website',

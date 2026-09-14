@@ -1,3 +1,4 @@
+import { ANH_CHIA_SE_MAC_DINH } from '@/lib/anh-chia-se'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { Category, Post } from '@/types'
@@ -86,9 +87,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: { canonical: url },
       openGraph: {
         // Khai openGraph ở đây thì Next thay hẳn khối của layout gốc, kéo theo
-        // mất luôn ảnh sinh từ opengraph-image.tsx — chia sẻ ra Facebook/Zalo
+        // mất luôn ảnh chia sẻ mặc định, chia sẻ ra Facebook/Zalo
         // chỉ còn thẻ chữ. Trỏ lại đúng ảnh đó.
-        images: ['/opengraph-image'],
+        images: [ANH_CHIA_SE_MAC_DINH],
         title: post.title,
         description: post.excerpt || undefined,
         type: 'article',
@@ -104,9 +105,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: url },
     openGraph: {
       // Khai openGraph ở đây thì Next thay hẳn khối của layout gốc, kéo theo
-      // mất luôn ảnh sinh từ opengraph-image.tsx — chia sẻ ra Facebook/Zalo
+      // mất luôn ảnh chia sẻ mặc định, chia sẻ ra Facebook/Zalo
       // chỉ còn thẻ chữ. Trỏ lại đúng ảnh đó.
-      images: ['/opengraph-image'],
+      images: [ANH_CHIA_SE_MAC_DINH],
       title: `Prompt ${cat.name}`,
       description: cat.description || undefined,
       type: 'website',

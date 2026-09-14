@@ -1,3 +1,4 @@
+import { ANH_CHIA_SE_MAC_DINH } from '@/lib/anh-chia-se'
 import type { Metadata, Viewport } from 'next'
 import { Manrope } from 'next/font/google'
 import { layMaXacMinhGoogle } from './(home)/_components/TrackingScripts'
@@ -30,9 +31,8 @@ const metadataGoc: Metadata = {
     siteName,
     type: 'website',
     locale: 'vi_VN',
-    // Không khai images ở đây: Next tự lấy từ src/app/opengraph-image.tsx.
-    // Trước đây trỏ /logo-ngang.png — file đó là logo Vsoftware, nên mọi link
-    // chia sẻ ra Facebook/Zalo đều hiện thương hiệu của công ty khác.
+    // Ảnh chia sẻ mặc định cho mọi trang không có ảnh riêng (trang chủ, danh mục...).
+    images: [ANH_CHIA_SE_MAC_DINH],
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },

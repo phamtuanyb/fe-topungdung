@@ -1,3 +1,4 @@
+import { anhChiaSe } from '@/lib/anh-chia-se'
 import type { Metadata } from 'next'
 import { notFound, permanentRedirect } from 'next/navigation'
 import type { Category, Post } from '@/types'
@@ -49,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: post.title,
       description: post.excerpt || undefined,
-      images: post.thumbnail ? [post.thumbnail] : undefined,
+      images: anhChiaSe(post.thumbnail),
       type: 'article',
       publishedTime: post.publishedAt || undefined,
     },

@@ -1,3 +1,4 @@
+import { ANH_CHIA_SE_MAC_DINH } from '@/lib/anh-chia-se'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
@@ -31,9 +32,9 @@ export const metadata: Metadata = {
   alternates: { canonical: '/dieu-khoan-su-dung' },
   openGraph: {
     // Khai openGraph ở đây thì Next thay hẳn khối của layout gốc, kéo theo
-    // mất luôn ảnh sinh từ opengraph-image.tsx — chia sẻ ra Facebook/Zalo
+    // mất luôn ảnh chia sẻ mặc định, chia sẻ ra Facebook/Zalo
     // chỉ còn thẻ chữ. Trỏ lại đúng ảnh đó.
-    images: ['/opengraph-image'],
+    images: [ANH_CHIA_SE_MAC_DINH],
     title: TIEU_DE_OG,
     description: MO_TA,
     type: 'article',

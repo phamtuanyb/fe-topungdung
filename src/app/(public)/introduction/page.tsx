@@ -1,3 +1,4 @@
+import { ANH_CHIA_SE_MAC_DINH } from '@/lib/anh-chia-se'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
@@ -24,14 +25,14 @@ export const metadata: Metadata = {
     'chọn phần mềm cho doanh nghiệp',
   ],
   alternates: { canonical: '/introduction' },
-  // images trỏ lại ảnh sinh từ opengraph-image.tsx: khai openGraph ở đây thì
+  // images trỏ lại ảnh chia sẻ mặc định: khai openGraph ở đây thì
   // Next thay hẳn khối của layout gốc, mất luôn ảnh chia sẻ mặc định.
   openGraph: {
     title: TIEU_DE_OG,
     description: MO_TA,
     type: 'website',
     url: '/introduction',
-    images: ['/opengraph-image'],
+    images: [ANH_CHIA_SE_MAC_DINH],
   },
 }
 
